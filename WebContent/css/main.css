@@ -1,0 +1,998 @@
+@charset "UTF-8";
+
+body {
+	margin: 0px;
+}
+/* 스크롤 보이지않게 */
+::-webkit-scrollbar {
+  display: none;
+}
+
+.top_logo {
+	height: 50px;
+}
+
+/* 로그인 */
+.wrapper_login_contents {
+    height: 98.1vh;
+    background-color: #F4F9FC;
+    padding: 10px;
+    display: flex;
+    flex-direction: row; 
+    justify-content: space-evenly; 
+    align-items: center; 
+}
+
+.wrapper_login_logo {
+	text-align: center;
+}
+
+.img_login_logo {
+	height: 100px; margin: 0 auto;
+}
+
+.wrapper_login {
+	width: 500px;
+}
+
+.input_login_info {
+	background-color: #E2EBED; 
+	width: 491px; 
+	height: 50px;
+	margin-top: 50px; 
+	border-radius: 3px; 
+	border: 0.5px solid #79ADB7; 
+	padding-left: 5px;
+}
+
+.btn_login {
+	background-color: #74ADBD; 
+	color: #fff; 
+	font-weight: bold; 
+	width: 100%; 
+	height: 50px; 
+	margin-top: 30px; 
+	border-radius: 3px; 
+	border: 0.5px solid #79ADB7;
+}
+
+.wrapper_pw_find {
+	margin-top: 10px; 
+	width: 100%; 
+	height: 40px; 
+	display: flex; 
+	flex-direction: row;
+}
+
+.span_pw_find {
+	color: #496E72; 
+	font-weight: bold; 
+	font-size: 20px;
+}
+
+/* 환자 정보 */
+.wrapper_contents {
+    height: 91.4vh;
+    width: 100%;
+    background-color: #F4F9FC;
+    display: flex;
+    padding: 10px;
+}
+
+.wrapper_left_contents_6 {
+	height: 96.5%; 
+	width: 64%; 
+	display: block; 
+	padding: 0px 10px;
+}
+
+.wrapper_top_tb {
+	height: 150px;
+	display: flex;
+	width: 100%; 
+	
+}
+
+.tb_patient1 {
+	width: 54%;
+	border: 0.5px solid #74ADBD;
+	border-collapse: collapse;
+	margin-right: 1%;
+}
+
+.tb_patient1 th {
+	height: 50px;
+    font-size: 20px;
+    color: #496E73;
+	border: 0.5px solid #74ADBD;
+    background-color: #E2EBED;
+}
+.tb_patient1 td {
+	height: 70px;
+    font-size: 35px;
+    color: #496E73;
+	border: 0.5px solid #74ADBD;
+    border-collapse: collapse;
+    font-weight: bold;
+    text-align: center;
+}
+
+
+.tb_patient2 {
+	width: 45%;
+	border: 0.5px solid #74ADBD;
+	border-collapse: collapse;
+}
+
+.tb_patient2 th {
+	height: 50px;
+    font-size: 20px;
+    color: #496E73;
+    background-color: #E2EBED;
+	border: 0.5px solid #74ADBD;
+    border-collapse: collapse;
+    font-weight: bold;
+    text-align: center;
+}
+.tb_patient2 td {
+	height: 70px;
+    font-size: 35px;
+    color: #496E73;
+	border: 0.5px solid #74ADBD;
+    border-collapse: collapse;
+    font-weight: bold;
+    text-align: center;
+}
+
+
+
+.tb_patient3_title {
+	width: 100%;
+	border: 0.5px solid #74ADBD;
+	border-collapse: collapse;
+	margin-top: 10px;
+}
+
+.tb_patient3_title th {
+	border: 0.5px solid #74ADBD;
+    border-collapse: collapse;
+    font-weight: bold;
+    text-align: center;
+	height: 50px;
+    font-size: 20px;
+    color: #496E73;
+    background-color: #E2EBED;
+}
+
+
+.tb_patient3_contents {
+	width: 100%;
+	border-collapse: collapse;
+	max-height: 560px;
+	display: block;
+	overflow-y: scroll;
+}
+
+.tb_patient3_contents td {
+	height: 40px;
+    font-size: 18px;
+    color: #496E73;
+	border: 0.5px solid #74ADBD;
+    border-collapse: collapse;
+    font-weight: bold;
+    text-align: center;
+    width: 249.39px;
+}
+
+
+
+.tb_patient3_footer {
+	width: 100%;
+	border: 0.5px solid #74ADBD;
+	border-collapse: collapse;
+}
+
+.tb_patient3_footer td {
+	border: 0.5px solid #74ADBD;
+    border-collapse: collapse;
+    font-weight: bold;
+    text-align: center;
+	height: 50px;
+    font-size: 20px;
+    color: #496E73;
+    background-color: #DFEDEF;
+}
+
+.wrapper_right_contents_4 {
+	height: 96.5%; 
+	width: 35%; 
+	display: block; 
+	padding: 0px 10px;
+}
+
+
+.tb_patient4 {
+	width: 100%;
+	border: 0.5px solid #74ADBD;
+	border-collapse: collapse;
+	max-height: 770px;
+}
+
+.tb_patient4 th {
+	height: 50px;
+    font-size: 20px;
+    color: #496E73;
+    background-color: #E2EBED;
+	border: 0.5px solid #74ADBD;
+    border-collapse: collapse;
+    font-weight: bold;
+    text-align: center;
+}
+.tb_patient4 td {
+	height: 40px;
+    font-size: 18px;
+    color: #496E73;
+	border: 0.5px solid #74ADBD;
+    border-collapse: collapse;
+    font-weight: bold;
+    text-align: center;
+}
+
+
+
+/* 의료 정보 */
+
+.wrapper_contents_5 {
+	height: 100%; 
+	width: 49%; 
+	display: block; 
+	padding: 0px 10px;
+}
+
+.span_medical_title {
+	font-size: 25px; 
+	font-weight: bold; 
+	color: #496E73;
+}
+
+.tb_docter_title {
+	width: 100%;
+	border: 0.5px solid #74ADBD;
+	border-collapse: collapse;
+	margin-top: 10px;
+}
+
+.tb_docter_title th {
+	border: 0.5px solid #74ADBD;
+    border-collapse: collapse;
+    font-weight: bold;
+    text-align: center;
+	height: 40px;
+    font-size: 20px;
+    color: #496E73;
+    background-color: #E2EBED;
+}
+
+
+.tb_docter_contents {
+	width: 100%;
+	border-collapse: collapse;
+	max-height: 210px;
+	display: block;
+	overflow-y: scroll;
+	border-bottom: 0.5px solid #74ADBD;
+}
+
+.tb_docter_contents tr {
+	border-left: 0px;
+	border-right: 0px;
+}
+
+.tb_docter_contents td {
+	height: 35px;
+    font-size: 18px;
+    color: #496E73;
+	border: 0.5px solid #74ADBD;
+    border-collapse: collapse;
+    font-weight: bold;
+    text-align: center;
+}
+
+.wrapper_contents_nurse {
+	height: 254px; 
+	display: flex; 
+	margin-top: 10px;
+}
+
+.wrapper_tb_nurse {
+	display: block; 
+	width: 49.8%; 
+	margin-right: 0.2%;
+}
+
+.wrapper_tb_nurse2 {
+	display: block; 
+	width: 49.8%; 
+	margin-left: 0.2%;
+}
+
+.tb_nurse_title {
+	width: 100%;
+	border: 0.5px solid #74ADBD;
+	border-collapse: collapse;
+}
+
+.tb_nurse_title th {
+	border: 0.5px solid #74ADBD;
+    border-collapse: collapse;
+    font-weight: bold;
+    text-align: center;
+	height: 40px;
+    font-size: 20px;
+    color: #496E73;
+    background-color: #E2EBED;
+}
+
+
+.tb_nurse_contents {
+	width: 100%;
+	border-bottom: 0.5px solid #74ADBD;
+	border-collapse: collapse;
+	max-height: 210px;
+	display: block;
+	overflow-y: scroll;
+}
+
+.tb_nurse_contents td {
+	height: 35px;
+    font-size: 18px;
+    color: #496E73;
+	border: 0.5px solid #74ADBD;
+    border-collapse: collapse;
+    font-weight: bold;
+    text-align: center;
+}
+
+
+/* 야전 병원 운용 관리 */
+
+.wrapper_main_contents {
+	height: 92.6vh;
+    display: flex;
+    background-color: #F4F9FC;
+}
+
+.wrapper_board_contents {
+	width:calc(100% - 300px); 
+	padding: 40px 60px 40px 60px; 
+	text-align: center; 
+	vertical-align: middle; 
+	display: flex;
+}
+
+.wrapper_board {
+	width: 100%; 
+	height: 100%;
+}
+
+.span_board_title {
+	color: #496E73;
+	font-size: 40px; 
+	font-weight: bold;
+}
+
+.wrapper_board_btn {
+	display: flex; 
+	text-align: right; 
+	width: 100%; 
+	margin-top: 30px;
+}
+
+.tb_basic {
+	border: 0.5px solid #74ADBD;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+.tb_management th {
+	height: 50px;
+}
+
+.tb_management td{
+	height: 40px;
+}
+
+.tb_basic th {
+    font-size: 20px;
+    color: #496E73;
+    background-color: #E2EBED;
+	border: 0.5px solid #74ADBD;
+    border-collapse: collapse;
+    font-weight: bold;
+    text-align: center;
+}
+.tb_basic td {
+    font-size: 20px;
+    color: #496E73;
+	border: 0.5px solid #74ADBD;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.btn_basic_100 {
+	border: none; 
+	background-color: #74ADBD; 
+	color: #fff; 
+	width: 100px; 
+	height: 30px; 
+	border-radius: 3px;
+}
+
+.btn_basic_150 {
+	border: none; 
+	background-color: #74ADBD; 
+	color: #fff; 
+	width: 150px; 
+	height: 30px; 
+	border-radius: 3px;
+}
+
+.btn_red_100 {
+	border: none; 
+	background-color: #f00; 
+	color: #fff; 
+	width: 100px; 
+	height: 30px; 
+	border-radius: 5px;
+}
+
+/* 병실 정보 */
+
+.wrapper_left_contents_5 {
+	height: 96.5%; 
+	width: 54.9%; 
+	display: block; 
+	padding: 0px 10px;
+	margin-right: 0.1%;
+}
+
+
+
+
+.wrapper_right_contents_5 {
+	height: 96.5%; 
+	width: 44.9%; 
+	display: block; 
+	padding: 0px 10px;
+	margin-left: 0.1%;
+}
+
+.wrapper_room_table {
+	display: flex; 
+	width: 100%; 
+	height: 50%;
+}
+
+.wrapper_room_td {
+	display: block; 
+	width: 100%; 
+	height: 100%;
+}
+
+.wrapper_room_td_value {
+	height: 90%; 
+	width: 100%; 
+	text-align: center; 
+	vertical-align: middle;
+	display: flex; 
+	justify-content: center; 
+	align-items: center;
+}
+
+.div_value_green {
+	height: 10%; 
+	width: 100%; 
+	background-color: green;
+}
+
+.div_value_red {
+	height: 10%;
+	width: 100%; 
+	background-color: red;
+}
+
+.tb_room {
+	margin-top: 10px;
+	border: 0.5px solid #74ADBD;
+	border-collapse: collapse;
+	width: 98%;
+	height: 65%;
+	border-radius: 10px;
+}
+
+.tb_room th {
+	height: 45px;
+    font-size: 20px;
+    color: #496E73;
+    background-color: #E2EBED;
+	border: 0.5px solid #74ADBD;
+    border-collapse: collapse;
+    font-weight: bold;
+    text-align: center;
+}
+.tb_room td {
+	height: 45px;
+    font-size: 20px;
+    color: #496E73;
+	border: 0.5px solid #74ADBD;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+
+
+/* 차량 정보 */
+
+.wrapper_left_contents_3 {
+	height: 100%; 
+	width: 29.9%; 
+	display: block; 
+	padding: 0px 10px;
+	margin-right: 0.1%;
+}
+
+.wrapper_right_contents_7 {
+	height: 100%; 
+	width: 69.9%; 
+	display: block; 
+	padding: 0px 10px;
+	margin-left: 0.1%;
+}
+
+.tb_car {
+	height: 100%;
+}
+
+.tb_car th {
+	height: 50px; 
+}
+
+.tb_car tr > td:last-child {
+	text-align: right;
+	padding-right: 10px;
+}
+
+.btn_car {
+	border: none; 
+	background-color: #74ADBD; 
+	color: #fff; 
+	width: 120px; 
+	height: 40px; 
+	border-radius: 3px;
+}
+
+.tb_tank {
+	height: 100%;
+	width: 100%;
+}
+
+.tb_tank th {
+	height: 40px;
+}
+
+::-moz-selection { /* Code for Firefox */
+  color: #496E73;
+  font-weight: bold;
+}
+
+::selection {
+  color: #496E73;
+  font-weight: bold;
+}
+
+/* 한재 추가 */
+.btn_cancel_100 {
+	border: none; 
+	background-color: #fff; 
+	color: #74ADBD; 
+	width: 100px; 
+	height: 30px; 
+	border-radius: 3px;
+	border: 1px solid #74ADBD;
+}
+
+.btn_cancel_150 {
+	border: none; 
+	background-color: #fff; 
+	color: #74ADBD; 
+	width: 150px; 
+	height: 30px; 
+	border-radius: 3px;
+	border: 1px solid #74ADBD;
+}
+
+.btn_basic_150_50 {
+	border: none; 
+	background-color: #74ADBD; 
+	color: #fff; 
+	width: 150px; 
+	height: 50px; 
+	border-radius: 3px;
+	float: right;
+	margin-right: 10%;
+	font-size: 15px;
+}
+
+.btn_basic_80_80 {
+	border: none; 
+	background-color: #74ADBD; 
+	color: #fff; 
+	width: 80%; 
+	height: 80%; 
+	border-radius: 3px;
+	float: right;
+	margin-right: 5%;
+	font-size: 15px;
+}
+
+.btn_red_80_80 {
+	border: none; 
+	background-color: #f00; 
+	color: #fff; 
+	width: 80%; 
+	height: 80%; 
+	border-radius: 5px;
+}
+
+.input_text {
+	width: 80%;
+	height: 80%;
+	border: 0.5px solid #74ADBD;
+	border-radius: 3px;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	color: #496E73;
+	font-size: 15px;
+}
+
+.top_input {
+	width: 120px;
+	height: 26px;
+	border: 0.5px solid #74ADBD;
+	border-radius: 3px;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	color: #496E73;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+/* 팝업 */
+.modal-bg1,
+.modal-bg2,
+.modal-bg3,
+.modal-bg4,
+.modal-bg5
+ {
+	display:none;
+	width:100%;
+	height:100%;
+	position:fixed;
+	top:0;
+	left:0;
+	right:0;
+	background: rgba(0, 0, 0, 0.6);
+	z-index:999;
+}
+
+.modal_900_600-wrap1,
+.modal_900_600-wrap2 {
+	display:none;
+	position:absolute;
+	top:50%;
+	left:50%;
+	transform:translate(-50%,-50%);
+	width:900px;
+	height:600px;
+	background:#F4F9FC;
+	z-index:1000;
+}
+
+.modal_1200_700-wrap1,
+.modal_1200_700-wrap2,
+.modal_1200_700-wrap3 {
+	display:none;
+	position:absolute;
+	top:50%;
+	left:50%;
+	transform:translate(-50%,-50%);
+	width:1200px;
+	height:700px;
+	background:#F4F9FC;
+	z-index:1000;
+}
+
+.modal_1400_900-wrap1{
+	display:none;
+	position:absolute;
+	top:50%;
+	left:50%;
+	transform:translate(-50%,-50%);
+	width:1400px;
+	height:900px;
+	background:#F4F9FC;
+	z-index:1000;
+}
+
+.modal_700_700-wrap1,
+.modal_700_700-wrap2,
+.modal_700_700-wrap3
+{
+	display:none;
+	position:absolute;
+	top:50%;
+	left:50%;
+	transform:translate(-50%,-50%);
+	width:700px;
+	height:700px;
+	background:#F4F9FC;
+	z-index:1000;
+}
+
+.modal_700_420-wrap1
+{
+	display:none;
+	position:absolute;
+	top:50%;
+	left:50%;
+	transform:translate(-50%,-50%);
+	width:700px;
+	height:420px;
+	background:#F4F9FC;
+	z-index:1000;
+}
+
+.modal_700_200-wrap1
+{
+	display:none;
+	position:absolute;
+	top:50%;
+	left:50%;
+	transform:translate(-50%,-50%);
+	width:700px;
+	height:200px;
+	background:#F4F9FC;
+	z-index:1000;
+}
+
+.wrapper_popup_contents {
+    width: 100%;
+	height: 100%;
+}
+
+.wrapper_popup_top {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    margin-top: 20px;
+}
+
+.wrapper_popup_top_center{
+	margin: auto;
+}
+
+.span_popup_title {
+	color: #496E73;
+	font-size: 40px;
+    font-weight: bold;
+}
+
+.span_popup_title_20 {
+	color: #496E73;
+	font-size: 20px;
+    font-weight: bold;
+}
+
+.span_popup_title_20 {
+	color: #496E73;
+	font-size: 20px;
+    font-weight: bold;
+}
+
+.wrapper_popup_top_right {
+	left: calc(100% - 50px);
+    position: absolute;
+}
+
+.wrapper_popup_btn {
+	width: 100%;
+	margin-top: 20px;
+	text-align: right;
+	display: flex;
+	justify-content: center;
+}
+
+.wrapper_popup {
+	width: 80%;
+	background: #E2EBED;
+	border: 1px solid #79adb7;
+	display: flex;
+	justify-content: center;
+	margin: auto;
+}
+
+.popup_tb {
+	width: 100%;
+	height: 80%;
+}
+
+.popup_tb_border,
+.popup_tb_border30 {
+	width: 100%;
+	border: 0.5px solid #74ADBD;
+    border-collapse: collapse;
+}
+
+.popup_tb th {
+	text-align: center;
+	height: 60px;
+	font-size: 20px;
+    color: #496E73;
+	font-weight: bold;
+}
+
+.popup_tb_th100 tr:last-child th,
+.popup_th_th100 tr:last-child td {
+  height: 200px;  /* 원하는 높이로 설정 */
+}
+
+.popup_tb_th100 tr:last-child th{
+	text-align: center;    /* 수평 중앙 정렬 */
+	vertical-align: top;   /* 세로 상단 정렬 */
+	padding-top: 20px;
+}
+
+.popup_tb_border th {
+	text-align: center;
+	height: 60px;
+	font-size: 20px;
+    color: #496E73;
+	background-color: #E2EBED;
+	font-weight: bold;
+	border: 0.5px solid #74ADBD;
+    border-collapse: collapse;
+}
+
+.popup_tb_border30 th {
+	text-align: center;
+	height: 30px;
+	font-size: 20px;
+    color: #496E73;
+	font-weight: bold;
+	border: 0.5px solid #74ADBD;
+    border-collapse: collapse;
+}
+
+.popup_tb td {
+	text-align: center;
+	height: 60px;
+	font-size: 20px;
+    color: #496E73;
+	background-color: #F4F9FC;
+}
+
+.popup_tb_border td {
+	text-align: center;
+	height: 60px;
+	font-size: 20px;
+    color: #496E73;
+	background-color: #F4F9FC;
+	border: 0.5px solid #74ADBD;
+    border-collapse: collapse;
+}
+
+.popup_tb_border30 td {
+	text-align: center;
+	height: 30px;
+	font-size: 20px;
+    color: #496E73;
+	background-color: #F4F9FC;
+	border: 0.5px solid #74ADBD;
+    border-collapse: collapse;
+}
+
+.popup_select{
+	width: 80%;
+	height: 80%;
+	padding-left: 5px;
+	padding-right: 5px;
+	border: 0.5px solid #74ADBD;
+	color: #496E73;
+	border-radius: 3px;
+	box-sizing: content-box;
+	font-size: 15px;
+}
+
+.popup_select_2020{
+	width: 20%;
+	height: 20%;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border: 0.5px solid #74ADBD;
+	color: #496E73;
+	border-radius: 3px;
+	box-sizing: content-box;
+	font-size: 15px;
+}
+
+.grape_border{
+	background: white;
+	border: 0.5px solid #74ADBD;
+}
+
+.filebox {
+	width: 100%;
+	text-align: left;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.filebox .upload-name {
+	padding: 10px;
+	vertical-align: middle;
+	width: 60%;
+	margin-left: 10px;
+	border: 0.5px solid #74ADBD;
+	color: #496E73;
+	font-size: 15px;
+}
+
+.filebox label {
+    padding: 10px;
+    color: #fff;
+    vertical-align: middle;
+    background-color: #74ADBD;
+    cursor: pointer;
+    margin-left: 10px;
+	font-size: 15px;
+}
+
+.filebox input[type="file"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+}
+
+
+
+
+/* 한슬 수정 */
+
+.td_add {
+	width: 91%; 
+	height: 26px; 
+	border: 0.5px solid #74ADBD; 
+	border-radius: 3px; 
+	padding-left: 5px; 
+	padding-right: 5px; 
+	margin-left: 0.6%; 
+	margin-right: 0.6%
+}
+
+.select_bx {
+	width: 91%; 
+	height: 30px; 
+	border-color: #74ADBD; 
+	color: #496E73; 
+	border-radius: 3px
+}

@@ -1,0 +1,79 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="css/main.css">
+<title>Insert title here</title>
+</head>
+<body>
+	<div>
+		<div>
+			<jsp:include page="../top_menu.jsp"/>
+		</div>
+		<div class="wrapper_main_contents" >
+			<div style="height: 100%;">
+				<jsp:include page="../side_menu.jsp"/>
+			</div>
+			<div class="wrapper_board_contents">
+				<div class="wrapper_board">
+					<span class="span_board_title">야전 병원 운용</span>
+					<div class="wrapper_board_btn">
+						<div style="width: 100%">
+							<button class="btn_basic_150">야전 병원 운용</button>
+							<button class="btn_basic_150">야전 병원 종료</button>
+						</div>
+					</div>
+					<div style="margin-top: 30px;">
+						<table class="tb_basic tb_management">
+							<colgroup>
+								<col width="100px">
+								<col width="200px">
+								<col width="400px">
+								<col width="200px">
+								<col width="200px">
+								<col width="399px">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>No</th>
+									<th>재난 구분</th>
+									<th>재난명</th>
+									<th>시작일자</th>
+									<th>종료일자</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>1</td>
+									<td>지진</td>
+									<td>ㅇㅇㅇ</td>
+									<td>2024.04.01</td>
+									<td>2024.04.28</td>
+									<td>
+										<button class="btn_basic_100">세팅</button>
+										<button class="btn_basic_100">복원</button>
+									</td>
+								</tr>
+								<tr>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+							</tbody>
+						</table>
+						
+						<div style="margin-top: 30px;">
+							<!-- 페이징처리 -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
