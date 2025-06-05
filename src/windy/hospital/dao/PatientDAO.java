@@ -177,9 +177,9 @@ public class PatientDAO {
 	// //////////////////////////////////////////////////
 	// - 용품 조회
 	// //////////////////////////////////////////////////
-	public SiteModel selectSite(int no) {
+	public PatientModel selectPatient(long no) {
 
-		SiteModel site = new SiteModel();
+		PatientModel patient = new PatientModel();
 		
 		try {
 			// 데이터베이스 객체 생성
@@ -187,22 +187,43 @@ public class PatientDAO {
 			connection = DriverManager.getConnection(jdbcUrl, user, password);
 
 			pstmt = connection.prepareStatement(
-					"SELECT site_no, site_name, site_person_name, site_belong, site_tel, site_note, site_del "
-					+ "FROM site_info "
-					+ "WHERE site_no = ? ");
+					"SELECT patient_no, patient_code, patient_name, patient_birth, patient_age, patient_gender, patient_blood, patient_tel, "
+					+ "patient_addr, patient_addr_detail, room_no, patient_guardian_name, patient_guardian_tel, patient_guardian_relation, "
+					+ "patient_state, hospital_no, patient_evacuation_reason, patient_admission_date, patient_diagnosis_date, patient_evacuation_date, "
+					+ "patient_return_date, patient_discharge_date, patient_death_date, pcr_group_no, "
+					+ "(select  "
+					+ "FROM patient_info "
+					+ "WHERE patient_no = ? ");
 			
-			pstmt.setInt(1, no);
+			pstmt.setLong(1, no);
 
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
-				site.setNo(rs.getInt("site_no"));
-				site.setName(rs.getString("site_name"));
-				site.setPersonName(rs.getString("site_person_name"));
-				site.setBelong(rs.getString("belong"));
-				site.setTel(rs.getString("site_tel"));
-				site.setNote(rs.getString("site_note"));
-				site.setDel(rs.getString("site_del"));
+				patient.setNo(rs.getLong("patient_no"));
+				patient.setCode(rs.getString("patient_code"));
+				patient.setName(rs.getString("patient_name"));
+				patient.setBirth(rs.getString("patient_birth"));
+				patient.setAge(rs.getInt("patient_age"));
+				patient.setGender(rs.getString("gender"));
+				patient.setBlood(rs.getString("patient_blood"));
+				patient.setTel(rs.getString("tel"));
+				patient.setAddr(rs.getString("patient_addr"));
+				patient.setAddrDetail(rs.getString("patient_addr_detail"));
+				patient.setRoomNo(rs.getInt("room_no"));
+				patient.setGuardianName(rs.getString("patient_guardian_name"));
+				patient.setGuardianTel(rs.getString("patient_guardian_tel"));
+				patient.setGuardianRelation(rs.getString("patient_guardian_relation"));
+				patient.setState(rs.getInt("patient_state"));
+				patient.setHospitalNo(rs.getLong("hospital_no"));
+				patient.setEvacuationReason(rs.getString("patient_evacuation_reason"));
+				patient.setAdmissionDate(rs.getString("patient_admission_date"));
+				patient.setDiagnosisDate(rs.getString("patient_diagnosis_date"));
+				patient.setEvacuationDate(rs.getString("patient_evacuation_date"));
+				patient.setReturnDate(rs.getString("patient_return_date"));
+				patient.setDischargeDate(rs.getString("patient_discharge_date"));
+				patient.setDeathDate(rs.getString("patient_death_date"));
+				patient.setPcrGroupNo(rs.getLong("pcr_group_no"));
 			}
 			
 		} catch (Exception e) {
@@ -211,7 +232,41 @@ public class PatientDAO {
 			// 사용한 객체 종료
 			close(rs, pstmt, connection);
 		}
-		return site;				
+		return patient;				
+	}
+			
+	// //////////////////////////////////////////////////
+
+	// //////////////////////////////////////////////////
+	// - 용품 조회
+	// //////////////////////////////////////////////////
+	public String selectPatientCode() {
+
+		String code = "";
+		
+		try {
+			// 데이터베이스 객체 생성
+			Class.forName(dbDriver);
+			connection = DriverManager.getConnection(jdbcUrl, user, password);
+
+			pstmt = connection.prepareStatement(
+					"SELECT patient_code  "
+					+ "FROM patient_info "
+					+ "ORDER BY patient_code DESC limit 1 ");
+
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				code = rs.getString("patient_code");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// 사용한 객체 종료
+			close(rs, pstmt, connection);
+		}
+		return code;				
 	}
 			
 	// //////////////////////////////////////////////////
@@ -219,9 +274,9 @@ public class PatientDAO {
 	// //////////////////////////////////////////////////
 	// - 용품 목록 조회
 	// //////////////////////////////////////////////////
-	public List<SiteModel> selectListSite() {
+	public List<PatientModel> selectListPatient() {
 		
-		List<SiteModel> listSite = new ArrayList<SiteModel>();
+		List<PatientModel> listPatient = new ArrayList<PatientModel>();
 		
 		try {
 			// 데이터베이스 객체 생성
@@ -229,25 +284,44 @@ public class PatientDAO {
 			connection = DriverManager.getConnection(jdbcUrl, user, password);
 
 			pstmt = connection.prepareStatement(
-					"SELECT site_no, site_name, site_person_name, site_belong, site_tel, site_note, site_del "
-					+ "FROM site_info "
-					+ "WHERE site_del = 'N' "
-					+ "ORDER BY site_no DESC ");
-
+					"SELECT patient_no, patient_code, patient_name, patient_birth, patient_age, patient_gender, patient_blood, patient_tel, "
+					+ "patient_addr, patient_addr_detail, room_no, patient_guardian_name, patient_guardian_tel, patient_guardian_relation, "
+					+ "patient_state, hospital_no, patient_evacuation_reason, patient_admission_date, patient_diagnosis_date, patient_evacuation_date, "
+					+ "patient_return_date, patient_discharge_date, patient_death_date, pcr_group_no "
+					+ "FROM patient_info "
+					+ "ORDER BY patient_no DESC ");
+			
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-				SiteModel site = new SiteModel();
+				PatientModel patient = new PatientModel();
+			
+				patient.setNo(rs.getLong("patient_no"));
+				patient.setCode(rs.getString("patient_code"));
+				patient.setName(rs.getString("patient_name"));
+				patient.setBirth(rs.getString("patient_birth"));
+				patient.setAge(rs.getInt("patient_age"));
+				patient.setGender(rs.getString("gender"));
+				patient.setBlood(rs.getString("patient_blood"));
+				patient.setTel(rs.getString("tel"));
+				patient.setAddr(rs.getString("patient_addr"));
+				patient.setAddrDetail(rs.getString("patient_addr_detail"));
+				patient.setRoomNo(rs.getInt("room_no"));
+				patient.setGuardianName(rs.getString("patient_guardian_name"));
+				patient.setGuardianTel(rs.getString("patient_guardian_tel"));
+				patient.setGuardianRelation(rs.getString("patient_guardian_relation"));
+				patient.setState(rs.getInt("patient_state"));
+				patient.setHospitalNo(rs.getLong("hospital_no"));
+				patient.setEvacuationReason(rs.getString("patient_evacuation_reason"));
+				patient.setAdmissionDate(rs.getString("patient_admission_date"));
+				patient.setDiagnosisDate(rs.getString("patient_diagnosis_date"));
+				patient.setEvacuationDate(rs.getString("patient_evacuation_date"));
+				patient.setReturnDate(rs.getString("patient_return_date"));
+				patient.setDischargeDate(rs.getString("patient_discharge_date"));
+				patient.setDeathDate(rs.getString("patient_death_date"));
+				patient.setPcrGroupNo(rs.getLong("pcr_group_no"));
 				
-				site.setNo(rs.getInt("site_no"));
-				site.setName(rs.getString("site_name"));
-				site.setPersonName(rs.getString("site_person_name"));
-				site.setBelong(rs.getString("site_belong"));
-				site.setTel(rs.getString("site_tel"));
-				site.setNote(rs.getString("site_note"));
-				site.setDel(rs.getString("site_del"));
-				
-				listSite.add(site);
+				listPatient.add(patient);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -255,7 +329,7 @@ public class PatientDAO {
 			// 사용한 객체 종료
 			close(rs, pstmt, connection);
 		}
-		return listSite;				
+		return listPatient;				
 	}
 			
 	// //////////////////////////////////////////////////

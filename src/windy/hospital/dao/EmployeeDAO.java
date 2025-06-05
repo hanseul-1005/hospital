@@ -192,7 +192,7 @@ public class EmployeeDAO {
 	// //////////////////////////////////////////////////
 	// - 용품 목록 조회
 	// //////////////////////////////////////////////////
-	public List<EmployeeModel> selectListEmployee() {
+	public List<EmployeeModel> selectListEmployee(EmployeeModel modelParam) {
 		
 		List<EmployeeModel> listEmp = new ArrayList<EmployeeModel>();
 		
@@ -206,8 +206,12 @@ public class EmployeeDAO {
 							+ "employee_major, employee_id, employee_pw, employee_room_no, employee_room_name, "
 							+ "employee_on_off, employee_del "
 					+ "FROM employee_info "
-					+ "WHERE employee_del = 'N' "
+					+ "WHERE employee_del like concat('%', ?, '%') AND employee_department like concat('%', ?, '%') AND employee_name like concat('%', ?, '%') "
 					+ "ORDER BY employee_no DESC ");
+			
+			pstmt.setString(1, modelParam.getDel());
+			pstmt.setString(2, modelParam.getDepartment());
+			pstmt.setString(3, modelParam.getName());
 			
 			rs = pstmt.executeQuery();
 			

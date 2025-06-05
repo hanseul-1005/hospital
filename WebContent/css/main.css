@@ -996,3 +996,7 @@ body {
 	color: #496E73; 
 	border-radius: 3px
 }
+
+.td_select {
+	width: 120px; height: 30px; margin-left: 10px; border-color: #74ADBD; color: #496E73; border-radius: 3px
+}

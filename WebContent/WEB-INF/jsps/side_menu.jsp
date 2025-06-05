@@ -23,8 +23,8 @@ if("employee".equals(mainMenu)) {
 	dotEmployee = "●";
 }
 else if("patient".equals(mainMenu)) {
-	mRegion = "side_menu_on";
-	dotRegion = "●";
+	mPatient = "side_menu_on";
+	dotPatient = "●";
 }
 else if("region".equals(mainMenu)) {
 	mRegion = "side_menu_on";
@@ -99,10 +99,10 @@ String role = (String) session.getAttribute("role");
 		</div>
 	<%} 
 	else if("행정처".equals(role)) {%>
-		<div class="wrapper_side_menu <%=mEmployee %>" onclick="location.href='admin.windy?menu=patient'">
+		<div class="wrapper_side_menu <%=mEmployee %>" onclick="location.href='employee.windy?menu=list'">
 			<span class="span_side_menu"><%=dotEmployee %> 파견 인원 관리</span>
 		</div>
-		<div class="wrapper_side_menu <%=mPatient %>" onclick="location.href='admin.windy?menu=patient'">
+		<div class="wrapper_side_menu <%=mPatient %>" onclick="location.href='patient.windy?menu=list'">
 			<span class="span_side_menu"><%=dotPatient %> 환자관리</span>
 		</div>
 		<div class="wrapper_side_menu <%=mRegion %>" onclick="location.href='region.windy?menu=list'">
@@ -123,8 +123,14 @@ String role = (String) session.getAttribute("role");
 		<div class="wrapper_side_menu <%=mSupplies %>" onclick="location.href='supplies.windy?menu=list'">
 			<span class="span_side_menu"><%=dotSupplies %> 용품 관리</span>
 		</div>
+		<div class="wrapper_side_menu <%=mSupplies %>" onclick="location.href='supplies.windy?menu=list'">
+			<span class="span_side_menu"><%=dotSupplies %> 용품 입출고 관리</span>
+		</div>
 		<div class="wrapper_side_menu <%=mMedicine %>" onclick="location.href='medicine.windy?menu=list'">
 			<span class="span_side_menu"><%=dotMedicine %> 약품 관리</span>
+		</div>
+		<div class="wrapper_side_menu <%=mMedicine %>" onclick="location.href='medicine.windy?menu=list'">
+			<span class="span_side_menu"><%=dotMedicine %> 약품 입출고 관리</span>
 		</div>
 		<div class="wrapper_side_menu <%=mRoom %>" onclick="location.href='room.windy?menu=list'">
 			<span class="span_side_menu"><%=dotRoom %> 병동 관리</span>
@@ -140,17 +146,23 @@ String role = (String) session.getAttribute("role");
 		<div class="wrapper_side_menu <%=mRoom %>" onclick="location.href='admin.windy?menu=room'">
 			<span class="span_side_menu"><%=dotRoom %> 환자 모니터링</span>
 		</div>
-		<div class="wrapper_side_menu <%=mRoom %>" onclick="location.href='admin.windy?menu=room'">
-			<span class="span_side_menu"><%=dotRoom %> 환자 관리</span>
+		<div class="wrapper_side_menu <%=mPatient %>" onclick="location.href='patient.windy?menu=list'">
+			<span class="span_side_menu"><%=dotPatient %> 환자 관리</span>
 		</div>
 		<div class="wrapper_side_menu <%=mRoom %>" onclick="location.href='admin.windy?menu=room'">
 			<span class="span_side_menu"><%=dotRoom %> 의료진 관리</span>
 		</div>
-		<div class="wrapper_side_menu <%=mRoom %>" onclick="location.href='admin.windy?menu=room'">
-			<span class="span_side_menu"><%=dotRoom %> 용품 관리</span>
+		<div class="wrapper_side_menu <%=mSupplies %>" onclick="location.href='supplies.windy?menu=list'">
+			<span class="span_side_menu"><%=dotSupplies %> 용품 관리</span>
 		</div>
-		<div class="wrapper_side_menu <%=mRoom %>" onclick="location.href='admin.windy?menu=room'">
-			<span class="span_side_menu"><%=dotRoom %> 약품 관리</span>
+		<div class="wrapper_side_menu <%=mSupplies %>" onclick="location.href='supplies.windy?menu=list'">
+			<span class="span_side_menu"><%=dotSupplies %> 용품 입출고 관리</span>
+		</div>
+		<div class="wrapper_side_menu <%=mMedicine %>" onclick="location.href='medicine.windy?menu=list'">
+			<span class="span_side_menu"><%=dotMedicine %> 약품 관리</span>
+		</div>
+		<div class="wrapper_side_menu <%=mMedicine %>" onclick="location.href='medicine.windy?menu=list'">
+			<span class="span_side_menu"><%=dotMedicine %> 약품 입출고 관리</span>
 		</div>
 		<div class="wrapper_side_menu <%=mRoom %>" onclick="location.href='admin.windy?menu=room'">
 			<span class="span_side_menu"><%=dotRoom %> 비밀번호 변경</span>

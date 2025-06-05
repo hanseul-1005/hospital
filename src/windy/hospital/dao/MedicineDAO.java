@@ -40,7 +40,7 @@ public class MedicineDAO {
 			connection = DriverManager.getConnection(jdbcUrl, user, password);
 
 			pstmt = connection.prepareStatement(
-					"INSERT INTO medicine_into(medicine_name, medicine_date, medicine_amount, medicine_note, medicine_del) "
+					"INSERT INTO medicine_info(medicine_name, medicine_date, medicine_amount, medicine_note, medicine_del) "
 					+ "VALUES(?, ?, ?, ?, 'N') ");
 
 			pstmt.setString(1, modelParam.getName());
