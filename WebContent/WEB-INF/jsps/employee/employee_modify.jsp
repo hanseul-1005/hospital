@@ -5,6 +5,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%
 ArrayList<RoomModel> listRoom = (ArrayList<RoomModel>) request.getAttribute("listRoom");
+EmployeeModel employee = (EmployeeModel) request.getAttribute("employee");
 
 %>
 <html>
@@ -14,9 +15,48 @@ ArrayList<RoomModel> listRoom = (ArrayList<RoomModel>) request.getAttribute("lis
 <link rel="stylesheet" type="text/css" href="css/main.css">
 <script type="text/javascript">
 
-function goAdd() {
+function addRow() {
+	
+	var num = document.getElementById('num').value;
+	
+	var html = "";
+	html += "<tr id='tr_"+num+"'>";
+	html += "<td>"+(parseInt(num)+1)+"</td>"; 
+	html += "<td><input type='text' class='td_add' id='name_"+num+"'></td>";
+	html += "<td><input type='text' class='td_add' id='tel_"+num+"'></td>";
+	html += "<td><input type='text' class='td_add' id='belong_"+num+"'></td>";
+	html += "<td><input type='text' class='td_add' id='major_"+num+"'></td>";
+	html += "<td>";
+	html += "<select class='td_select' id='room_"+num+"'>";
+	<%for(int i=0; i<listRoom.size(); i++) {
+	RoomModel room = listRoom.get(i);
+	%>
+  	html += "<option value='<%=room.getNo() %>'><%=room.getName() %>(<%=room.getCode() %><%=room.getCodeNo() %>)</option>";
+  	<%} %>
+	html += "</select>";
+	html += "</td>";
+	html += "<td>";
+	html += "<input type='radio' name='on_off_"+num+"' value='근무'>";
+	html += "<label for='on'>근무</label>";
+	html += "<input type='radio' name='on_off_"+num+"' value='휴무'>";
+	html += "<label for='on'>휴무</label>";
+	html += "<td>";
+	html += "<button type='button' class='btn_red_100' onclick='javascript: deleteRow("+num+")'>행 삭제</button>";
+	html += "</td>";
+	html += "</tr>";
+	
+	$("#tb_add").append(html);
+	
+	document.getElementById('num').value = parseInt(num)+1;
+}
 
-	var name = document.getElementById('name').value;
+function deleteRow(num) {
+	$("#tr_"+num).remove();
+}
+
+function goModify() {
+
+	var no = <%=employee.getNo() %>;
 	var belong = document.getElementById('belong').value;
 	var tel = document.getElementById('tel').value;
 	var department = document.getElementById('department').value;
@@ -27,11 +67,11 @@ function goAdd() {
 	var roomName = room.split('_')[1];
 	
 	
-	param = "&name="+name+"&belong="+belong+"&tel="+tel+"&department="+department+"&major="+major+"&room_no="+roomNo+"&room_name="+roomName;
+	param = "&no="+no+"&belong="+belong+"&tel="+tel+"&department="+department+"&major="+major+"&room_no="+roomNo+"&room_name="+roomName;
 	
 	$.ajax({
 		type: "post", 
-		url: "employee.windy?mode=add", 
+		url: "employee.windy?mode=update", 
 		data: param,
 		async: false, 
 		dataType: 'text', 
@@ -72,35 +112,35 @@ function ajaxFailed(xmlRequest)	{
 							<thead>
 								<tr>
 									<th>이름</th>
-									<td><input type="text" class="td_add" id="name"></td>
+									<td><%=employee.getName() %></td>
 									<th>소속</th>
-									<td><input type="text" class="td_add" id="belong"></td>
+									<td><input type="text" class="td_add" id="belong" value="<%=employee.getBelong() %>"></td>
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
 									<th>연락처</th>
-									<td><input type="text" class="td_add" id="tel"></td>
+									<td><input type="text" class="td_add" id="tel" value="<%=employee.getTel() %>"></td>
 									<th>부서</th>
 									<td>
                                         <select class="select_bx" id="department">
-                                            <option value="행정처">행정처</option>
-											<option value="의사">의사</option>
-			                                <option value="간호">간호</option>
-			                                <option value="임상 병리">임상 병리</option>
+                                            <option value="행정처" <%if("행정처".equals(employee.getDepartment())) { %> selected="selected" <%} %>>행정처</option>
+											<option value="의사" <%if("의사".equals(employee.getDepartment())) { %> selected="selected" <%} %>>의사</option>
+			                                <option value="간호" <%if("간호".equals(employee.getDepartment())) { %> selected="selected" <%} %>>간호</option>
+			                                <option value="임상 병리" <%if("임상 병리".equals(employee.getDepartment())) { %> selected="selected" <%} %>>임상 병리</option>
                                         </select>
                                     </td>
 								</tr>
                                 <tr>
 									<th>전공</th>
-									<td><input type="text" class="td_add" id="major"></td>
+									<td><input type="text" class="td_add" id="major" value="<%=employee.getMajor() %>"></td>
 									<th>지정실</th>
 									<td>
                                         <select class="select_bx" id="room">
                                         	<%for(int i=0; i<listRoom.size(); i++) {
                                         		RoomModel room = listRoom.get(i);
                                         	%>
-                                            <option value="<%=room.getNo() %>_<%=room.getName() %>"><%=room.getName() %></option>
+                                            <option value="<%=room.getNo() %>_<%=room.getName() %>" <%if(room.getNo() == employee.getRoomNo()) { %> selected="selected" <%} %>><%=room.getName() %></option>
                                             <%} %>
                                         </select>
                                     </td>
@@ -113,7 +153,7 @@ function ajaxFailed(xmlRequest)	{
 							
 						</div>
 						<div style="width: 50%; text-align: right; display: flxe;">
-							<button class="btn_basic_150" onclick="javascript: goAdd()">등록</button>
+							<button class="btn_basic_150" onclick="javascript: goModify()">수정</button>
 							<button class="btn_cancel_150" onclick="history.back()">취소</button>
 						</div>
 					</div>

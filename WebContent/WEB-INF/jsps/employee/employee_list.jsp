@@ -5,6 +5,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%
 
+String name = (String) request.getAttribute("name");
+String del = (String) request.getAttribute("del");
+String department = (String) request.getAttribute("department");
+
 ArrayList<EmployeeModel> listEmployee = (ArrayList<EmployeeModel>) request.getAttribute("listEmployee");
 ArrayList<RoomModel> listRoom = (ArrayList<RoomModel>) request.getAttribute("listRoom");
 %>
@@ -39,12 +43,40 @@ function goAdd() {
 	location.href="employee.windy?menu=add";
 }
 
-function goSearch() {
-	var name = document.getElementById('search_name').value;
-	
-	location.href="employee.windy?menu=list&name="+name;
+function goMultiAdd() {
+	location.href="employee.windy?menu=multi_add";
 }
 
+function goSearch() {
+	var del = document.getElementById('del').value;
+	var department = document.getElementById('department').value;
+	var name = document.getElementById('search_name').value;
+	
+	location.href="employee.windy?menu=list&name="+name+"&del="+del+"&department="+department;
+}
+
+function updateRoom(idx, no) {
+		
+	var room = document.getElementById('room_'+idx).value;
+
+	var roomNo = room.split('_')[0];
+	var roomName = room.split('_')[1];
+	
+	var param = "&no="+no+"&room_no="+roomNo+"&room_name="+roomName;
+	
+	$.ajax({
+		type: "POST",
+		url: "employee.windy?mode=update_room", 
+		data: param,
+		error: ajaxFailed,
+		success: function(ret) {
+
+			alert("비활성화되었습니다.");
+			location.reload(); 
+		}
+	});
+	
+}
 function goDelete(no) {
 		
 	var param = "&no="+no;
@@ -63,28 +95,9 @@ function goDelete(no) {
 	
 }
 
-function goModify() {
+function goModify(no) {
 
-	var no = document.getElementById('no').value;
-	var name = document.getElementById('name').value;
-	var tel = document.getElementById('tel').value;
-	
-	var param = "&no="+no+"&name="+name+"&tel="+tel;
-		
-	$.ajax({
-		type: "post", 
-		url: "employee.windy?mode=update", 
-		data: param,
-		async: false, 
-		dataType: 'text', 
-		error: ajaxFailed,
-		success: function(data, textStatus) {
-			
-			alert("수정되었습니다.");
-			location.reload(); 
-		}
-	});
-	
+	location.href = "employee.windy?menu=modify&no="+no;
 }
 
 function ajaxFailed(xmlRequest)	{
@@ -104,26 +117,26 @@ function ajaxFailed(xmlRequest)	{
 					<span class="span_board_title">파견인원 관리</span>
 					<div class="wrapper_board_btn">
 						<div style="width: 50%; text-align: left; display: flex;">
-							<select style="width: 120px; height: 30px; border-color: #74ADBD; color: #496E73; border-radius: 3px">
-								<option value="">전체</option>
-								<option value="N">활성화</option>
-								<option value="Y">비활성화</option>
+							<select class="select_bx" id="del">
+								<option value="" <%if("".equals(del)) { %> selected="selected" <%} %>>전체</option>
+								<option value="N" <%if("N".equals(del)) { %> selected="selected" <%} %>>활성화</option>
+								<option value="Y" <%if("Y".equals(del)) { %> selected="selected" <%} %>>비활성화</option>
 							</select>
-                            <select style="width: 120px; height: 30px; margin-left: 10px; border-color: #74ADBD; color: #496E73; border-radius: 3px">
-								<option value="">전체 부서</option>
-								<option value="행정처">행정처</option>
-								<option value="의사">의사</option>
-                                <option value="간호">간호</option>
-                                <option value="임상 병리">임상 병리</option>
+                            <select class="select_bx" id="department">
+								<option value="" <%if("".equals(department)) { %> selected="selected" <%} %>>전체 부서</option>
+								<option value="행정처" <%if("행정처".equals(department)) { %> selected="selected" <%} %>>행정처</option>
+								<option value="의사" <%if("의사".equals(department)) { %> selected="selected" <%} %>>의사</option>
+                                <option value="간호" <%if("간호".equals(department)) { %> selected="selected" <%} %>>간호</option>
+                                <option value="임상 병리" <%if("임상 병리".equals(department)) { %> selected="selected" <%} %>>임상 병리</option>
 							</select>
-							<input type="text" style="width: 120px; height: 26px; border: 0.5px solid #74ADBD; border-radius: 3px; margin-left: 10px; padding-left: 5px; padding-right: 5px; ">
-							<div style="width: 30px; height: 30px; margin-left: 10px; background-color: #67AFBE; border-radius: 5px;">
-								<img alt="" src="/images/img_search.png" width="30px" height="30px">							
+							<input type="text" class="td_add" id="search_name">
+							<div style="width: 30px; height: 30px; margin-left: 10px; background-color: #67AFBE; border-radius: 5px;" onclick="javascript: goSearch()">
+								<img alt="" src="images/img_search.png" width="30px" height="30px">							
 							</div>
 						</div>
 						<div style="width: 50%">
-                            <button class="btn_basic_150" onclick="javascript: goAdd()">일괄 등록</button>
-							<button class="btn_basic_150">단일 등록</button>
+                            <button class="btn_basic_150" onclick="javascript: goMultiAdd()">일괄 등록</button>
+							<button class="btn_basic_150" onclick="javascript: goAdd()">단일 등록</button>
 						</div>
 					</div>
 					<div style="margin-top: 10px;">
@@ -157,22 +170,22 @@ function ajaxFailed(xmlRequest)	{
 									EmployeeModel employee = listEmployee.get(i);
 								%>
 								<tr>
-									<td><%=i+1 %></td>
-									<td><%=employee.getName() %></td>
-									<td><%=employee.getTel() %>></td>
-									<td><%=employee.getBelong() %>></td>
-                                    <td><%=employee.getMajor() %></td>
-                                    <td><%=employee.getDepartment() %></td>
+									<td onclick="javascript: goModify(<%=employee.getNo() %>)"><%=i+1 %></td>
+									<td onclick="javascript: goModify(<%=employee.getNo() %>)"><%=employee.getName() %></td>
+									<td onclick="javascript: goModify(<%=employee.getNo() %>)"><%=employee.getTel() %></td>
+									<td onclick="javascript: goModify(<%=employee.getNo() %>)"><%=employee.getBelong() %></td>
+                                    <td onclick="javascript: goModify(<%=employee.getNo() %>)"><%=employee.getMajor() %></td>
+                                    <td onclick="javascript: goModify(<%=employee.getNo() %>)"><%=employee.getDepartment() %></td>
 									<td>
-                                        <select style="width: 120px; height: 30px; margin-left: 10px; border-color: #74ADBD; color: #496E73; border-radius: 3px">
+                                        <select class="select_bx" id="room_<%=i %>" onchange="javascript: updateRoom('<%=i %>', '<%=employee.getNo() %>')">
                                         	<%for(int j=0; j<listRoom.size(); j++) {
-                                        		RoomModel room = listRoom.get(i);
+                                        		RoomModel room = listRoom.get(j);
                                         	%>
-                                            <option value="<%=room.getNo() %>"><%=room.getName() %>(<%=room.getCode() %><%=room.getCodeNo() %>)</option>
+                                            <option value="<%=room.getNo() %>_<%=room.getName() %>" <%if(room.getNo() == employee.getRoomNo()) { %> selected="selected" <%} %>><%=room.getName() %>(<%=room.getCode() %><%=room.getCodeNo() %>)</option>
                                             <%} %>
                                         </select>
                                     </td>
-                                    <td><%=employee.getOnOff() %></td>
+                                    <td onclick="javascript: goModify(<%=employee.getNo() %>)"><%=employee.getOnOff() %></td>
 									<td>
                                         <button class="btn_cancel_100">비활성화</button>
                                     </td>

@@ -44,18 +44,18 @@ public class Employee extends HttpServlet {
 
 		String menu = request.getParameter("menu");
 		EmployeeDAO eDao = new EmployeeDAO();
+		RoomDAO rDao = new RoomDAO();
+		
 		
 		if(menu == null) menu = "list";
 		
-		System.out.println("region menu : "+menu);
+		System.out.println("employee menu : "+menu);
 		
 		request.setAttribute("menu", menu);
-		request.setAttribute("main_menu", "region");
+		request.setAttribute("main_menu", "employee");
 		
 		if("list".equals(menu)) {
 
-			RoomDAO rDao = new RoomDAO();
-			
 			String del = request.getParameter("del");
 			String department = request.getParameter("department");
 			String name = request.getParameter("name");
@@ -72,7 +72,9 @@ public class Employee extends HttpServlet {
 			ArrayList<EmployeeModel> listEmployee = (ArrayList<EmployeeModel>) eDao.selectListEmployee(employee);
 			ArrayList<RoomModel> listRoom = (ArrayList<RoomModel>) rDao.selectListRoom("");
 			
+			request.setAttribute("del", del);
 			request.setAttribute("name", name);
+			request.setAttribute("department", department);
 			request.setAttribute("listEmployee", listEmployee);
 			request.setAttribute("listRoom", listRoom);
 			
@@ -80,8 +82,6 @@ public class Employee extends HttpServlet {
 			dispatcher.forward(request, response);
 		}
 		else if("add".equals(menu)) {
-
-			RoomDAO rDao = new RoomDAO();
 
 			ArrayList<RoomModel> listRoom = (ArrayList<RoomModel>) rDao.selectListRoom("");
 
@@ -91,15 +91,27 @@ public class Employee extends HttpServlet {
 			dispatcher.forward(request, response);
 			
 		}
+		else if("multi_add".equals(menu)) {
+
+			ArrayList<RoomModel> listRoom = (ArrayList<RoomModel>) rDao.selectListRoom("");
+
+			request.setAttribute("listRoom", listRoom);
+			
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsps/employee/employee_multi_add.jsp");
+			dispatcher.forward(request, response);
+			
+		}
 		else if("modify".equals(menu)) {
 			
 			long no = Long.parseLong(request.getParameter("no"));
 			
 			EmployeeModel employee = eDao.selectEmployee(no);
+			ArrayList<RoomModel> listRoom = (ArrayList<RoomModel>) rDao.selectListRoom("");
 			
 			request.setAttribute("employee", employee);
+			request.setAttribute("listRoom", listRoom);
 
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsps/employee/employee_add.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsps/employee/employee_modify.jsp");
 			dispatcher.forward(request, response);
 		}
 	}
@@ -115,13 +127,41 @@ public class Employee extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		
-		RegionDAO rDao = new RegionDAO();
+		EmployeeDAO eDao = new EmployeeDAO();
 				
 		String mode = request.getParameter("mode");
 		
+		System.out.println("employee mode : "+mode);
+		
+
 		if("add".equals(mode)) {
 			
+			String name = request.getParameter("name");
+			String belong = request.getParameter("belong");
+			String tel = request.getParameter("tel");
+			String department = request.getParameter("department");
+			String major = request.getParameter("major");
+			int roomNo = Integer.parseInt(request.getParameter("room_no"));
+			String roomName = request.getParameter("room_name");
+			
+			EmployeeModel employee = new EmployeeModel();
+			employee.setName(name);
+			employee.setBelong(belong);
+			employee.setTel(tel);
+			employee.setDepartment(department);
+			employee.setMajor(major);
+			employee.setRoomNo(roomNo);
+			employee.setRoomName(roomName);
+			employee.setId(tel);
+			employee.setPw("emap123");
+			employee.setOnOff("근무");
+			
+			eDao.insertEmployee(employee);
+		}
+		else if("multi_add".equals(mode)) {
+			
 			int size = Integer.parseInt(request.getParameter("size"));
+			String department = request.getParameter("department");
 
 			System.out.println("size="+size);
 			
@@ -131,16 +171,26 @@ public class Employee extends HttpServlet {
 
 				String name = request.getParameter("name_"+i);
 				String tel = request.getParameter("tel_"+i);
+				String belong = request.getParameter("belong_"+i);
+				String major = request.getParameter("major_"+i);
+				int roomNo = Integer.parseInt(request.getParameter("room_no_"+i));
+				String roomName = request.getParameter("room_name_"+i);
+				String onOff = request.getParameter("on_off_"+i);
 				
-				System.out.println("name_"+i+"="+name);
-				System.out.println("tel_"+i+"="+tel);
-				
-				RegionModel region = new RegionModel();
-				region.setName(name);
-				region.setTel(tel);
+				EmployeeModel employee = new EmployeeModel();
+				employee.setName(name);
+				employee.setTel(tel);
+				employee.setBelong(belong);
+				employee.setMajor(major);
+				employee.setRoomNo(roomNo);
+				employee.setRoomName(roomName);
+				employee.setOnOff(onOff);
+				employee.setDepartment(department);
+				employee.setId(tel);
+				employee.setPw("emap123");
 
 				
-				int result = rDao.insertRegion(region);
+				int result = eDao.insertEmployee(employee);
 				
 				
 				System.out.println("result : "+result);
@@ -171,22 +221,45 @@ public class Employee extends HttpServlet {
 		}
 		else if("update".equals(mode)) {
 			
-			int no = Integer.parseInt(request.getParameter("no"));
-			String name = request.getParameter("name");
+			long no = Long.parseLong(request.getParameter("no"));
+			String belong = request.getParameter("belong");
 			String tel = request.getParameter("tel");
+			String department = request.getParameter("department");
+			String major = request.getParameter("major");
+			int roomNo = Integer.parseInt(request.getParameter("room_no"));
+			String roomName = request.getParameter("room_name");
 			
-			RegionModel region = new RegionModel();
-			region.setNo(no);
-			region.setName(name);
-			region.setTel(tel);
-
-			rDao.updateRegion(region);
+			EmployeeModel employee = new EmployeeModel();
+			employee.setNo(no);
+			employee.setBelong(belong);
+			employee.setTel(tel);
+			employee.setDepartment(department);
+			employee.setMajor(major);
+			employee.setRoomNo(roomNo);
+			employee.setRoomName(roomName);
+			employee.setId(tel);
+			
+			eDao.updateEmployee(employee);
 		}
 		else if("delete".equals(mode)) {
 			
-			int no = Integer.parseInt(request.getParameter("no"));
+			long no = Long.parseLong(request.getParameter("no"));
 			
-			int result = rDao.deleteRegion(no);
+			int result = eDao.deleteEmployee(no);
+		}
+		else if("update_room".equals(mode)) {
+			
+			long no = Long.parseLong(request.getParameter("no"));
+			int roomNo = Integer.parseInt(request.getParameter("room_no"));
+			String roomName = request.getParameter("room_name");
+			
+			EmployeeModel employee = new EmployeeModel();
+			employee.setNo(no);
+			employee.setRoomNo(roomNo);
+			employee.setRoomName(roomName);
+			
+			
+			int result = eDao.updateEmployeeRoom(employee);
 		}
 	}
 

@@ -81,21 +81,18 @@ public class EmployeeDAO {
 			connection = DriverManager.getConnection(jdbcUrl, user, password);
 
 			pstmt = connection.prepareStatement(
-					"UPDATE employee_info SET employee_name=?, employee_belong=?, employee_tel=?, employee_department=?, employee_major=?, "
-							+ "employee_id=?, employee_pw=?, employee_room_no=?, employee_room_name=?, employee_on_off=? "
+					"UPDATE employee_info SET employee_belong=?, employee_tel=?, employee_department=?, employee_major=?, "
+							+ "employee_id=?, employee_room_no=?, employee_room_name=? "
 					+ "WHERE employee_no=? ");
 
-			pstmt.setString(1, modelParam.getName());
-			pstmt.setString(2, modelParam.getBelong());
-			pstmt.setString(3, modelParam.getTel());
-			pstmt.setString(4, modelParam.getDepartment());
-			pstmt.setString(5, modelParam.getMajor());
-			pstmt.setString(6, modelParam.getId());
-			pstmt.setString(7, modelParam.getPw());
-			pstmt.setInt(8, modelParam.getRoomNo());
-			pstmt.setString(9, modelParam.getRoomName());
-			pstmt.setString(10, modelParam.getOnOff());
-			pstmt.setLong(11, modelParam.getNo());
+			pstmt.setString(1, modelParam.getBelong());
+			pstmt.setString(2, modelParam.getTel());
+			pstmt.setString(3, modelParam.getDepartment());
+			pstmt.setString(4, modelParam.getMajor());
+			pstmt.setString(5, modelParam.getId());
+			pstmt.setInt(6, modelParam.getRoomNo());
+			pstmt.setString(7, modelParam.getRoomName());
+			pstmt.setLong(8, modelParam.getNo());
 			
 			result = pstmt.executeUpdate();
 			
@@ -113,7 +110,7 @@ public class EmployeeDAO {
 	// //////////////////////////////////////////////////
 	// - 용품 등록
 	// //////////////////////////////////////////////////
-	public int deleteDB(long no) {
+	public int deleteEmployee(long no) {
 		
 		int result = -1;
 		
@@ -126,6 +123,38 @@ public class EmployeeDAO {
 					"UPDATE employee_info SET employee_del='Y' WHERE employee_no=? ");
 
 			pstmt.setLong(1, no);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// 사용한 객체 종료
+			close(rs, pstmt, connection);
+		}
+		return result;				
+	}
+			
+	// //////////////////////////////////////////////////
+
+	// //////////////////////////////////////////////////
+	// - 용품 등록
+	// //////////////////////////////////////////////////
+	public int updateEmployeeRoom(EmployeeModel modelParam) {
+		
+		int result = -1;
+		
+		try {
+			// 데이터베이스 객체 생성
+			Class.forName(dbDriver);
+			connection = DriverManager.getConnection(jdbcUrl, user, password);
+
+			pstmt = connection.prepareStatement(
+					"UPDATE employee_info SET employee_room_no=?, employee_room_name=? WHERE employee_no=? ");
+
+			pstmt.setInt(1, modelParam.getRoomNo());
+			pstmt.setString(2, modelParam.getRoomName());
+			pstmt.setLong(3, modelParam.getNo());
 			
 			result = pstmt.executeUpdate();
 			
@@ -173,7 +202,7 @@ public class EmployeeDAO {
 				emp.setId(rs.getString("employee_id"));
 				emp.setPw(rs.getString("employee_pw"));
 				emp.setRoomNo(rs.getInt("employee_room_no"));
-				emp.setRoomName(rs.getString("room_name"));
+				emp.setRoomName(rs.getString("employee_room_name"));
 				emp.setOnOff(rs.getString("employee_on_off"));
 				emp.setDel(rs.getString("employee_del"));
 			}
@@ -226,7 +255,7 @@ public class EmployeeDAO {
 				emp.setId(rs.getString("employee_id"));
 				emp.setPw(rs.getString("employee_pw"));
 				emp.setRoomNo(rs.getInt("employee_room_no"));
-				emp.setRoomName(rs.getString("room_name"));
+				emp.setRoomName(rs.getString("employee_room_name"));
 				emp.setOnOff(rs.getString("employee_on_off"));
 				emp.setDel(rs.getString("employee_del"));
 				

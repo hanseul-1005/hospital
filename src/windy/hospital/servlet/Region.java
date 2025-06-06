@@ -135,14 +135,6 @@ public class Region extends HttpServlet {
 				ret = "false";
 			}
 			
-			/*
-			 * JSONObject objResult = new JSONObject();
-			 * response.setContentType("text/json; charset=utf-8"); objResult.put("ret",
-			 * ret); System.out.println("ret : "+ret);
-			 * 
-			 * PrintWriter out = response.getWriter(); out.print(objResult);
-			 */
-			
 			PrintWriter out = response.getWriter();
 			out.print(ret);
 		}
