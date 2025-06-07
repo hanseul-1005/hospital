@@ -1,11 +1,13 @@
 <%@page import="windy.hospital.model.HospitalModel"%>
 <%@page import="windy.hospital.model.RoomModel"%>
 <%@page import="java.util.ArrayList"%>
+<%@page import="windy.hospital.model.PatientModel"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%
-ArrayList<RoomModel> listRoom = (ArrayList<RoomModel>) request.getAttribute("listRoom");
-ArrayList<HospitalModel> listHospital = (ArrayList<HospitalModel>) request.getAttribute("listHospital");
+	PatientModel patient = (PatientModel) request.getAttribute("patient");
+	ArrayList<RoomModel> listRoom = (ArrayList<RoomModel>) request.getAttribute("listRoom");
+	ArrayList<HospitalModel> listHospital = (ArrayList<HospitalModel>) request.getAttribute("listHospital");
 %>
 <html>
 <head>
@@ -64,8 +66,10 @@ function reg_Formatter() {
 }
 
 
-function goAdd() {
+function goModify() {
 
+	var no = '<%=patient.getNo() %>';
+	var code = '<%=patient.getCode() %>';
 	var name = document.getElementById('name').value;
 	var birth = document.getElementById('birth').value;
 	var gender = $('input[name=gender]:checked').val();
@@ -82,20 +86,20 @@ function goAdd() {
 	var evacuationReason = document.getElementById('evacuation_reason').value;
 	
 	var age = reg_Formatter();
-	 
-	var param = "&name="+name+"&birth="+birth+"&gender="+gender+"&blood="+blood+"&tel="+tel+"&addr="+addr+"&addr_detail="+addrDetail+"&room_no="+roomNo+"&age="+age
+	
+	var param = "&no="+no+"&code="+code+"&name="+name+"&birth="+birth+"&gender="+gender+"&blood="+blood+"&tel="+tel+"&addr="+addr+"&addr_detail="+addrDetail+"&room_no="+roomNo+"&age="+age
 		+"&guardian_name="+guardianName+"&guardian_tel="+guardianTel+"&guardian_relation="+guardianRelation+"&state="+state+"&hospital_no="+hospitalNo+"&evacuation_reason="+evacuationReason;
 	
 	$.ajax({
 		type: "post", 
-		url: "patient.windy?mode=add", 
+		url: "patient.windy?mode=update", 
 		data: param,
 		async: false, 
 		dataType: 'text', 
 		error: ajaxFailed,
 		success: function(data, textStatus) {
 			
-			alert("등록되었습니다.");
+			alert("수정되었습니다.");
 			location.href = "patient.windy?menu=list"; 
 		}
 	}); 
@@ -116,13 +120,14 @@ function ajaxFailed(xmlRequest)	{
 			</div>
 			<div class="wrapper_board_contents">
 				<div class="wrapper_board">
-					<span class="span_board_title">환자 등록</span>
+					<span class="span_board_title">환자 수정</span>
 					<div class="wrapper_board_btn">
 						<div style="width: 50%; text-align: left; display: flex;">
 								
 						</div>
 						<div style="width: 50%">
-							<button class="btn_basic_150" onclick="javascript: goAdd()">등록</button>
+                            <button class="btn_basic_150" onclick="javascript: addRow()">행 추가</button>
+							<button class="btn_basic_150" onclick="javascript: goModify()">수정</button>
 						</div>
 					</div>
 					<div style="margin-top: 10px;">
@@ -136,32 +141,32 @@ function ajaxFailed(xmlRequest)	{
 							</colgroup>
 		                    <tr>
 								<th>환자번호</th>
-								<td>코드는 자동으로 생성됩니다.</td>
+								<td><%=patient.getCode() %></td>
 		                        <th>이름</th>
-		                        <td><input type="text" class="input_text" id="name"></td>
+		                        <td><input type="text" class="input_text" id="name" value="<%=patient.getName() %>"></td>
 							</tr>
 							<tr>
-								<th>생년월일 8자리</th>
-								<td><input type="text" class="input_text" id="birth"></td>
+								<th>주민등록번호 앞자리</th>
+								<td><input type="text" class="input_text" id="birth" value="<%=patient.getBirth() %>"></td>
 		                        <th>성별</th>
 								<td>
-									<input type="radio" name="gender" value="남성" checked="checked">
+									<input type="radio" name="gender" value="남성" <%if("남성".equals(patient.getGender())) { %> checked="checked" <%} %>>
 									<label for="on">남성</label>
-									<input type="radio" name="gender" value="여성">
+									<input type="radio" name="gender" value="여성" <%if("여성".equals(patient.getGender())) { %> checked="checked" <%} %>>
 									<label for="on">여성</label>
 								</td>
 							</tr>
 							<tr>
 								<th>혈액형</th>
-								<td><input type="text" class="input_text" id="blood"></td>
+								<td><input type="text" class="input_text" id="blood" value="<%=patient.getBlood() %>"></td>
 		                        <th>연락처</th>
-								<td><input type="text" class="input_text" id="tel"></td>
+								<td><input type="text" class="input_text" id="tel" value="<%=patient.getTel() %>"></td>
 							</tr>
 							<tr>
 								<th>주소</th>
 		                        <td colspan="3">
-		                        	<input type="text" class="input_text" id="addr" style="height: 40px; width: 97%; margin-top: 5px"><br/>
-		                        	<input type="text" class="input_text" id="addr_detail" style="height: 40px; width: 97%; margin-top: 5px; margin-bottom: 5px;">
+		                        	<input type="text" class="input_text" id="addr" style="height: 40px; width: 97%; margin-top: 5px" value="<%=patient.getAddr() %>"><br/>
+		                        	<input type="text" class="input_text" id="addr_detail" style="height: 40px; width: 97%; margin-top: 5px; margin-bottom: 5px;" value="<%=patient.getAddrDetail() %>">
 		                        </td>
 							</tr>
 							<tr>
@@ -171,46 +176,45 @@ function ajaxFailed(xmlRequest)	{
 										<%for(int i=0; i<listRoom.size(); i++) {
 											RoomModel room = listRoom.get(i);
 										%>
-										<option value="<%=room.getNo() %>"><%=room.getName() %>(<%=room.getCode() %><%=room.getCodeNo() %>)</option>
+										<option value="<%=room.getNo() %>" <%if(room.getNo() == patient.getRoomNo()) { %> selected="selected" <%} %>><%=room.getName() %>(<%=room.getCode() %><%=room.getCodeNo() %>)</option>
 										<%} %>
 									</select>
 								</td>
 		                        <th>보호자명</th>
-								<td><input type="text" class="input_text" id="guardian_name"></td>
+								<td><input type="text" class="input_text" id="guardian_name" value="<%=patient.getGuardianName() %>"></td>
 							</tr>
 							<tr>
 								<th>보호자 연락처</th>
-								<td><input type="text" class="input_text" id="guardian_tel"></td>
+								<td><input type="text" class="input_text" id="guardian_tel" value="<%=patient.getGuardianTel() %>"></td>
 		                        <th>보호자 관계</th>
-								<td><input type="text" class="input_text" id="guardian_relation"></td>
+								<td><input type="text" class="input_text" id="guardian_relation" value="<%=patient.getGuardianRelation() %>"></td>
 							</tr>
 							<tr>
 								<th>상태</th>
 		                        <td colspan="3">
 									<div style="width: 100%; text-align: left;">
-										<input type="radio" name="state" value="1" checked="checked">
+										<input type="radio" name="state" value="1" <%if(patient.getState() == 1) {%> checked="checked" <%} %>>
 										<label for="on">입원</label>
-										<input type="radio" name="state" value="2">
+										<input type="radio" name="state" value="2" <%if(patient.getState() == 2) {%> checked="checked" <%} %>>
 										<label for="on">후송</label>
 										<select class="popup_select_2020" id="hospital">
 											<%for(int l=0; l<listHospital.size(); l++) {
 												HospitalModel hospital = listHospital.get(l);
 											%>
-											<option value="<%=hospital.getNo() %>"><%=hospital.getName() %></option>
+											<option value="<%=hospital.getNo() %>" <%if(patient.getHospitalNo() == hospital.getNo()) { %> selected="selected" <%} %>><%=hospital.getName() %></option>
 											<%} %>
 										</select>
 										<select class="popup_select_2020" id="evacuation_reason">
 											<option>비응급</option>
 										</select>
-										<input type="radio" name="state" value="3">
+										<input type="radio" name="state" id="state3" value="3" <%if(patient.getState() == 3) {%> checked="checked" <%} %>>
 										<label for="on">귀가</label>
-										<input type="radio" name="state" value="4">
+										<input type="radio" name="state" id="state4" value="4" <%if(patient.getState() == 4) {%> checked="checked" <%} %>>
 										<label for="on">퇴원</label>
 									</div>
 								</td>
 							</tr>
 						</table>
-						
 					</div>
 				</div>
 			</div>

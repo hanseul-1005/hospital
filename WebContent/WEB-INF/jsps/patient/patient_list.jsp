@@ -18,7 +18,8 @@ String code = (String) request.getAttribute("code");
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" type="text/css" href="css/main.css">
 <script type="text/javascript">
-function popOpen(num, classPrefix) {
+function popOpen(num, classPrefix, idx) {
+
 	var modalBg = $(num);
 	var modalPop = $(classPrefix);
 
@@ -34,8 +35,12 @@ function popClose(num, classPrefix) {
 	modalPop.hide();
 }
 
-function goAddAll() {
+function goAdd() {
 	location.href="patient.windy?menu=add";
+}
+
+function goAddAll() {
+	location.href="patient.windy?menu=multi_add";
 }
 
 function goSearch() {
@@ -62,27 +67,9 @@ function goDelete(no) {
 	
 }
 
-function goModify() {
+function goModify(no) {
 
-	var no = document.getElementById('no').value;
-	var name = document.getElementById('name').value;
-	var tel = document.getElementById('tel').value;
-	
-	var param = "&no="+no+"&name="+name+"&tel="+tel;
-		
-	$.ajax({
-		type: "post", 
-		url: "region.windy?mode=update", 
-		data: param,
-		async: false, 
-		dataType: 'text', 
-		error: ajaxFailed,
-		success: function(data, textStatus) {
-			
-			alert("수정되었습니다.");
-			location.reload(); 
-		}
-	});
+	location.href = "patient.windy?menu=modify&no="+no;
 	
 }
 
@@ -118,7 +105,7 @@ function ajaxFailed(xmlRequest)	{
 						</div>
 						<div style="width: 50%">
                             <button class="btn_basic_150" onClick="javascript:popOpen('.modal-bg3', '.modal_1400_900-wrap1');">PCR 그룹 관리</button>
-                            <button class="btn_basic_150" onClick="javascript:popOpen('.modal-bg1', '.modal_1200_700-wrap1');">환자 등록</button>
+                            <button class="btn_basic_150" onClick="javascript: goAdd()">환자 등록</button>
 							<button class="btn_basic_150" onclick="javascript: goAddAll()">환자 일괄 등록</button>
 						</div>
 					</div>
@@ -147,11 +134,11 @@ function ajaxFailed(xmlRequest)	{
 									PatientModel patient = listPatient.get(j);
 								%>
 								<tr>
-									<td onClick="javascript:popOpen('.modal-bg2', '.modal_1200_700-wrap2');"><%=j+1 %></td>
-									<td><%=patient.getName() %></td>
-									<td><%=patient.getCode() %>></td>
-									<td><%=patient.getGender() %></td>
-                                    <td><%=patient.getBirth() %></td>
+									<td onClick="javascript: goModify(<%=patient.getNo() %>)"><%=j+1 %></td>
+									<td onClick="javascript: goModify(<%=patient.getNo() %>)"><%=patient.getName() %></td>
+									<td onClick="javascript: goModify(<%=patient.getNo() %>)"><%=patient.getCode() %></td>
+									<td onClick="javascript: goModify(<%=patient.getNo() %>)"><%=patient.getGender() %></td>
+                                    <td onClick="javascript: goModify(<%=patient.getNo() %>)"><%=patient.getBirth() %></td>
 									<td>
                                         <button class="btn_basic_100">차트 조회</button>
                                     </td>

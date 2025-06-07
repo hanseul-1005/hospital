@@ -46,6 +46,9 @@ public class Patient extends HttpServlet {
 
 		String menu = request.getParameter("menu");
 		PatientDAO pDao = new PatientDAO();
+		RoomDAO rDao = new RoomDAO();
+		HospitalDAO hDao = new HospitalDAO();
+		
 		
 		if(menu == null) menu = "list";
 		
@@ -56,9 +59,6 @@ public class Patient extends HttpServlet {
 		
 		if("list".equals(menu)) {
 
-			RoomDAO rDao = new RoomDAO();
-			HospitalDAO hDao = new HospitalDAO();
-			
 			String name = request.getParameter("name");
 			
 			if(name==null) name = "";
@@ -86,8 +86,19 @@ public class Patient extends HttpServlet {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsps/patient/patient_list.jsp");
 			dispatcher.forward(request, response);
 		}
+		else if("multi_add".equals(menu)) {
+
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsps/patient/patient_multi_add.jsp");
+			dispatcher.forward(request, response);
+			
+		}
 		else if("add".equals(menu)) {
 
+			ArrayList<RoomModel> listRoom = (ArrayList<RoomModel>) rDao.selectListRoom("");
+			ArrayList<HospitalModel> listHospital = (ArrayList<HospitalModel>) hDao.selectListHospital(""); 
+
+			request.setAttribute("listRoom", listRoom);
+			request.setAttribute("listHospital", listHospital);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsps/patient/patient_add.jsp");
 			dispatcher.forward(request, response);
 			
@@ -95,12 +106,16 @@ public class Patient extends HttpServlet {
 		else if("modify".equals(menu)) {
 			
 			long no = Long.parseLong(request.getParameter("no"));
-			
+
+			ArrayList<RoomModel> listRoom = (ArrayList<RoomModel>) rDao.selectListRoom("");
+			ArrayList<HospitalModel> listHospital = (ArrayList<HospitalModel>) hDao.selectListHospital(""); 
 			PatientModel patient = pDao.selectPatient(no);
 			
 			request.setAttribute("patient", patient);
+			request.setAttribute("listRoom", listRoom);
+			request.setAttribute("listHospital", listHospital);
 
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsps/region/region_add.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsps/patient/patient_modify.jsp");
 			dispatcher.forward(request, response);
 		}
 	}
@@ -116,11 +131,11 @@ public class Patient extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		
-		RegionDAO rDao = new RegionDAO();
+		PatientDAO pDao = new PatientDAO();
 				
 		String mode = request.getParameter("mode");
 		
-		if("add".equals(mode)) {
+		if("multi_add".equals(mode)) {
 			
 			int size = Integer.parseInt(request.getParameter("size"));
 
@@ -131,17 +146,17 @@ public class Patient extends HttpServlet {
 			for(int i=0; i<size; i++) {
 
 				String name = request.getParameter("name_"+i);
+				String gender = request.getParameter("gender_"+i);
+				String birth = request.getParameter("birth_"+i);
 				String tel = request.getParameter("tel_"+i);
-				
-				System.out.println("name_"+i+"="+name);
-				System.out.println("tel_"+i+"="+tel);
-				
-				RegionModel region = new RegionModel();
-				region.setName(name);
-				region.setTel(tel);
 
+				PatientModel patient = new PatientModel();
+				patient.setName(name);
+				patient.setGender(gender);
+				patient.setBirth(birth);
+				patient.setTel(tel);
 				
-				int result = rDao.insertRegion(region);
+				int result = pDao.insertPatientMulti(patient);
 				
 				
 				System.out.println("result : "+result);
@@ -159,35 +174,93 @@ public class Patient extends HttpServlet {
 				ret = "false";
 			}
 			
-			/*
-			 * JSONObject objResult = new JSONObject();
-			 * response.setContentType("text/json; charset=utf-8"); objResult.put("ret",
-			 * ret); System.out.println("ret : "+ret);
-			 * 
-			 * PrintWriter out = response.getWriter(); out.print(objResult);
-			 */
-			
 			PrintWriter out = response.getWriter();
 			out.print(ret);
 		}
-		else if("update".equals(mode)) {
+		else if("add".equals(mode)) {
 			
-			int no = Integer.parseInt(request.getParameter("no"));
+			String code = request.getParameter("code");
 			String name = request.getParameter("name");
+			String birth = request.getParameter("birth");
+			int age = Integer.parseInt(request.getParameter("age"));
+			String gender = request.getParameter("gender");
+			String blood = request.getParameter("blood");
 			String tel = request.getParameter("tel");
+			String addr = request.getParameter("addr_detail");
+			String addrDetail = request.getParameter("addr_detail");
+			int roomNo = Integer.parseInt(request.getParameter("room_no"));
+			String guardianName = request.getParameter("guardian_name");
+			String guardianTel = request.getParameter("guardian_tel");
+			String guardianRelation= request.getParameter("guardian_relation");
+			int state = Integer.parseInt(request.getParameter("state"));
+			long hosipitalNo = Long.parseLong(request.getParameter("hospital_no"));
+			String evacuationReason = request.getParameter("evacuation_reason");
 			
-			RegionModel region = new RegionModel();
-			region.setNo(no);
-			region.setName(name);
-			region.setTel(tel);
+			PatientModel patient = new PatientModel();
+			patient.setCode(code);
+			patient.setName(name);
+			patient.setBirth(birth);
+			patient.setAge(age);
+			patient.setGender(gender);
+			patient.setBlood(blood);
+			patient.setTel(tel);
+			patient.setAddr(addr);
+			patient.setAddrDetail(addrDetail);
+			patient.setRoomNo(roomNo);
+			patient.setGuardianName(guardianName);
+			patient.setGuardianTel(guardianTel);
+			patient.setGuardianRelation(guardianRelation);
+			patient.setState(state);
+			patient.setHospitalNo(hosipitalNo);
+			patient.setEvacuationReason(evacuationReason);
+			
 
-			rDao.updateRegion(region);
+			pDao.insertPatient(patient);
+		}
+		else if("update".equals(mode)) {
+
+			long no = Long.parseLong(request.getParameter("no"));
+			String name = request.getParameter("name");
+			String birth = request.getParameter("birth");
+			int age = Integer.parseInt(request.getParameter("age"));
+			String gender = request.getParameter("gender");
+			String blood = request.getParameter("blood");
+			String tel = request.getParameter("tel");
+			String addr = request.getParameter("addr_detail");
+			String addrDetail = request.getParameter("addr_detail");
+			int roomNo = Integer.parseInt(request.getParameter("room_no"));
+			String guardianName = request.getParameter("guardian_name");
+			String guardianTel = request.getParameter("guardian_tel");
+			String guardianRelation= request.getParameter("guardian_relation");
+			int state = Integer.parseInt(request.getParameter("state"));
+			long hosipitalNo = Long.parseLong(request.getParameter("hospital_no"));
+			String evacuationReason = request.getParameter("evacuation_reason");
+			
+			PatientModel patient = new PatientModel();
+			patient.setNo(no);
+			patient.setName(name);
+			patient.setBirth(birth);
+			patient.setAge(age);
+			patient.setGender(gender);
+			patient.setBlood(blood);
+			patient.setTel(tel);
+			patient.setAddr(addr);
+			patient.setAddrDetail(addrDetail);
+			patient.setRoomNo(roomNo);
+			patient.setGuardianName(guardianName);
+			patient.setGuardianTel(guardianTel);
+			patient.setGuardianRelation(guardianRelation);
+			patient.setState(state);
+			patient.setHospitalNo(hosipitalNo);
+			patient.setEvacuationReason(evacuationReason);
+			System.out.println("no : "+no);
+			pDao.updatePatient(patient);
 		}
 		else if("delete".equals(mode)) {
 			
-			int no = Integer.parseInt(request.getParameter("no"));
+			long no = Long.parseLong(request.getParameter("no"));
 			
-			int result = rDao.deleteRegion(no);
+			int result = pDao.deletePatient(no);
 		}
 	}
 

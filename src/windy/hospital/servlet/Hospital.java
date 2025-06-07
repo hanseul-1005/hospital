@@ -1,6 +1,7 @@
 package windy.hospital.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -15,6 +16,7 @@ import windy.hospital.dao.EquipmentDAO;
 import windy.hospital.dao.HospitalDAO;
 import windy.hospital.model.EquipmentModel;
 import windy.hospital.model.HospitalModel;
+import windy.hospital.model.RegionModel;
 
 /**
  * Servlet implementation class Hospital
@@ -92,19 +94,46 @@ public class Hospital extends HttpServlet {
 		String mode = request.getParameter("mode");
 		
 		if("add".equals(mode)) {
-			
-			String name = request.getParameter("name");
-			String tel = request.getParameter("tel");
-			int cnt = Integer.parseInt(request.getParameter("cnt"));
-			String note = request.getParameter("note");
-			
-			HospitalModel hospital = new HospitalModel();
-			hospital.setName(name);
-			hospital.setTel(tel);
-			hospital.setRoomCnt(cnt);
-			hospital.setNote(note);
 
-			hDao.insertHospital(hospital);
+			int size = Integer.parseInt(request.getParameter("size"));
+
+			System.out.println("size="+size);
+			
+			int total = 0;
+			
+			for(int i=0; i<size; i++) {
+
+				String name = request.getParameter("name_"+i);
+				String tel = request.getParameter("tel_"+i);
+				int cnt = Integer.parseInt(request.getParameter("cnt_"+i));
+				String note = request.getParameter("note_"+i);
+
+				HospitalModel hospital = new HospitalModel();
+				hospital.setName(name);
+				hospital.setTel(tel);
+				hospital.setRoomCnt(cnt);
+				hospital.setNote(note);
+				
+				int result = hDao.insertHospital(hospital);
+				
+				
+				System.out.println("result : "+result);
+				total = total+result;
+			}
+			
+			
+			System.out.println("total : "+total);
+			
+			String ret = "";
+			
+			if(total==size) {
+				ret = "true";
+			} else {
+				ret = "false";
+			}
+			
+			PrintWriter out = response.getWriter();
+			out.print(ret);
 		}
 		else if("update".equals(mode)) {
 

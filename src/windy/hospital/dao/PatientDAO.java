@@ -25,13 +25,29 @@ public class PatientDAO {
 	private String user = dbModel.getUser();         
 	private String password = dbModel.getPassword();
 	
-	
+
 	// //////////////////////////////////////////////////
 	// - 용품 등록
 	// //////////////////////////////////////////////////
-	public int insertPatient(PatientModel modelParam) {
+	public int insertPatientMulti(PatientModel modelParam) {
 		
 		int result = -1;
+
+		String code = (String) selectPatientCode();
+		System.out.println("before code : "+code);
+		if(!"".equals(code)) {
+			
+			code = "AA"+String.format("%04d", (Integer.parseInt(code.substring(2, 6))+1));
+			
+			System.out.println("before : "+Integer.parseInt(code.substring(2, 6)));
+			System.out.println("parsing : "+(Integer.parseInt(code.substring(2, 6))+1));
+			System.out.println("after : "+code);
+		} else {
+			code = "AA0001";
+			System.out.println("default : "+code);
+		}
+		
+		modelParam.setCode(code);
 		
 		try {
 			// 데이터베이스 객체 생성
@@ -40,13 +56,62 @@ public class PatientDAO {
 
 			pstmt = connection.prepareStatement(
 					"INSERT INTO patient_info(patient_code, patient_name, patient_birth, patient_age, patient_gender, " 
-							+ "patient_blood, patient_tel, patient_addr, patient_addr_detail, "							
-							+ "room_no, room_name, patient_guardian_name, patient_guardian_tel, patient_guardian_relation, "
-							+ "patient_state, hospital_no, patient_evacuation_reason, patient_admission_date, patient_diagnosis_date, "
-							+ "patient_evacuation_date, patient_return_date, patient_discharge_date, patient_death_date, pcr_group_no)  "
-					+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ");
+							+ "patient_tel)  "
+					+ "VALUES(?, ?, ?, ?, ?, ?) ");
 
 			pstmt.setString(1, modelParam.getCode());
+			pstmt.setString(2, modelParam.getName());
+			pstmt.setString(3, modelParam.getBirth());
+			pstmt.setInt(4, modelParam.getAge());
+			pstmt.setString(5, modelParam.getGender());
+			pstmt.setString(6, modelParam.getTel());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// 사용한 객체 종료
+			close(rs, pstmt, connection);
+		}
+		return result;				
+	}
+			
+	// //////////////////////////////////////////////////
+
+	// //////////////////////////////////////////////////
+	// - 용품 등록
+	// //////////////////////////////////////////////////
+	public int insertPatient(PatientModel modelParam) {
+		
+		int result = -1;
+		String code = (String) selectPatientCode();
+		System.out.println("before code : "+code);
+		if(!"".equals(code)) {
+			
+			code = "AA"+String.format("%04d", (Integer.parseInt(code.substring(2, 6))+1));
+			
+			System.out.println("before : "+Integer.parseInt(code.substring(2, 6)));
+			System.out.println("parsing : "+(Integer.parseInt(code.substring(2, 6))+1));
+			System.out.println("after : "+code);
+		} else {
+			code = "AA0001";
+			System.out.println("default : "+code);
+		}
+		try {
+			// 데이터베이스 객체 생성
+			Class.forName(dbDriver);
+			connection = DriverManager.getConnection(jdbcUrl, user, password);
+
+			pstmt = connection.prepareStatement(
+					"INSERT INTO patient_info(patient_code, patient_name, patient_birth, patient_age, patient_gender, " 
+							+ "patient_blood, patient_tel, patient_addr, patient_addr_detail, "							
+							+ "room_no, patient_guardian_name, patient_guardian_tel, patient_guardian_relation, "
+							+ "patient_state, hospital_no, patient_evacuation_reason, patient_admission_date, patient_diagnosis_date, "
+							+ "patient_evacuation_date, patient_return_date, patient_discharge_date, patient_death_date, pcr_group_no)  "
+					+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ");
+
+			pstmt.setString(1, code);
 			pstmt.setString(2, modelParam.getName());
 			pstmt.setString(3, modelParam.getBirth());
 			pstmt.setInt(4, modelParam.getAge());
@@ -56,20 +121,19 @@ public class PatientDAO {
 			pstmt.setString(8, modelParam.getAddr());
 			pstmt.setString(9, modelParam.getAddrDetail());
 			pstmt.setInt(10, modelParam.getRoomNo());
-			pstmt.setString(11, modelParam.getRoomName());
-			pstmt.setString(12, modelParam.getGuardianName());
-			pstmt.setString(13, modelParam.getGuardianTel());
-			pstmt.setString(14, modelParam.getGuardianRelation());
-			pstmt.setInt(15, modelParam.getState());
-			pstmt.setLong(16, modelParam.getHospitalNo());
-			pstmt.setString(17, modelParam.getEvacuationReason());
-			pstmt.setString(18, modelParam.getAdmissionDate());
-			pstmt.setString(19, modelParam.getDiagnosisDate());
-			pstmt.setString(20, modelParam.getEvacuationDate());
-			pstmt.setString(21, modelParam.getReturnDate());
-			pstmt.setString(22, modelParam.getDischargeDate());
-			pstmt.setString(23, modelParam.getDeathDate());
-			pstmt.setLong(24, modelParam.getPcrGroupNo());
+			pstmt.setString(11, modelParam.getGuardianName());
+			pstmt.setString(12, modelParam.getGuardianTel());
+			pstmt.setString(13, modelParam.getGuardianRelation());
+			pstmt.setInt(14, modelParam.getState());
+			pstmt.setLong(15, modelParam.getHospitalNo());
+			pstmt.setString(16, modelParam.getEvacuationReason());
+			pstmt.setString(17, modelParam.getAdmissionDate());
+			pstmt.setString(18, modelParam.getDiagnosisDate());
+			pstmt.setString(19, modelParam.getEvacuationDate());
+			pstmt.setString(20, modelParam.getReturnDate());
+			pstmt.setString(21, modelParam.getDischargeDate());
+			pstmt.setString(22, modelParam.getDeathDate());
+			pstmt.setLong(23, modelParam.getPcrGroupNo());
 			
 			result = pstmt.executeUpdate();
 			
@@ -98,38 +162,36 @@ public class PatientDAO {
 
 			pstmt = connection.prepareStatement(
 					"UPDATE patient_info SET "
-							+ "patient_code=?, patient_name=?, patient_birth=?, patient_age=?, patient_gender=?, " 
+							+ "patient_name=?, patient_birth=?, patient_age=?, patient_gender=?, " 
 							+ "patient_blood=?, patient_tel=?, patient_addr=?, patient_addr_detail=?, "							
-							+ "room_no=?, room_name=?, patient_guardian_name=?, patient_guardian_tel=?, patient_guardian_relation=?, "
+							+ "room_no=?, patient_guardian_name=?, patient_guardian_tel=?, patient_guardian_relation=?, "
 							+ "patient_state=?, hospital_no=?, patient_evacuation_reason=?, patient_admission_date=?, patient_diagnosis_date=?, "
 							+ "patient_evacuation_date=?, patient_return_date=?, patient_discharge_date=?, patient_death_date=?, pcr_group_no=?  "
 					+ "WHERE patient_no=? ");
 
-			pstmt.setString(1, modelParam.getCode());
-			pstmt.setString(2, modelParam.getName());
-			pstmt.setString(3, modelParam.getBirth());
-			pstmt.setInt(4, modelParam.getAge());
-			pstmt.setString(5, modelParam.getGender());
-			pstmt.setString(6, modelParam.getBlood());
-			pstmt.setString(7, modelParam.getTel());
-			pstmt.setString(8, modelParam.getAddr());
-			pstmt.setString(9, modelParam.getAddrDetail());
-			pstmt.setInt(10, modelParam.getRoomNo());
-			pstmt.setString(11, modelParam.getRoomName());
-			pstmt.setString(12, modelParam.getGuardianName());
-			pstmt.setString(13, modelParam.getGuardianTel());
-			pstmt.setString(14, modelParam.getGuardianRelation());
-			pstmt.setInt(15, modelParam.getState());
-			pstmt.setLong(16, modelParam.getHospitalNo());
-			pstmt.setString(17, modelParam.getEvacuationReason());
-			pstmt.setString(18, modelParam.getAdmissionDate());
-			pstmt.setString(19, modelParam.getDiagnosisDate());
-			pstmt.setString(20, modelParam.getEvacuationDate());
-			pstmt.setString(21, modelParam.getReturnDate());
-			pstmt.setString(22, modelParam.getDischargeDate());
-			pstmt.setString(23, modelParam.getDeathDate());
-			pstmt.setLong(24, modelParam.getPcrGroupNo());
-			pstmt.setLong(25, modelParam.getNo());
+			pstmt.setString(1, modelParam.getName());
+			pstmt.setString(2, modelParam.getBirth());
+			pstmt.setInt(3, modelParam.getAge());
+			pstmt.setString(4, modelParam.getGender());
+			pstmt.setString(5, modelParam.getBlood());
+			pstmt.setString(6, modelParam.getTel());
+			pstmt.setString(7, modelParam.getAddr());
+			pstmt.setString(8, modelParam.getAddrDetail());
+			pstmt.setInt(9, modelParam.getRoomNo());
+			pstmt.setString(10, modelParam.getGuardianName());
+			pstmt.setString(11, modelParam.getGuardianTel());
+			pstmt.setString(12, modelParam.getGuardianRelation());
+			pstmt.setInt(13, modelParam.getState());
+			pstmt.setLong(14, modelParam.getHospitalNo());
+			pstmt.setString(15, modelParam.getEvacuationReason());
+			pstmt.setString(16, modelParam.getAdmissionDate());
+			pstmt.setString(17, modelParam.getDiagnosisDate());
+			pstmt.setString(18, modelParam.getEvacuationDate());
+			pstmt.setString(19, modelParam.getReturnDate());
+			pstmt.setString(20, modelParam.getDischargeDate());
+			pstmt.setString(21, modelParam.getDeathDate());
+			pstmt.setLong(22, modelParam.getPcrGroupNo());
+			pstmt.setLong(23, modelParam.getNo());
 			
 			result = pstmt.executeUpdate();
 			
@@ -190,8 +252,7 @@ public class PatientDAO {
 					"SELECT patient_no, patient_code, patient_name, patient_birth, patient_age, patient_gender, patient_blood, patient_tel, "
 					+ "patient_addr, patient_addr_detail, room_no, patient_guardian_name, patient_guardian_tel, patient_guardian_relation, "
 					+ "patient_state, hospital_no, patient_evacuation_reason, patient_admission_date, patient_diagnosis_date, patient_evacuation_date, "
-					+ "patient_return_date, patient_discharge_date, patient_death_date, pcr_group_no, "
-					+ "(select  "
+					+ "patient_return_date, patient_discharge_date, patient_death_date, pcr_group_no "
 					+ "FROM patient_info "
 					+ "WHERE patient_no = ? ");
 			
@@ -205,9 +266,9 @@ public class PatientDAO {
 				patient.setName(rs.getString("patient_name"));
 				patient.setBirth(rs.getString("patient_birth"));
 				patient.setAge(rs.getInt("patient_age"));
-				patient.setGender(rs.getString("gender"));
+				patient.setGender(rs.getString("patient_gender"));
 				patient.setBlood(rs.getString("patient_blood"));
-				patient.setTel(rs.getString("tel"));
+				patient.setTel(rs.getString("patient_tel"));
 				patient.setAddr(rs.getString("patient_addr"));
 				patient.setAddrDetail(rs.getString("patient_addr_detail"));
 				patient.setRoomNo(rs.getInt("room_no"));
@@ -301,9 +362,9 @@ public class PatientDAO {
 				patient.setName(rs.getString("patient_name"));
 				patient.setBirth(rs.getString("patient_birth"));
 				patient.setAge(rs.getInt("patient_age"));
-				patient.setGender(rs.getString("gender"));
+				patient.setGender(rs.getString("patient_gender"));
 				patient.setBlood(rs.getString("patient_blood"));
-				patient.setTel(rs.getString("tel"));
+				patient.setTel(rs.getString("patient_tel"));
 				patient.setAddr(rs.getString("patient_addr"));
 				patient.setAddrDetail(rs.getString("patient_addr_detail"));
 				patient.setRoomNo(rs.getInt("room_no"));

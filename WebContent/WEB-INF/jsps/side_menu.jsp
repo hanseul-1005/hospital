@@ -135,7 +135,7 @@ String role = (String) session.getAttribute("role");
 		<div class="wrapper_side_menu <%=mRoom %>" onclick="location.href='room.windy?menu=list'">
 			<span class="span_side_menu"><%=dotRoom %> 병동 관리</span>
 		</div>
-		<div class="wrapper_side_menu <%=mHospital %>" onclick="location.href='admin.windy?menu=patient'">
+		<div class="wrapper_side_menu <%=mHospital %>" onclick="location.href='hospital.windy?menu=list'">
 			<span class="span_side_menu"><%=dotHospital %> 거점 관리</span>
 		</div>
 		<div class="wrapper_side_menu <%=mPw %>" onclick="location.href='admin.windy?menu=patient'">
