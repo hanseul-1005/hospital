@@ -44,6 +44,7 @@ public class Hospital extends HttpServlet {
 		if(menu == null) menu = "patient";
 		
 		request.setAttribute("menu", menu);
+		request.setAttribute("main_menu", "hospital");
 		
 		if("list".equals(menu)) {
 

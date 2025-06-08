@@ -5,6 +5,9 @@
 <%
 
 ArrayList<RegionModel> listRegion = (ArrayList<RegionModel>) request.getAttribute("listRegion");
+String mainMenuName = (String) request.getAttribute("main_menu_name");
+String subMenuName = (String) request.getAttribute("sub_menu_name");
+
 %>
 <html>
 <head>
@@ -93,6 +96,7 @@ function ajaxFailed(xmlRequest)	{
 </head>
 <body>
     <div>
+        <jsp:include page="../top_menu.jsp"></jsp:include>
         <div class="wrapper_main_contents" >
 			<div style="height: 100%;">
 				<jsp:include page="../side_menu.jsp"/>

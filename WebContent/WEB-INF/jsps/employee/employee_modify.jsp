@@ -93,6 +93,7 @@ function ajaxFailed(xmlRequest)	{
 </head>
 <body>
     <div>
+        <jsp:include page="../top_menu.jsp"></jsp:include>
         <div class="wrapper_main_contents" >
 			<div style="height: 100%;">
 				<jsp:include page="../side_menu.jsp"/>

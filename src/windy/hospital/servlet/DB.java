@@ -14,20 +14,22 @@ import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 
+import windy.hospital.dao.DBDAO;
 import windy.hospital.dao.RegionDAO;
+import windy.hospital.model.DBModel;
 import windy.hospital.model.RegionModel;
 
 /**
  * Servlet implementation class RegionServlet
  */
-@WebServlet(name = "region", urlPatterns = { "/region.windy" })
-public class Region extends HttpServlet {
+@WebServlet(name = "db", urlPatterns = { "/db.windy" })
+public class DB extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Region() {
+    public DB() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -39,14 +41,14 @@ public class Region extends HttpServlet {
 		// TODO Auto-generated method stub
 
 		String menu = request.getParameter("menu");
-		RegionDAO rDao = new RegionDAO();
+		DBDAO dDao = new DBDAO();
 		
 		if(menu == null) menu = "list";
 		
 		System.out.println("region menu : "+menu);
 		
 		request.setAttribute("menu", menu);
-		request.setAttribute("main_menu", "region");
+		request.setAttribute("main_menu", "db");
 		
 		if("list".equals(menu)) {
 
@@ -54,20 +56,17 @@ public class Region extends HttpServlet {
 			
 			if(name==null) name = "";
 			
-			ArrayList<RegionModel> listRegion = (ArrayList<RegionModel>) rDao.selectListRegion(name);
-
-			request.setAttribute("menu_name", menu);
-			request.setAttribute("sub_name", "중앙통제실/지역 목록");
-			request.setAttribute("name", name);
-			request.setAttribute("listRegion", listRegion);
+			ArrayList<DBModel> listDB = (ArrayList<DBModel>) dDao.selectListDB();
 			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsps/region/region_list.jsp");
+			request.setAttribute("name", name);
+			request.setAttribute("listDB", listDB);
+			
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsps/db/db_list.jsp");
 			dispatcher.forward(request, response);
 		}
 		else if("add".equals(menu)) {
-			request.setAttribute("sub_menu_name", "중앙통제실/지역 등록");
 
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsps/region/region_add.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsps/db/db_add.jsp");
 			dispatcher.forward(request, response);
 			
 		}
@@ -75,12 +74,11 @@ public class Region extends HttpServlet {
 			
 			int no = Integer.parseInt(request.getParameter("no"));
 			
-			RegionModel region = rDao.selectRegion(no);
+			DBModel db = dDao.selectDB(no);
+			
+			request.setAttribute("db", db);
 
-			request.setAttribute("sub_menu_name", "중앙통제실/지역 수정");
-			request.setAttribute("region", region);
-
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsps/region/region_add.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsps/db/db_modify.jsp");
 			dispatcher.forward(request, response);
 		}
 	}
@@ -96,70 +94,49 @@ public class Region extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		
-		RegionDAO rDao = new RegionDAO();
+		DBDAO dDao = new DBDAO();
 				
 		String mode = request.getParameter("mode");
 		
 		if("add".equals(mode)) {
-			
-			int size = Integer.parseInt(request.getParameter("size"));
 
-			System.out.println("size="+size);
+			String code = request.getParameter("code");
+			String title = request.getParameter("title");
+			String detail = request.getParameter("detail");
+			String startDate = request.getParameter("start_date");
+			String endDate = request.getParameter("end_date");
+			String name = request.getParameter("name");
 			
-			int total = 0;
-			
-			for(int i=0; i<size; i++) {
+			DBModel db = new DBModel();
+			db.setCode(code);
+			db.setTitle(title);
+			db.setDetail(detail);
+			db.setStartDate(startDate);
+			db.setEndDate(endDate);
+			db.setName(name);
 
-				String name = request.getParameter("name_"+i);
-				String tel = request.getParameter("tel_"+i);
-				
-				System.out.println("name_"+i+"="+name);
-				System.out.println("tel_"+i+"="+tel);
-				
-				RegionModel region = new RegionModel();
-				region.setName(name);
-				region.setTel(tel);
-
-				
-				int result = rDao.insertRegion(region);
-				
-				
-				System.out.println("result : "+result);
-				total = total+result;
-			}
-			
-			
-			System.out.println("total : "+total);
-			
-			String ret = "";
-			
-			if(total==size) {
-				ret = "true";
-			} else {
-				ret = "false";
-			}
-			
-			PrintWriter out = response.getWriter();
-			out.print(ret);
+			dDao.insertDB(db);
 		}
 		else if("update".equals(mode)) {
 			
 			int no = Integer.parseInt(request.getParameter("no"));
-			String name = request.getParameter("name");
-			String tel = request.getParameter("tel");
+			String detail = request.getParameter("detail");
+			String startDate = request.getParameter("start_date");
+			String endDate = request.getParameter("end_date");
 			
-			RegionModel region = new RegionModel();
-			region.setNo(no);
-			region.setName(name);
-			region.setTel(tel);
+			DBModel db = new DBModel();
+			db.setNo(no);
+			db.setDetail(detail);
+			db.setStartDate(startDate);
+			db.setEndDate(endDate);
 
-			rDao.updateRegion(region);
+			dDao.updateDB(db);
 		}
 		else if("delete".equals(mode)) {
 			
 			int no = Integer.parseInt(request.getParameter("no"));
 			
-			int result = rDao.deleteRegion(no);
+			int result = dDao.deleteDB(no);
 		}
 	}
 

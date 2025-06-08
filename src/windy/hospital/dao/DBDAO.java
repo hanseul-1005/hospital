@@ -76,15 +76,13 @@ public class DBDAO {
 
 			pstmt = connection.prepareStatement(
 					"UPDATE db_info "
-					+ "SET db_title=?, db_detail=?, start_date=?, end_date=?, db_name=? "
+					+ "SET db_detail=?, start_date=?, end_date=? "
 					+ "WHERE db_no=? ");
 
-			pstmt.setString(1, modelParam.getTitle());
-			pstmt.setString(2, modelParam.getDetail());
-			pstmt.setString(3, modelParam.getStartDate());
-			pstmt.setString(4, modelParam.getEndDate());
-			pstmt.setString(5, modelParam.getName());
-			pstmt.setInt(6, modelParam.getNo());
+			pstmt.setString(1, modelParam.getDetail());
+			pstmt.setString(2, modelParam.getStartDate());
+			pstmt.setString(3, modelParam.getEndDate());
+			pstmt.setInt(4, modelParam.getNo());
 			
 			result = pstmt.executeUpdate();
 			

@@ -9,10 +9,18 @@ Date day = calendar.getTime();
 
 SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/YYYY a HH:mm", Locale.KOREAN);
 
+String mainMenuName = (String) request.getAttribute("menu_name");
+String subMenuName = (String) request.getAttribute("sub_name");
 
 String menu = (String) request.getParameter("menu");
 String mainMenu = (String) request.getAttribute("main_menu");
 String subMenu = (String) request.getAttribute("sub_menu");
+
+/* if("region".equals(mainMenu)) {
+	mainMenuName = "거점관리";
+	if("list".equals(menu)) subMenuName = "거점 목록";
+	else if("add".equals(menu)) subMenuName = "거점 등록";
+} */
 
 %>
 <link rel="stylesheet" type="text/css" href="css/menu.css">
@@ -22,7 +30,7 @@ String subMenu = (String) request.getAttribute("sub_menu");
 			<img alt="" src="img/img_logo.png" style="height: 70%; margin: auto 0;">
 		</div>
 		
-		<span class="span_top_menu" ><%=mainMenu %>&nbsp;&nbsp;>&nbsp;&nbsp;<%=subMenu %></span>
+		<span class="span_top_menu" ><%=mainMenuName %>&nbsp;&nbsp;>&nbsp;&nbsp;<%=subMenuName %></span>
 	</div>
 	<div style="background-color: #fff; height: 100%; width: 55%;">
 	

@@ -7,7 +7,10 @@ String menu = (String) request.getAttribute("menu");
 String mMonitor = "", mAdmin="", mPassword="", mCar="", mPatientManage="", mSiteAdd="";
 String dotMonitor = "○", dotAdmin="○", dotPassword="○", dotCar="○", dotPatientManage="○", dotSiteAdd="○"; 
 
+// 관리자
+String mDb = "";
 
+String dotDb = "○";
 // 행정처
 String mEmployee = "", mPatient = "", mRegion = "", mSite = "", mMedical = "", mEquipment = "", mOrder = "",
 	mSupplies = "", mMedicine = "", mRoom="", mHospital=""; 
@@ -66,6 +69,10 @@ else if("pw".equals(mainMenu)) {
 	mPw = "side_menu_on";
 	dotPw = "●";
 }
+else if("db".equals(mainMenu)) {
+	mDb = "side_menu_on";
+	dotDb = "●";
+}
 
 
 
@@ -85,8 +92,8 @@ String role = (String) session.getAttribute("role");
 	
 	<div style="width: 100%;">
 	<%if("관리자".equals(role)) {%>
-		<div class="wrapper_side_menu <%=mHospital %>" onclick="location.href='admin.windy?menu=hospital_management'">
-			<span class="span_side_menu"><%=dotHospital %> 야전 병원 운용</span>
+		<div class="wrapper_side_menu <%=mDb %>" onclick="location.href='db.windy?menu=list'">
+			<span class="span_side_menu"><%=dotDb %> 야전 병원 운용</span>
 		</div>
 		<div class="wrapper_side_menu <%=mMonitor %>" onclick="location.href='admin.windy?menu=monitor'">
 			<span class="span_side_menu"><%=dotMonitor %> 모니터링</span>
