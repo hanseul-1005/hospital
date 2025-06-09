@@ -71,6 +71,87 @@ public class EmployeeDAO {
 	// //////////////////////////////////////////////////
 	// - 용품 등록
 	// //////////////////////////////////////////////////
+	public long insertEmployeeForManager(EmployeeModel modelParam) {
+		
+		long no = -1;
+		
+		try {
+			// 데이터베이스 객체 생성
+			Class.forName(dbDriver);
+			connection = DriverManager.getConnection(jdbcUrl, user, password);
+
+			pstmt = connection.prepareStatement(
+					"INSERT INTO employee_info(employee_name, employee_belong, employee_tel, employee_department, employee_major, "
+							+ "employee_id, employee_pw, employee_room_no, employee_room_name, employee_on_off, employee_del) "
+					+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'N') ");
+
+			pstmt.setString(1, modelParam.getName());
+			pstmt.setString(2, modelParam.getBelong());
+			pstmt.setString(3, modelParam.getTel());
+			pstmt.setString(4, modelParam.getDepartment());
+			pstmt.setString(5, modelParam.getMajor());
+			pstmt.setString(6, modelParam.getId());
+			pstmt.setString(7, modelParam.getPw());
+			pstmt.setInt(8, modelParam.getRoomNo());
+			pstmt.setString(9, modelParam.getRoomName());
+			pstmt.setString(10, modelParam.getOnOff());
+			
+			pstmt.executeUpdate();
+			
+			pstmt = connection.prepareStatement(
+					"SELECT employee_no FROM employee_info ORDER BY employee_no DESC limit 1");
+			
+			pstmt.executeQuery();
+			
+			if(rs.next()) {
+				no = rs.getLong("employee_no");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// 사용한 객체 종료
+			close(rs, pstmt, connection);
+		}
+		return no;				
+	}
+			
+	// //////////////////////////////////////////////////
+
+	// //////////////////////////////////////////////////
+	// - 용품 등록
+	// //////////////////////////////////////////////////
+	public int insertManager(long no) {
+		
+		int result = -1;
+		
+		try {
+			// 데이터베이스 객체 생성
+			Class.forName(dbDriver);
+			connection = DriverManager.getConnection(jdbcUrl, user, password);
+
+			pstmt = connection.prepareStatement(
+					"INSERT INTO manager_info(employee_no) "
+					+ "VALUES(?) ");
+
+			pstmt.setLong(1, no);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// 사용한 객체 종료
+			close(rs, pstmt, connection);
+		}
+		return result;				
+	}
+			
+	// //////////////////////////////////////////////////
+
+	// //////////////////////////////////////////////////
+	// - 용품 등록
+	// //////////////////////////////////////////////////
 	public int updateEmployee(EmployeeModel modelParam) {
 		
 		int result = -1;
@@ -170,6 +251,37 @@ public class EmployeeDAO {
 	// //////////////////////////////////////////////////
 
 	// //////////////////////////////////////////////////
+	// - 용품 등록
+	// //////////////////////////////////////////////////
+	public int updateEmployeeDepartment(EmployeeModel modelParam) {
+		
+		int result = -1;
+		
+		try {
+			// 데이터베이스 객체 생성
+			Class.forName(dbDriver);
+			connection = DriverManager.getConnection(jdbcUrl, user, password);
+
+			pstmt = connection.prepareStatement(
+					"UPDATE employee_info SET employee_department=? WHERE employee_no=? ");
+
+			pstmt.setString(1, modelParam.getDepartment());
+			pstmt.setLong(2, modelParam.getNo());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// 사용한 객체 종료
+			close(rs, pstmt, connection);
+		}
+		return result;				
+	}
+			
+	// //////////////////////////////////////////////////
+
+	// //////////////////////////////////////////////////
 	// - 용품 조회
 	// //////////////////////////////////////////////////
 	public EmployeeModel selectEmployee(long no) {
@@ -236,6 +348,62 @@ public class EmployeeDAO {
 							+ "employee_on_off, employee_del "
 					+ "FROM employee_info "
 					+ "WHERE employee_del like concat('%', ?, '%') AND employee_department like concat('%', ?, '%') AND employee_name like concat('%', ?, '%') "
+					+ "ORDER BY employee_no DESC ");
+			
+			pstmt.setString(1, modelParam.getDel());
+			pstmt.setString(2, modelParam.getDepartment());
+			pstmt.setString(3, modelParam.getName());
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				EmployeeModel emp = new EmployeeModel();
+				emp.setNo(rs.getLong("employee_no"));
+				emp.setName(rs.getString("employee_name"));
+				emp.setBelong(rs.getString("employee_belong"));
+				emp.setTel(rs.getString("employee_tel"));
+				emp.setDepartment(rs.getString("employee_department"));
+				emp.setMajor(rs.getString("employee_major"));
+				emp.setId(rs.getString("employee_id"));
+				emp.setPw(rs.getString("employee_pw"));
+				emp.setRoomNo(rs.getInt("employee_room_no"));
+				emp.setRoomName(rs.getString("employee_room_name"));
+				emp.setOnOff(rs.getString("employee_on_off"));
+				emp.setDel(rs.getString("employee_del"));
+				
+				listEmp.add(emp);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// 사용한 객체 종료
+			close(rs, pstmt, connection);
+		}
+		return listEmp;				
+	}
+			
+	// //////////////////////////////////////////////////
+
+	// //////////////////////////////////////////////////
+	// - 용품 목록 조회
+	// //////////////////////////////////////////////////
+	public List<EmployeeModel> selectListEmployeeForManager(EmployeeModel modelParam) {
+		
+		List<EmployeeModel> listEmp = new ArrayList<EmployeeModel>();
+		
+		try {
+			// 데이터베이스 객체 생성
+			Class.forName(dbDriver);
+			connection = DriverManager.getConnection(jdbcUrl, user, password);
+
+			pstmt = connection.prepareStatement(
+					"SELECT e.employee_no, employee_name, employee_belong, employee_tel, employee_department, "
+							+ "employee_major, employee_id, employee_pw, employee_room_no, employee_room_name, "
+							+ "employee_on_off, employee_del "
+					+ "FROM employee_info e, manager_info m "
+					+ "WHERE e.employee_no=m.employee_no "
+						+ "AND employee_del like concat('%', ?, '%') AND employee_department like concat('%', ?, '%') AND employee_name like concat('%', ?, '%') "
 					+ "ORDER BY employee_no DESC ");
 			
 			pstmt.setString(1, modelParam.getDel());

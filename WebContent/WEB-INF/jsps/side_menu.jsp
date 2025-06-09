@@ -8,14 +8,18 @@ String mMonitor = "", mAdmin="", mPassword="", mCar="", mPatientManage="", mSite
 String dotMonitor = "○", dotAdmin="○", dotPassword="○", dotCar="○", dotPatientManage="○", dotSiteAdd="○"; 
 
 // 관리자
-String mDb = "";
+String mDb = "", mManager = "", mMonitoring1 = "", mMonitoring2 = "", mMonitoring3 = "", mMonitoring4 = "", mMonitoring5 = "";
 
-String dotDb = "○";
+String dotDb = "○", dotManager = "○", dotMonitoring1 = "○", dotMonitoring2 = "○", dotMonitoring3 = "○", dotMonitoring4 = "○", dotMonitoring5 = "○";
 // 행정처
 String mEmployee = "", mPatient = "", mRegion = "", mSite = "", mMedical = "", mEquipment = "", mOrder = "",
 	mSupplies = "", mMedicine = "", mRoom="", mHospital=""; 
 String dotEmployee = "○", dotPatient = "○", dotRegion = "○", dotSite = "○", dotMedical = "○", dotEquipment = "○", dotOrder = "○", 
 	dotSupplies = "○", dotMedicine = "○", dotRoom="○", dotHospital="○";
+
+// 의사
+String mPatientMonitoring = "";
+String dotPatientMonitoring = "○";
 
 // 비밀번호 변경
 String mPw = "";
@@ -73,9 +77,35 @@ else if("db".equals(mainMenu)) {
 	mDb = "side_menu_on";
 	dotDb = "●";
 }
-
-
-
+else if("manager".equals(mainMenu)) {
+	mManager = "side_menu_on";
+	dotManager = "●";
+}
+else if("patient_monitoring".equals(mainMenu)) {
+	mPatientMonitoring = "side_menu_on";
+	dotPatientMonitoring = "●";
+}
+else if("monitor1".equals(mainMenu)) {
+	mMonitoring1 = "side_menu_on";
+	dotMonitoring1 = "●";
+}
+else if("monitor2".equals(mainMenu)) {
+	mMonitoring2 = "side_menu_on";
+	dotMonitoring2 = "●";
+}
+else if("monitor3".equals(mainMenu)) {
+	mMonitoring3 = "side_menu_on";
+	dotMonitoring3 = "●";
+}
+else if("monitor4".equals(mainMenu)) {
+	mMonitoring4 = "side_menu_on";
+	dotMonitoring4 = "●";
+}
+else if("monitor5".equals(mainMenu)) {
+	mMonitoring5 = "side_menu_on";
+	dotMonitoring5 = "●";
+}
+System.out.println("mainMenu : "+mainMenu);
 String role = (String) session.getAttribute("role");
 %>
 <link rel="stylesheet" type="text/css" href="css/menu.css">
@@ -95,11 +125,23 @@ String role = (String) session.getAttribute("role");
 		<div class="wrapper_side_menu <%=mDb %>" onclick="location.href='db.windy?menu=list'">
 			<span class="span_side_menu"><%=dotDb %> 야전 병원 운용</span>
 		</div>
-		<div class="wrapper_side_menu <%=mMonitor %>" onclick="location.href='admin.windy?menu=monitor'">
-			<span class="span_side_menu"><%=dotMonitor %> 모니터링</span>
+		<div class="wrapper_side_menu <%=mMonitoring1 %>" onclick="location.href='monitoring.windy?menu=monitor1'">
+			<span class="span_side_menu"><%=dotMonitoring1 %>통합 정보</span>
 		</div>
-		<div class="wrapper_side_menu <%=mMonitor %>" onclick="location.href='admin.windy?menu=monitor'">
-			<span class="span_side_menu"><%=dotMonitor %> 부서장 관리</span>
+		<div class="wrapper_side_menu <%=mMonitoring2 %>" onclick="location.href='monitoring.windy?menu=monitor2'">
+			<span class="span_side_menu"><%=dotMonitoring2 %>환자 정보</span>
+		</div>
+		<div class="wrapper_side_menu <%=mMonitoring3 %>" onclick="location.href='monitoring.windy?menu=monitor3'">
+			<span class="span_side_menu"><%=dotMonitoring3 %>병실 정보</span>
+		</div>
+		<div class="wrapper_side_menu <%=mMonitoring4 %>" onclick="location.href='monitoring.windy?menu=monitor4'">
+			<span class="span_side_menu"><%=dotMonitoring4 %>차량 정보</span>
+		</div>
+		<div class="wrapper_side_menu <%=mMonitoring5 %>" onclick="location.href='monitoring.windy?menu=monitor5'">
+			<span class="span_side_menu"><%=dotMonitoring5 %>의료 정보</span>
+		</div>
+		<div class="wrapper_side_menu <%=mManager %>" onclick="location.href='manager.windy?menu=list'">
+			<span class="span_side_menu"><%=dotManager %> 부서장 관리</span>
 		</div>
 		<div class="wrapper_side_menu <%=mMonitor %>" onclick="location.href='admin.windy?menu=monitor'">
 			<span class="span_side_menu"><%=dotMonitor %> 비밀번호 변경</span>
@@ -150,8 +192,8 @@ String role = (String) session.getAttribute("role");
 		</div>
 	<%}
 	else if("의사".equals(role) || "간호사".equals(role) || "임상병리사".equals(role)) {%>
-		<div class="wrapper_side_menu <%=mRoom %>" onclick="location.href='admin.windy?menu=room'">
-			<span class="span_side_menu"><%=dotRoom %> 환자 모니터링</span>
+		<div class="wrapper_side_menu <%=mPatientMonitoring %>" onclick="location.href='patient.windy?menu=monitoring'">
+			<span class="span_side_menu"><%=dotPatientMonitoring %> 환자 모니터링</span>
 		</div>
 		<div class="wrapper_side_menu <%=mPatient %>" onclick="location.href='patient.windy?menu=list'">
 			<span class="span_side_menu"><%=dotPatient %> 환자 관리</span>

@@ -118,6 +118,17 @@ public class Patient extends HttpServlet {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsps/patient/patient_modify.jsp");
 			dispatcher.forward(request, response);
 		}
+		else if("monitoring".equals(menu)) {
+			
+			
+			ArrayList<PatientModel> listPatient = (ArrayList<PatientModel>) pDao.selectListPatientForMonitoring();
+			
+			request.setAttribute("listPatient", listPatient);
+			request.setAttribute("main_menu", "patient_monitoring");
+
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsps/patient/patient_monitoring.jsp");
+			dispatcher.forward(request, response);
+		}
 	}
 
 	/**

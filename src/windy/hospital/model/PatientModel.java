@@ -33,6 +33,12 @@ public class PatientModel {
 	private List<PatientModel> listPatientS = new ArrayList<PatientModel>();
 	private List<PatientModel> listPatientA = new ArrayList<PatientModel>();
 	private List<PatientModel> listPatientB = new ArrayList<PatientModel>();
+	private List<PatientModel> listMonitor = new ArrayList<PatientModel>();
+	
+	private String name1 ="";
+	private String name2 = "";
+	private String name3 = "";
+	private String name4 = "";
 	
 	public long getNo() {
 		return no;
@@ -201,6 +207,36 @@ public class PatientModel {
 	}
 	public void setListPatientB(List<PatientModel> listPatientB) {
 		this.listPatientB = listPatientB;
+	}
+	public List<PatientModel> getListMonitor() {
+		return listMonitor;
+	}
+	public void setListMonitor(List<PatientModel> listMonitor) {
+		this.listMonitor = listMonitor;
+	}
+	public String getName1() {
+		return name1;
+	}
+	public void setName1(String name1) {
+		this.name1 = name1;
+	}
+	public String getName2() {
+		return name2;
+	}
+	public void setName2(String name2) {
+		this.name2 = name2;
+	}
+	public String getName3() {
+		return name3;
+	}
+	public void setName3(String name3) {
+		this.name3 = name3;
+	}
+	public String getName4() {
+		return name4;
+	}
+	public void setName4(String name4) {
+		this.name4 = name4;
 	}
 	
 	

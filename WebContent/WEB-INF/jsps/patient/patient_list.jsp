@@ -73,6 +73,10 @@ function goModify(no) {
 	
 }
 
+function goChart(no) {
+	location.href = "patient.windy?menu=chart&no="+no;
+}
+
 function ajaxFailed(xmlRequest)	{
 	alert(xmlRequest.status+"\n\r"+xmlRequest.statusText+"\n\r"+xmlRequest.responseText);
 }
@@ -141,7 +145,7 @@ function ajaxFailed(xmlRequest)	{
 									<td onClick="javascript: goModify(<%=patient.getNo() %>)"><%=patient.getGender() %></td>
                                     <td onClick="javascript: goModify(<%=patient.getNo() %>)"><%=patient.getBirth() %></td>
 									<td>
-                                        <button class="btn_basic_100">차트 조회</button>
+                                        <button class="btn_basic_100" onclick="javascript: goChart(<%=patient.getNo() %>)">차트 조회</button>
                                     </td>
 								</tr>
 								<%} %>

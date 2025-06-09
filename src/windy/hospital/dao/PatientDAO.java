@@ -395,6 +395,58 @@ public class PatientDAO {
 			
 	// //////////////////////////////////////////////////
 
+	// //////////////////////////////////////////////////
+	// - 용품 목록 조회
+	// //////////////////////////////////////////////////
+	public List<PatientModel> selectListPatientForMonitoring() {
+		
+		List<PatientModel> listPatient = new ArrayList<PatientModel>();
+		
+		try {
+			// 데이터베이스 객체 생성
+			Class.forName(dbDriver);
+			connection = DriverManager.getConnection(jdbcUrl, user, password);
+
+			pstmt = connection.prepareStatement(
+					"SELECT patient_no, patient_code, patient_name, patient_age, patient_gender, ri.room_code, ri.room_code_no, ri.room_name  "
+					+ "FROM patient_info pi, room_info ri "
+					+ "WHERE pi.room_no = ri.room_no AND ri.room_no = 1 "
+					+ "ORDER BY patient_name DESC ");
+			
+			rs = pstmt.executeQuery();
+			
+			int idx = 0;
+			PatientModel patient = new PatientModel();
+			while(rs.next()) {
+				String name = "";
+				
+				name = rs.getString("patient_name")+"("+rs.getString("patient_gender")+", "+rs.getInt("patient_age")+"세, "+rs.getString("patient_code")+")";
+				
+				if(idx==0) { patient.setName1(name); }
+				else if(idx==1) { patient.setName2(name); }
+				else if(idx==2) { patient.setName3(name); }
+				else if(idx==3) { patient.setName4(name); }
+				
+				idx++;
+				System.out.println("idx : "+idx);
+				listPatient.add(patient);
+				if(idx==4) {
+					idx = 0;
+					patient = new PatientModel();
+				}
+			}
+			System.out.println("listPatient size : "+listPatient.size());
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// 사용한 객체 종료
+			close(rs, pstmt, connection);
+		}
+		return listPatient;				
+	}
+			
+	// //////////////////////////////////////////////////
+
 	////////////////////////////////////////////////////
 	//	- 데이터베이스 관련 객체 정리 -
 	public void close(ResultSet rs, PreparedStatement pstmt, Connection conn) {
