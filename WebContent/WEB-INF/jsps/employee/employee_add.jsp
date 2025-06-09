@@ -101,7 +101,7 @@ function ajaxFailed(xmlRequest)	{
                                         	<%for(int i=0; i<listRoom.size(); i++) {
                                         		RoomModel room = listRoom.get(i);
                                         	%>
-                                            <option value="<%=room.getNo() %>_<%=room.getName() %>"><%=room.getName() %></option>
+                                            <option value="<%=room.getNo() %>_<%=room.getName() %>"><%=room.getName() %>(<%=room.getCode() %><%=room.getCodeNo() %>)</option>
                                             <%} %>
                                         </select>
                                     </td>

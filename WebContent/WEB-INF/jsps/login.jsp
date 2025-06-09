@@ -39,7 +39,18 @@ function login() {
 			console.log('ret : '+ret);
 			console.log('result : '+ret.result);
 			if(ret.result=='true') {
-				location.href='region.windy?menu=list';
+				
+				<%
+				String role = (String) session.getAttribute("role");
+				
+				if("관리자".equals(role)) {
+				%>
+				location.href='db.windy?menu=list';
+				<% } else if("행정처".equals(role)) { %>
+				location.href='employee.windy?menu=list';
+				<%} else { %>
+				location.href='patient.windy?menu=list';
+				<%} %>
 			} else {
 				alert('아이디 혹은 비밀번호가 일치하지않습니다.\n다시 시도해주세요.');
 			}

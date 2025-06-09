@@ -124,21 +124,21 @@ String role = (String) session.getAttribute("role");
 		<div class="wrapper_side_menu <%=mEquipment %>" onclick="location.href='equipment.windy?menu=list'">
 			<span class="span_side_menu"><%=dotEquipment %> 장비 관리</span>
 		</div>
-		<div class="wrapper_side_menu <%=mOrder %>" onclick="location.href='admin.windy?menu=patient'">
+		<%-- <div class="wrapper_side_menu <%=mOrder %>" onclick="location.href='admin.windy?menu=patient'">
 			<span class="span_side_menu"><%=dotOrder %> 발주 관리</span>
-		</div>
+		</div> --%>
 		<div class="wrapper_side_menu <%=mSupplies %>" onclick="location.href='supplies.windy?menu=list'">
 			<span class="span_side_menu"><%=dotSupplies %> 용품 관리</span>
 		</div>
-		<div class="wrapper_side_menu <%=mSupplies %>" onclick="location.href='supplies.windy?menu=list'">
+		<%-- <div class="wrapper_side_menu <%=mSupplies %>" onclick="location.href='supplies.windy?menu=list'">
 			<span class="span_side_menu"><%=dotSupplies %> 용품 입출고 관리</span>
-		</div>
+		</div> --%>
 		<div class="wrapper_side_menu <%=mMedicine %>" onclick="location.href='medicine.windy?menu=list'">
 			<span class="span_side_menu"><%=dotMedicine %> 약품 관리</span>
 		</div>
-		<div class="wrapper_side_menu <%=mMedicine %>" onclick="location.href='medicine.windy?menu=list'">
+		<%-- <div class="wrapper_side_menu <%=mMedicine %>" onclick="location.href='medicine.windy?menu=list'">
 			<span class="span_side_menu"><%=dotMedicine %> 약품 입출고 관리</span>
-		</div>
+		</div> --%>
 		<div class="wrapper_side_menu <%=mRoom %>" onclick="location.href='room.windy?menu=list'">
 			<span class="span_side_menu"><%=dotRoom %> 병동 관리</span>
 		</div>

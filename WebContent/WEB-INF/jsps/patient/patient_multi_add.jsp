@@ -9,6 +9,55 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" type="text/css" href="css/main.css">
 <script type="text/javascript">
+function reg_Formatter(birth) {
+
+    var Social_Security_Number = birth; //주민번호를 받아온다.
+    var Social_Year = Social_Security_Number.substring(0,2); // 년도를 의미하는 2개로 자른다.
+
+
+
+    let today = new Date();             //Windows.time을 가져온다.
+
+    let year = today.getFullYear();     // 받아온 time에서 Year만 가져온다.
+
+
+
+    var The_20th_Century = 19;          // 20세기 사람인지 구별하기 위한 변수
+
+    var The_21th_Century = 20;          // 21세기 사람인지 구별하기 위한 변수
+
+    var Before_Age = year - parseInt(Social_Year,10);  // 받아온 년도 2개를 기준으로 Windows.time 년도를 계산한다.
+
+    // 예를들면, 21세기 태어난 사람들은 2020년 -2000년을 하면, 무조건 2000이상의 값이 나온다.
+
+    // 2000이하인 경우 20세기 사람이므로, 주민번호 앞자리 2개와 19를 붙힌다.
+
+    // 2000이상인 경우 21세기 사람이므로, 주민번호 앞자리 2개와 20를 붙힌다.
+
+    if(Before_Age < 2000){
+
+        //20세기 사람
+
+        var After_Age =The_20th_Century + Social_Year;
+
+        var Age = year - parseInt(After_Age,10)+1;
+
+        return Age;
+
+    }
+
+    else{
+
+        //21세기 사람
+
+        var After_Age = The_21th_Century + Social_Year;
+
+        var Age = year - parseInt(After_Age,10)+1;
+
+        return Age;
+
+    }
+}
 
 function addRow() {
 	
@@ -54,8 +103,10 @@ function goAdd() {
 			var gender = $('input[name=gender_'+i+']:checked').val();
 			var birth = document.getElementById('birth_'+i).value;
 			var tel = document.getElementById('tel_'+i).value;
-			
-			param += "&name_"+size+"="+name+"&gender_"+size+"="+gender+"&birth_"+size+"="+birth+"&tel_"+size+"="+tel;
+
+			var age = reg_Formatter(birth);
+			 
+			param += "&name_"+size+"="+name+"&gender_"+size+"="+gender+"&birth_"+size+"="+birth+"&tel_"+size+"="+tel+"&age_"+size+"="+age;
 			
 			size = size+1;
 		}
@@ -68,7 +119,7 @@ function goAdd() {
 	
 	$.ajax({
 		type: "post", 
-		url: "patient.windy?mode=add", 
+		url: "patient.windy?mode=multi_add", 
 		data: param,
 		async: false, 
 		dataType: 'text', 

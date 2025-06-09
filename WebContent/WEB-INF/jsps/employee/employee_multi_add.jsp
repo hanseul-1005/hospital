@@ -73,6 +73,8 @@ function goAdd() {
 			var roomNo = room.split('_')[0];
 			var roomName = room.split('_')[1];
 			
+			console.log("room : "+room);
+			
 			var onOff = $('input[name=on_off_'+i+']:checked').val();
 			
 			param += "&name_"+size+"="+name+"&tel_"+size+"="+tel+"&belong_"+size+"="+belong
@@ -83,13 +85,12 @@ function goAdd() {
 			console.log("onOff : "+onOff);
 		}
 	}
-	
-	
+
 	param += "&size="+size;
 	
 	$.ajax({
 		type: "post", 
-		url: "employee.windy?mode=add", 
+		url: "employee.windy?mode=multi_add", 
 		data: param,
 		async: false, 
 		dataType: 'text', 
@@ -99,7 +100,7 @@ function goAdd() {
 			alert("등록되었습니다.");
 			location.href = "employee.windy?menu=list"; 
 		}
-	}); 
+	});  
 	
 }
 

@@ -149,12 +149,14 @@ public class Patient extends HttpServlet {
 				String gender = request.getParameter("gender_"+i);
 				String birth = request.getParameter("birth_"+i);
 				String tel = request.getParameter("tel_"+i);
+				int age = Integer.parseInt(request.getParameter("age_"+i));
 
 				PatientModel patient = new PatientModel();
 				patient.setName(name);
 				patient.setGender(gender);
 				patient.setBirth(birth);
 				patient.setTel(tel);
+				patient.setAge(age);
 				
 				int result = pDao.insertPatientMulti(patient);
 				
