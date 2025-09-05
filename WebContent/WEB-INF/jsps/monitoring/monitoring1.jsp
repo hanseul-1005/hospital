@@ -1,5 +1,15 @@
+<%@page import="windy.hospital.model.AmbulanceModel"%>
+<%@page import="windy.hospital.model.SiteModel"%>
+<%@page import="windy.hospital.model.RegionModel"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%
+ArrayList<RegionModel> listRegion = (ArrayList<RegionModel>) request.getAttribute("listRegion");
+ArrayList<SiteModel> listSite = (ArrayList<SiteModel>) request.getAttribute("listSite");
+ArrayList<AmbulanceModel> listAmbulance = (ArrayList<AmbulanceModel>) request.getAttribute("listAmbulance");
+ArrayList<VolunteerceModel> listVolunteer = (ArrayList<VolunteerceModel>) request.getAttribute("listVolunteer");
+%>
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

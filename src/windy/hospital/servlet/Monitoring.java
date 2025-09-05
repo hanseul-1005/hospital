@@ -15,10 +15,14 @@ import javax.servlet.http.HttpSession;
 import org.json.simple.JSONObject;
 
 import windy.hospital.dao.DBDAO;
+import windy.hospital.dao.MonitoringDAO;
 import windy.hospital.dao.RegionDAO;
 import windy.hospital.dao.SiteDAO;
+import windy.hospital.model.AmbulanceModel;
 import windy.hospital.model.DBModel;
 import windy.hospital.model.RegionModel;
+import windy.hospital.model.SiteModel;
+import windy.hospital.model.VolunteerModel;
 
 /**
  * Servlet implementation class RegionServlet
@@ -44,7 +48,7 @@ public class Monitoring extends HttpServlet {
 		String menu = request.getParameter("menu");
 		RegionDAO rDao = new RegionDAO();
 		SiteDAO sDao = new SiteDAO();
-		
+		MonitoringDAO mDao = new MonitoringDAO();
 		
 		if(menu == null) menu = "list";
 		
@@ -54,8 +58,16 @@ public class Monitoring extends HttpServlet {
 		request.setAttribute("main_menu", menu);
 		
 		if("monitor1".equals(menu)) {
-
+	
+			ArrayList<RegionModel> listRegion = (ArrayList<RegionModel>) rDao.selectListRegion("");
+			ArrayList<SiteModel> listSite = (ArrayList<SiteModel>) sDao.selectListSite("");
+			ArrayList<AmbulanceModel> listAmbulance = (ArrayList<AmbulanceModel>) mDao.selectListAmbulance();
+			ArrayList<VolunteerModel> listVolunteer = (ArrayList<VolunteerModel>) mDao.selectListVolunteer();
 			
+			request.setAttribute("listRegion", listRegion);
+			request.setAttribute("listSite", listSite);
+			request.setAttribute("listAmbulance", listAmbulance);
+			request.setAttribute("listVolunteer", listVolunteer);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsps/monitoring/monitoring1.jsp");
 			dispatcher.forward(request, response);
 		}

@@ -13,6 +13,9 @@ import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 
+import windy.hospital.dao.EmployeeDAO;
+import windy.hospital.model.EmployeeModel;
+
 /**
  * Servlet implementation class Login
  */
@@ -59,11 +62,18 @@ public class Login extends HttpServlet {
 
 		if ("login".equals(mode)) {
 			
+			EmployeeDAO eDao = new EmployeeDAO();
+			
+			EmployeeModel employee = eDao.login(id, passwd);
+			
 			if("main".equals(id)) {
 				
 				session.setAttribute("id", id);
 				session.setAttribute("pw", passwd);		
 				session.setAttribute("role", "관리자");
+				session.setAttribute("no", employee.getNo());
+				session.setAttribute("name", employee.getName());
+				session.setAttribute("department", employee.getDepartment());
 				session.setMaxInactiveInterval(60 * 60 * 10);
 
 				JSONObject objResult = new JSONObject();
@@ -78,6 +88,9 @@ public class Login extends HttpServlet {
 				session.setAttribute("id", id);
 				session.setAttribute("pw", passwd);	
 				session.setAttribute("role", "행정처");		
+				session.setAttribute("no", employee.getNo());
+				session.setAttribute("name", employee.getName());
+				session.setAttribute("department", employee.getDepartment());
 				session.setMaxInactiveInterval(60 * 60 * 10);
 				
 
@@ -93,6 +106,9 @@ public class Login extends HttpServlet {
 				session.setAttribute("id", id);
 				session.setAttribute("pw", passwd);		
 				session.setAttribute("role", "의사");
+				session.setAttribute("no", employee.getNo());
+				session.setAttribute("name", employee.getName());
+				session.setAttribute("department", employee.getDepartment());
 				session.setMaxInactiveInterval(60 * 60 * 10);
 				
 

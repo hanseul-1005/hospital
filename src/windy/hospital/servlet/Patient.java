@@ -129,6 +129,13 @@ public class Patient extends HttpServlet {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsps/patient/patient_monitoring.jsp");
 			dispatcher.forward(request, response);
 		}
+		else if("chart".equals(menu)) {
+			
+			long no = Long.parseLong(request.getParameter("no"));
+			
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsps/patient/patient_chart.jsp");
+			dispatcher.forward(request, response);
+		}
 	}
 
 	/**

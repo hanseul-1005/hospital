@@ -11,16 +11,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import windy.hospital.dao.ChartDAO;
 import windy.hospital.dao.HospitalDAO;
 import windy.hospital.dao.InOutDAO;
 import windy.hospital.dao.MedicineDAO;
 import windy.hospital.dao.OrderDAO;
+import windy.hospital.dao.PatientDAO;
 import windy.hospital.dao.RoomDAO;
 import windy.hospital.dao.SuppliesDAO;
+import windy.hospital.model.ChartModel;
 import windy.hospital.model.HospitalModel;
 import windy.hospital.model.InOutModel;
 import windy.hospital.model.MedicineModel;
 import windy.hospital.model.OrderModel;
+import windy.hospital.model.PatientModel;
 import windy.hospital.model.RoomModel;
 import windy.hospital.model.SuppliesModel;
 
@@ -45,42 +49,36 @@ public class Chart extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String menu = request.getParameter("menu");
-		InOutDAO iDao = new InOutDAO();
+		ChartDAO cDao = new ChartDAO();
+		PatientDAO pDao = new PatientDAO();
 		
 		if(menu == null) menu = "list";
 		
 		request.setAttribute("menu", menu);
 		
-		if("list".equals(menu)) {
+		if("chart".equals(menu)) {
 
-			String name = request.getParameter("name");
+			long no = Long.parseLong(request.getParameter("no"));
 			
-			if(name==null) name = "";
+			PatientModel patient = pDao.selectPatient(no);
+			ArrayList<ChartModel> listChart = (ArrayList<ChartModel>) cDao.selectListChart(no);
 			
-			ArrayList<InOutModel> listInOut = (ArrayList<InOutModel>) iDao.selectListInOut();
+			MedicineDAO mDao = new MedicineDAO();
+			ArrayList<MedicineModel> listMedicine = (ArrayList<MedicineModel>) mDao.selectListMedicine("");
+					
+			request.setAttribute("no", no);
+			request.setAttribute("patient", patient);
+			request.setAttribute("listChart", listChart);
+			request.setAttribute("listMedicine", listMedicine);
 			
-			request.setAttribute("name", name);
-			request.setAttribute("listInOut", listInOut);
-			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsps/order/in_out_list.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsps/patient/patient_chart.jsp");
 			dispatcher.forward(request, response);
 		}
 		else if("add".equals(menu)) {
 
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsps/in_out/in_out_add.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsps/chart/chart_add.jsp");
 			dispatcher.forward(request, response);
 			
-		}
-		else if("modify".equals(menu)) {
-			
-			int no = Integer.parseInt(request.getParameter("no"));
-			
-			InOutModel inOut = iDao.selectInOut(no);
-			
-			request.setAttribute("inOut", inOut);
-
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsps/in_out/in_out_modify.jsp");
-			dispatcher.forward(request, response);
 		}
 	}
 
@@ -95,54 +93,35 @@ public class Chart extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		
-		InOutDAO iDao = new InOutDAO();
+		ChartDAO cDao = new ChartDAO();
 				
 		String mode = request.getParameter("mode");
 		
 		if("add".equals(mode)) {
-			
-			long suppliesNo = Long.parseLong(request.getParameter("supplies_no"));
-			long medicineNo = Long.parseLong(request.getParameter("medicine_no"));
+			long employeeNo = (long) session.getAttribute("no");
+			String employeName = (String) session.getAttribute("name");
+			long patientNo = Long.parseLong(request.getParameter("no"));
+			String department = (String) session.getAttribute("department");
 			String date = request.getParameter("date");
-			String classify = request.getParameter("classify");
-			int amount = Integer.parseInt(request.getParameter("amount"));
-			long orderNo = Long.parseLong(request.getParameter("order_no"));
-
-			InOutModel inOut = new InOutModel();
-			inOut.setSuppliesNo(suppliesNo);
-			inOut.setMedicineNo(medicineNo);
-			inOut.setDate(date);
-			inOut.setClassify(classify);
-			inOut.setAmount(amount);
-			inOut.setOrderNo(orderNo);
+			String content = request.getParameter("content");
+			int testCheck = Integer.parseInt(request.getParameter("test_check"));
+			String test = request.getParameter("test");
+			int testResultCheck = Integer.parseInt(request.getParameter("test_result_check"));
+			String testResult = request.getParameter("rest_result");
+						
+			ChartModel chart = new ChartModel();
+			chart.setEmployeeNo(employeeNo);
+			chart.setEmployeeName(employeName);
+			chart.setPatientNo(patientNo);
+			chart.setClassify(department);
+			chart.setDate(date);
+			chart.setContent(content);
+			chart.setTest(test);
+			chart.setTestCheck(testCheck);
+			chart.setTestResult(testResult);
+			chart.setTestResultCheck(testResultCheck);
 			
-			iDao.insertInOut(inOut);
-		}
-		else if("update".equals(mode)) {
-
-			long no = Long.parseLong(request.getParameter("no"));
-			long suppliesNo = Long.parseLong(request.getParameter("supplies_no"));
-			long medicineNo = Long.parseLong(request.getParameter("medicine_no"));
-			String date = request.getParameter("date");
-			String classify = request.getParameter("classify");
-			int amount = Integer.parseInt(request.getParameter("amount"));
-			long orderNo = Long.parseLong(request.getParameter("order_no"));
-
-			InOutModel inOut = new InOutModel();
-			inOut.setSuppliesNo(suppliesNo);
-			inOut.setMedicineNo(medicineNo);
-			inOut.setDate(date);
-			inOut.setClassify(classify);
-			inOut.setAmount(amount);
-			inOut.setOrderNo(orderNo);
-			
-			iDao.updateInOut(inOut);
-		}
-		else if("delete".equals(mode)) {
-			
-			int no = Integer.parseInt(request.getParameter("no"));
-			
-			int result = iDao.deleteInOut(no);
+			int result = cDao.insertChart(chart);
 		}
 	}
 

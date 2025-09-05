@@ -143,6 +143,8 @@ public class Manager extends HttpServlet {
 			employee.setId(tel);
 			employee.setPw("emap123");
 			employee.setOnOff("근무");
+			employee.setRoomNo(0);
+			employee.setRoomName("");
 			
 			long no = eDao.insertEmployee(employee);
 			

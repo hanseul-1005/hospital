@@ -392,6 +392,15 @@ public class EmployeeDAO {
 		
 		List<EmployeeModel> listEmp = new ArrayList<EmployeeModel>();
 		
+		
+		String whereSQL = "";
+		if(!"".equals(modelParam.getDepartment())) {
+			whereSQL += " AND employee_department like concat('%', ?, '%') ";
+		}
+		if(!"".equals(modelParam.getName())) {
+			whereSQL += " AND employee_name like concat('%', ?, '%') ";
+		}
+		
 		try {
 			// 데이터베이스 객체 생성
 			Class.forName(dbDriver);
@@ -403,7 +412,8 @@ public class EmployeeDAO {
 							+ "employee_on_off, employee_del "
 					+ "FROM employee_info e, manager_info m "
 					+ "WHERE e.employee_no=m.employee_no "
-						+ "AND employee_del like concat('%', ?, '%') AND employee_department like concat('%', ?, '%') AND employee_name like concat('%', ?, '%') "
+						+ "AND employee_del like concat('%', ?, '%') "
+						+ whereSQL
 					+ "ORDER BY employee_no DESC ");
 			
 			pstmt.setString(1, modelParam.getDel());
@@ -437,6 +447,56 @@ public class EmployeeDAO {
 			close(rs, pstmt, connection);
 		}
 		return listEmp;				
+	}
+			
+	// //////////////////////////////////////////////////
+
+	// //////////////////////////////////////////////////
+	// - 용품 조회
+	// //////////////////////////////////////////////////
+	public EmployeeModel login(String id, String pw) {
+
+		EmployeeModel emp = new EmployeeModel();
+		
+		try {
+			// 데이터베이스 객체 생성
+			Class.forName(dbDriver);
+			connection = DriverManager.getConnection(jdbcUrl, user, password);
+
+			pstmt = connection.prepareStatement(
+					"SELECT employee_no, employee_name, employee_belong, employee_tel, employee_department, "
+							+ "employee_major, employee_id, employee_pw, employee_room_no, employee_room_name, "
+							+ "employee_on_off, employee_del "
+					+ "FROM employee_info "
+					+ "WHERE employee_id = ? AND employee_pw = ? ");
+			
+			pstmt.setString(1, id);
+			pstmt.setString(2, pw);
+
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				emp.setNo(rs.getLong("employee_no"));
+				emp.setName(rs.getString("employee_name"));
+				emp.setBelong(rs.getString("employee_belong"));
+				emp.setTel(rs.getString("employee_tel"));
+				emp.setDepartment(rs.getString("employee_department"));
+				emp.setMajor(rs.getString("employee_major"));
+				emp.setId(rs.getString("employee_id"));
+				emp.setPw(rs.getString("employee_pw"));
+				emp.setRoomNo(rs.getInt("employee_room_no"));
+				emp.setRoomName(rs.getString("employee_room_name"));
+				emp.setOnOff(rs.getString("employee_on_off"));
+				emp.setDel(rs.getString("employee_del"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// 사용한 객체 종료
+			close(rs, pstmt, connection);
+		}
+		return emp;				
 	}
 			
 	// //////////////////////////////////////////////////

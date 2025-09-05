@@ -158,6 +158,11 @@ public class Employee extends HttpServlet {
 			
 			eDao.insertEmployee(employee);
 		}
+		else if("delete".equals(mode)) {
+			long no = Long.parseLong(request.getParameter("no"));
+			
+			eDao.deleteEmployee(no);
+		}
 		else if("multi_add".equals(mode)) {
 			
 			int size = Integer.parseInt(request.getParameter("size"));

@@ -2,6 +2,7 @@ package windy.hospital.model;
 
 public class EmployeeModel {
 
+	private boolean check = false;
 	private long no = -1;
 	private String name = "";
 	private String belong = "";
@@ -17,6 +18,12 @@ public class EmployeeModel {
 	
 	private int managerNo = -1;
 	
+	public boolean isCheck() {
+		return check;
+	}
+	public void setCheck(boolean check) {
+		this.check = check;
+	}
 	public long getNo() {
 		return no;
 	}

@@ -178,7 +178,7 @@ function ajaxFailed(xmlRequest)	{
                                         </select>
                                     </td>
                                     <td>
-                                        <input type="radio" name="on_off_0" id="on" value="근무">
+                                        <input type="radio" name="on_off_0" id="on" value="근무" checked="checked">
                                         <label for="on">근무</label>
                                         <input type="radio" name="on_off_0" id="off" value="휴무">
                                         <label for="on">휴무</label>

@@ -30,7 +30,7 @@ String subMenu = (String) request.getAttribute("sub_menu");
 			<img alt="" src="img/img_logo.png" style="height: 70%; margin: auto 0;">
 		</div>
 		
-		<span class="span_top_menu" ><%=mainMenuName %>&nbsp;&nbsp;>&nbsp;&nbsp;<%=subMenuName %></span>
+		<%-- <span class="span_top_menu" ><%=mainMenuName %>&nbsp;&nbsp;>&nbsp;&nbsp;<%=subMenuName %></span> --%>
 	</div>
 	<div style="background-color: #fff; height: 100%; width: 55%;">
 	

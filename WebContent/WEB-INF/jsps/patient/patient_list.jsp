@@ -74,7 +74,7 @@ function goModify(no) {
 }
 
 function goChart(no) {
-	location.href = "patient.windy?menu=chart&no="+no;
+	location.href = "chart.windy?menu=chart&no="+no;
 }
 
 function ajaxFailed(xmlRequest)	{

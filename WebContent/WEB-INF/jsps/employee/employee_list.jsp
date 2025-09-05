@@ -123,14 +123,14 @@ function ajaxFailed(xmlRequest)	{
 								<option value="N" <%if("N".equals(del)) { %> selected="selected" <%} %>>활성화</option>
 								<option value="Y" <%if("Y".equals(del)) { %> selected="selected" <%} %>>비활성화</option>
 							</select>
-                            <select class="select_bx" id="department">
+                            <select class="select_bx" id="department" style="margin-left: 10px">
 								<option value="" <%if("".equals(department)) { %> selected="selected" <%} %>>전체 부서</option>
 								<option value="행정처" <%if("행정처".equals(department)) { %> selected="selected" <%} %>>행정처</option>
 								<option value="의사" <%if("의사".equals(department)) { %> selected="selected" <%} %>>의사</option>
                                 <option value="간호" <%if("간호".equals(department)) { %> selected="selected" <%} %>>간호</option>
                                 <option value="임상 병리" <%if("임상 병리".equals(department)) { %> selected="selected" <%} %>>임상 병리</option>
 							</select>
-							<input type="text" class="td_add" id="search_name">
+							<input type="text" class="td_add" id="search_name" style="margin-left: 10px">
 							<div style="width: 30px; height: 30px; margin-left: 10px; background-color: #67AFBE; border-radius: 5px;" onclick="javascript: goSearch()">
 								<img alt="" src="images/img_search.png" width="30px" height="30px">							
 							</div>
@@ -188,7 +188,7 @@ function ajaxFailed(xmlRequest)	{
                                     </td>
                                     <td onclick="javascript: goModify(<%=employee.getNo() %>)"><%=employee.getOnOff() %></td>
 									<td>
-                                        <button class="btn_cancel_100">비활성화</button>
+                                        <button class="btn_cancel_100" onclick="javascript: goDelete(<%=employee.getNo() %>)">비활성화</button>
                                     </td>
 								</tr>
 								<%} %>

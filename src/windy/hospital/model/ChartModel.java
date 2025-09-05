@@ -1,58 +1,64 @@
 package windy.hospital.model;
 
 public class ChartModel {
-	private long chartNo = -1;
-	private String chartClassify = "";
-	private String chartDate = "";
-	private String chartContent = "";
-	private String chartTest = "";
-	private int chartTestResultCheck = -1;
-	private String chartTestResult = "";
+	private long no = -1;
+	private String classify = "";
+	private String date = "";
+	private String content = "";
+	private String test = "";
+	private int testCheck = -1;
+	private int testResultCheck = -1;
+	private String testResult = "";
 	private long employeeNo = -1;
 	private String employeeName = "";
 	private long patientNo = -1;
-	
-	public long getChartNo() {
-		return chartNo;
+	public long getNo() {
+		return no;
 	}
-	public void setChartNo(long chartNo) {
-		this.chartNo = chartNo;
+	public void setNo(long no) {
+		this.no = no;
 	}
-	public String getChartClassify() {
-		return chartClassify;
+	public String getClassify() {
+		return classify;
 	}
-	public void setChartClassify(String chartClassify) {
-		this.chartClassify = chartClassify;
+	public void setClassify(String classify) {
+		this.classify = classify;
 	}
-	public String getChartDate() {
-		return chartDate;
+	public String getDate() {
+		return date;
 	}
-	public void setChartDate(String chartDate) {
-		this.chartDate = chartDate;
+	public void setDate(String date) {
+		this.date = date;
 	}
-	public String getChartContent() {
-		return chartContent;
+	public String getContent() {
+		return content;
 	}
-	public void setChartContent(String chartContent) {
-		this.chartContent = chartContent;
+	public void setContent(String content) {
+		this.content = content;
 	}
-	public String getChartTest() {
-		return chartTest;
+	public String getTest() {
+		return test;
 	}
-	public void setChartTest(String chartTest) {
-		this.chartTest = chartTest;
+	public void setTest(String test) {
+		this.test = test;
 	}
-	public int getChartTestResultCheck() {
-		return chartTestResultCheck;
+	public int getTestCheck() {
+		return testCheck;
 	}
-	public void setChartTestResultCheck(int chartTestResultCheck) {
-		this.chartTestResultCheck = chartTestResultCheck;
+	public void setTestCheck(int testCheck) {
+		this.testCheck = testCheck;
 	}
-	public String getChartTestResult() {
-		return chartTestResult;
+	public int getTestResultCheck() {
+		return testResultCheck;
 	}
-	public void setChartTestResult(String chartTestResult) {
-		this.chartTestResult = chartTestResult;
+	public void setTestResultCheck(int testResultCheck) {
+		this.testResultCheck = testResultCheck;
+	}
+	public String getTestResult() {
+		return testResult;
+	}
+	public void setTestResult(String testResult) {
+		this.testResult = testResult;
 	}
 	public long getEmployeeNo() {
 		return employeeNo;
