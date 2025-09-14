@@ -239,6 +239,62 @@ body {
 }
 
 
+.tb_patient5_title {
+	width: 100%;
+	border: 0.5px solid #74ADBD;
+	border-collapse: collapse;
+	margin-top: 10px;
+}
+
+.tb_patient5_title th {
+	border: 0.5px solid #74ADBD;
+    border-collapse: collapse;
+    font-weight: bold;
+    text-align: center;
+	height: 50px;
+    font-size: 20px;
+    color: #496E73;
+    background-color: #E2EBED;
+}
+
+
+.tb_patient5_contents {
+	width: 100%;
+	border-collapse: collapse;
+	max-height: 560px;
+	display: block;
+	overflow-y: scroll;
+}
+
+.tb_patient5_contents td {
+	height: 40px;
+    font-size: 18px;
+    color: #496E73;
+	border: 0.5px solid #74ADBD;
+    border-collapse: collapse;
+    font-weight: bold;
+    text-align: center;
+    width: 199px;
+}
+
+
+
+.tb_patient3_footer {
+	width: 100%;
+	border: 0.5px solid #74ADBD;
+	border-collapse: collapse;
+}
+
+.tb_patient3_footer td {
+	border: 0.5px solid #74ADBD;
+    border-collapse: collapse;
+    font-weight: bold;
+    text-align: center;
+	height: 50px;
+    font-size: 20px;
+    color: #496E73;
+    background-color: #DFEDEF;
+}
 
 /* 의료 정보 */
 

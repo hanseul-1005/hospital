@@ -1,4 +1,20 @@
+<%@page import="windy.hospital.model.MedicineModel"%>
+<%@page import="windy.hospital.model.SuppliesModel"%>
+<%@page import="windy.hospital.model.EquipmentModel"%>
+<%@page import="windy.hospital.model.EmployeeModel"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+ArrayList<EmployeeModel> listDoctor = (ArrayList<EmployeeModel>) request.getAttribute("listDoctor");
+ArrayList<EmployeeModel> listNurseOn = (ArrayList<EmployeeModel>) request.getAttribute("listNurseOn");
+ArrayList<EmployeeModel> listNurseOff = (ArrayList<EmployeeModel>) request.getAttribute("listNurseOff");
+ArrayList<EmployeeModel> listOffice = (ArrayList<EmployeeModel>) request.getAttribute("listOffice");
+
+ArrayList<EquipmentModel> listEquipment = (ArrayList<EquipmentModel>) request.getAttribute("listEquipment");
+ArrayList<SuppliesModel> listSupplies = (ArrayList<SuppliesModel>) request.getAttribute("listSupplies");
+ArrayList<MedicineModel> listMedicine = (ArrayList<MedicineModel>) request.getAttribute("listMedicine");
+
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -52,19 +68,21 @@
 							</colgroup>
 							<tbody>
 								<%
-									for(int i=0; i<20; i++) {
+									for(int i=0; i<listDoctor.size(); i++) {
+										EmployeeModel doctor = listDoctor.get(i);
 								%>
 								<tr>
 									<td><%=i+1 %></td>
-									<td>홍길동</td>
-									<td>전남대학교병원</td>
-									<td>정형외과</td>
-									<td>ON</td>
-									<td>A</td>
+									<td><%=doctor.getName() %></td>
+									<td><%=doctor.getBelong() %></td>
+									<td><%=doctor.getMajor() %></td>
+									<td><%=doctor.getOnOff() %></td>
+									<td><%=doctor.getRoomName() %></td>
 								</tr>
 								<%} %>
 								<%
-									for(int i=0; i<15; i++) {
+									if(listDoctor.size()<6) {
+										for(int j=0; j<6-listDoctor.size(); j++) {
 								%>
 								<tr>
 									<td></td>
@@ -74,7 +92,8 @@
 									<td></td>
 									<td></td>
 								</tr>
-								<%} %>
+								<%	} 
+								}%>
 							</tbody>
 						</table>	
 						
@@ -94,7 +113,7 @@
 									<tr>
 										<th>간호</th>
 										<th>이름</th>
-										<th>ON/OFF</th>
+										<th>근무여부</th>
 										<th>지정실</th>
 									</tr>
 								</thead>
@@ -109,17 +128,19 @@
 								</colgroup>
 								<tbody>
 									<%
-										for(int i=0; i<20; i++) {
+									for(int i=0; i<listNurseOn.size(); i++) {
+										EmployeeModel nurse = listNurseOn.get(i);
 									%>
 									<tr>
 										<td><%=i+1 %></td>
-										<td>김간호</td>
-										<td>ON</td>
-										<td>A</td>
+										<td><%=nurse.getName() %></td>
+										<td><%=nurse.getOnOff() %></td>
+										<td><%=nurse.getRoomName() %></td>
 									</tr>
 									<%} %>
 									<%
-										for(int i=0; i<15; i++) {
+										if(listDoctor.size()<6) {
+											for(int j=0; j<6-listDoctor.size(); j++) {
 									%>
 									<tr>
 										<td></td>
@@ -127,7 +148,8 @@
 										<td></td>
 										<td></td>
 									</tr>
-									<%} %>
+									<%	} 
+									}%>
 								</tbody>
 							</table>
 						</div>
@@ -143,7 +165,7 @@
 									<tr>
 										<th>간호</th>
 										<th>이름</th>
-										<th>ON/OFF</th>
+										<th>근무여부</th>
 										<th>지정실</th>
 									</tr>
 								</thead>
@@ -158,17 +180,19 @@
 								</colgroup>
 								<tbody>
 									<%
-										for(int i=0; i<20; i++) {
+									for(int i=0; i<listNurseOff.size(); i++) {
+										EmployeeModel nurse = listNurseOff.get(i);
 									%>
 									<tr>
 										<td><%=i+1 %></td>
-										<td>김간호</td>
-										<td>ON</td>
-										<td>A</td>
+										<td><%=nurse.getName() %></td>
+										<td><%=nurse.getOnOff() %></td>
+										<td><%=nurse.getRoomName() %></td>
 									</tr>
 									<%} %>
 									<%
-										for(int i=0; i<15; i++) {
+										if(listNurseOff.size()<6) {
+											for(int j=0; j<6-listNurseOff.size(); j++) {
 									%>
 									<tr>
 										<td></td>
@@ -176,7 +200,8 @@
 										<td></td>
 										<td></td>
 									</tr>
-									<%} %>
+									<%	} 
+									}%>
 								</tbody>
 							</table>
 						</div>
@@ -198,8 +223,7 @@
 									<th>행정</th>
 									<th>이름</th>
 									<th>소속</th>
-									<th>ON/OFF</th>
-									<th>지정실</th>
+									<th colspan="2">연락처</th>
 								</tr>
 							</thead>
 						</table>
@@ -214,27 +238,28 @@
 							</colgroup>
 							<tbody>
 								<%
-									for(int i=0; i<20; i++) {
+								for(int i=0; i<listOffice.size(); i++) {
+									EmployeeModel office = listOffice.get(i);
 								%>
 								<tr>
 									<td><%=i+1 %></td>
-									<td>홍길동</td>
-									<td>전남대학교병원</td>
-									<td>ON</td>
-									<td>A</td>
+									<td><%=office.getName() %></td>
+									<td><%=office.getBelong() %></td>
+									<td colspan="2"><%=office.getTel() %></td>
 								</tr>
 								<%} %>
 								<%
-									for(int i=0; i<15; i++) {
+									if(listOffice.size()<6) {
+										for(int j=0; j<6-listOffice.size(); j++) {
 								%>
 								<tr>
 									<td></td>
 									<td></td>
 									<td></td>
-									<td></td>
-									<td></td>
+									<td colspan="2"></td>
 								</tr>
-								<%} %>
+									<%	} 
+								}%>
 							</tbody>
 						</table>	
 						
@@ -273,18 +298,20 @@
 							</colgroup>
 							<tbody>
 								<%
-									for(int i=0; i<20; i++) {
+								for(int i=0; i<listEquipment.size(); i++) {
+									EquipmentModel equip = listEquipment.get(i);
 								%>
 								<tr>
 									<td><%=i+1 %></td>
-									<td>X-ray</td>
-									<td>2024.10.01</td>
-									<td>010-1111-1111</td>
-									<td></td>
+									<td><%=equip.getName() %></td>
+									<td><%=equip.getDate() %></td>
+									<td><%=equip.getAs() %></td>
+									<td><%=equip.getNote() %></td>
 								</tr>
 								<%} %>
 								<%
-									for(int i=0; i<15; i++) {
+									if(listEquipment.size()<6) {
+										for(int j=0; j<6-listEquipment.size(); j++) {
 								%>
 								<tr>
 									<td></td>
@@ -293,7 +320,8 @@
 									<td></td>
 									<td></td>
 								</tr>
-								<%} %>
+									<%	} 
+								}%>
 							</tbody>
 						</table>	
 						
@@ -332,19 +360,21 @@
 							</colgroup>
 							<tbody>
 								<%
-									for(int i=0; i<20; i++) {
+								for(int i=0; i<listMedicine.size(); i++) {
+									MedicineModel med = listMedicine.get(i);
 								%>
 								<tr>
 									<td><%=i+1 %></td>
-									<td>주사기</td>
-									<td>2024.10.11</td>
-									<td>10</td>
-									<td>10</td>
+									<td><%=med.getName() %></td>
+									<td><%=med.getDate() %></td>
 									<td></td>
+									<td><%=med.getAmount() %></td>
+									<td><%=med.getNote() %></td>
 								</tr>
 								<%} %>
 								<%
-									for(int i=0; i<15; i++) {
+									if(listMedicine.size()<6) {
+										for(int j=0; j<6-listMedicine.size(); j++) {
 								%>
 								<tr>
 									<td></td>
@@ -354,7 +384,8 @@
 									<td></td>
 									<td></td>
 								</tr>
-								<%} %>
+									<%	} 
+								}%>
 							</tbody>
 						</table>	
 						
@@ -393,19 +424,21 @@
 							</colgroup>
 							<tbody>
 								<%
-									for(int i=0; i<20; i++) {
+								for(int i=0; i<listSupplies.size(); i++) {
+									SuppliesModel sup = listSupplies.get(i);
 								%>
 								<tr>
 									<td><%=i+1 %></td>
-									<td>주사기</td>
-									<td>2024.10.11</td>
-									<td>10</td>
-									<td>10</td>
+									<td><%=sup.getName() %></td>
+									<td><%=sup.getDate() %></td>
 									<td></td>
+									<td><%=sup.getAmount() %></td>
+									<td><%=sup.getNote() %></td>
 								</tr>
 								<%} %>
 								<%
-									for(int i=0; i<15; i++) {
+									if(listSupplies.size()<6) {
+										for(int j=0; j<6-listSupplies.size(); j++) {
 								%>
 								<tr>
 									<td></td>
@@ -415,7 +448,8 @@
 									<td></td>
 									<td></td>
 								</tr>
-								<%} %>
+									<%	} 
+								}%>
 							</tbody>
 						</table>	
 						

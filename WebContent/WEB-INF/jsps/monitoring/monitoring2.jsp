@@ -1,5 +1,12 @@
+<%@page import="windy.hospital.model.PatientModel"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%
+ArrayList<PatientModel> listPatientS = (ArrayList<PatientModel>) request.getAttribute("listPatientS");
+ArrayList<PatientModel> listPatientA = (ArrayList<PatientModel>) request.getAttribute("listPatientA");
+ArrayList<PatientModel> listPatientB = (ArrayList<PatientModel>) request.getAttribute("listPatientB");
+%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -59,74 +66,131 @@
 						</table>
 					</div>
 					
-					<div>
-						<table class="tb_patient3_title">
-							<colgroup>
-								<col width="249.39px">
-								<col width="249.39px">
-								<col width="249.39px">
-								<col width="249.39px">
-								<col width="249.39px">
-							</colgroup>
-							<thead>
-								<tr>
-									<th>음압(S)</th>
-									<th colspan="2">관찰(A)</th>
-									<th colspan="2">일반(B)</th>
-								</tr>
-							</thead>
-						</table>
+					<div class="wrapper_top_tb">
+						<div style="width: 200px;">
+							<table class="tb_patient5_title">
+								<colgroup>
+									<col width="199">
+								</colgroup>
+								<thead>
+									<tr>
+										<th>음압(S)</th>
+									</tr>
+								</thead>
+							</table>
 						
-						<table class="tb_patient3_contents">
-							<colgroup>
-								<col width="249.39px">
-								<col width="249.39px">
-								<col width="249.39px">
-								<col width="249.39px">
-								<col width="249.39px">
-							</colgroup>
-							<tbody>
-								<%
-									for(int i=0; i<20; i++) {
-								%>
-								<tr>
-									<td>김길동 (남, 88세)</td>
-									<td>조길동 (남, 51세)</td>
-									<td>김철수 (남, 38세)</td>
-									<td>김영희 (여, 31세)</td>
-									<td>성춘향 (여, 42세)</td>
-								</tr>
-								<%} %>
-								<%-- <%
-									for(int i=0; i<15; i++) {
-								%>
-								<tr>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-								</tr>
-								<%} %> --%>
-							</tbody>
-						</table>
+							<table class="tb_patient5_contents">
+								<colgroup>
+									<col width="199">
+								</colgroup>
+								<tbody>
+									<%
+									for(int i=0; i<listPatientS.size(); i++) {
+										PatientModel patient = listPatientS.get(i);
+									%>
+									<tr>
+										<td><%=patient.getName() %>(<%=patient.getGender() %>, <%=patient.getAge() %>세)</td>
+									</tr>
+									<%} %>
+									<%
+										for(int i=0; i<14-listPatientS.size(); i++) {
+									%>
+									<tr>
+										<td></td>
+									</tr>
+									<%} %>
+									<tr>
+										<td>5</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div style="width: 400px;">
+							<table class="tb_patient5_title">
+								<colgroup>
+									<col width="199">
+									<col width="199">
+								</colgroup>
+								<thead>
+									<tr>
+										<th colspan="2">관찰(A)</th>
+									</tr>
+								</thead>
+							</table>
 						
-						<table class="tb_patient3_footer">
-							<colgroup>
-								<col width="249.39px">
-								<col width="249.39px">
-								<col width="249.39px">
-								<col width="249.39px">
-								<col width="249.39px">
-							</colgroup>
-							<thead>
-								<tr>
-									<td>5</td>
-									<td colspan="2">10</td>
-									<td colspan="2">10</td>
-								</tr>
-							</thead>
-						</table>
+							<table class="tb_patient5_contents">
+								<colgroup>
+									<col width="199">
+									<col width="199">
+								</colgroup>
+								<tbody>
+									<%
+									for(int i=0; i<listPatientA.size(); i++) {
+										PatientModel patient = listPatientA.get(i);
+									%>
+									<tr>
+										<td><%=patient.getName() %></td>
+										<td><%=patient.getName2() %></td>
+									</tr>
+									<%} %>
+									<%
+										for(int i=0; i<14-listPatientA.size(); i++) {
+									%>
+									<tr>
+										<td></td>
+										<td></td>
+									</tr>
+									<%} %>
+									<tr>
+										<td>5</td>
+										<td>5</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div style="width: 400px;">
+							<table class="tb_patient5_title">
+								<colgroup>
+									<col width="199">
+									<col width="199">
+								</colgroup>
+								<thead>
+									<tr>
+										<th colspan="2">일반(B)</th>
+									</tr>
+								</thead>
+							</table>
+						
+							<table class="tb_patient5_contents">
+								<colgroup>
+									<col width="199">
+									<col width="199">
+								</colgroup>
+								<tbody>
+									<%
+									for(int i=0; i<listPatientB.size(); i++) {
+										PatientModel patient = listPatientB.get(i);
+									%>
+									<tr>
+										<td><%=patient.getName() %></td>
+										<td><%=patient.getName2() %></td>
+									</tr>
+									<%} %>
+									<%
+										for(int i=0; i<14-listPatientB.size(); i++) {
+									%>
+									<tr>
+										<td></td>
+										<td></td>
+									</tr>
+									<%} %>
+									<tr>
+										<td>5</td>
+										<td colspan="2">10</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 					</div>
 				</div>
 				<div class="wrapper_right_contents_4" style="">

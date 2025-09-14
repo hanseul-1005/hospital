@@ -1,3 +1,4 @@
+<%@page import="windy.hospital.model.VolunteerModel"%>
 <%@page import="windy.hospital.model.AmbulanceModel"%>
 <%@page import="windy.hospital.model.SiteModel"%>
 <%@page import="windy.hospital.model.RegionModel"%>
@@ -8,13 +9,33 @@
 ArrayList<RegionModel> listRegion = (ArrayList<RegionModel>) request.getAttribute("listRegion");
 ArrayList<SiteModel> listSite = (ArrayList<SiteModel>) request.getAttribute("listSite");
 ArrayList<AmbulanceModel> listAmbulance = (ArrayList<AmbulanceModel>) request.getAttribute("listAmbulance");
-ArrayList<VolunteerceModel> listVolunteer = (ArrayList<VolunteerceModel>) request.getAttribute("listVolunteer");
+ArrayList<VolunteerModel> listVolunteer = (ArrayList<VolunteerModel>) request.getAttribute("listVolunteer");
 %>
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" type="text/css" href="css/style.css">
+<link rel="stylesheet" type="text/css" href="css/main.css">
+<script src="js/jquery-3.7.1.min.js"></script>
+<script type ="text/javascript" >
+function popOpen(num) {
+    var modalBg = $('.modal-bg' + num);
+	var modalPop = $('.modal_900_600-wrap' + num);
+
+    modalBg.show();
+	modalPop.show();
+}
+
+function popClose(num) {
+	var modalBg = $('.modal-bg' + num);
+    var modalPop = $('.modal_900_600-wrap' + num);
+    
+	modalBg.hide();
+    modalPop.hide();
+}
+
+</script>
 <title>Insert title here</title>
 </head>
 <body>
@@ -380,8 +401,8 @@ ArrayList<VolunteerceModel> listVolunteer = (ArrayList<VolunteerceModel>) reques
 	                                    <td>의사:6</td>
 	                                    <td>간호사:12</td>
 	                                    <td>행정:6</td>
-	                                    <td>구급대:9</td>
-	                                    <td>봉사:14</td>
+	                                    <td onclick="javascript:popOpen('1')">구급대:9</td>
+	                                    <td onclick="javascript:popOpen('2')">봉사:14</td>
 	                                    <td>합계:47</td>
 	                                </tr>
 	                            </tbody>
@@ -419,5 +440,112 @@ ArrayList<VolunteerceModel> listVolunteer = (ArrayList<VolunteerceModel>) reques
             </div>
         </div>
     </div>
+    
+	<div class="modal-bg1" onClick="javascript:popClose('1');"></div>
+	<div class="modal_900_600-wrap1">
+		<div class="wrapper_popup_contents">
+			<div class="wrapper_popup_top">
+				<div class="wrapper_popup_top_center">
+					<span class="span_popup_title">구급대 관리</span>
+				</div>
+				<div class="wrapper_popup_top_right">
+					<img alt="" src="images/img_close.png" width="39px" height="39px" onClick="javascript:popClose('1');">
+				</div>
+			</div>
+			<div style="text-align: right; width: 80%; margin-left: 10%;">
+				<button class="btn_basic_150" onclick="javascript: addRow()">행 추가</button>
+				<button class="btn_basic_150" onclick="javascript: goAdd()">일괄 등록</button>
+			</div>
+			<div class="wrapper_popup" style="margin-top: 30px;">
+				<table class="tb_css">
+					<colgroup>
+						<col width="50%">
+						<col width="25%">
+						<col winth="25%">
+					</colgroup>
+					<tr height="40">
+						<th>소속</th>
+						<th>인원</th>
+						<th></th>
+					</tr>
+					<%if(listAmbulance.size() == 0) {%>
+					<tr height="40">
+						<td><input type="text" class="input_text" style="height: 30px; width: 90%;" id="detail"></td>
+						<td><input type="text" class="input_text" style="height: 30px; width: 70%;" id="detail"> 명</td>
+						<td>
+                            <button class="btn_red_100">행 삭제</button>
+						</td>
+					</tr>
+					<%} else { 
+						for(int i=0; i<listAmbulance.size(); i++) {
+							AmbulanceModel ambulance = listAmbulance.get(i);
+					%>
+					<tr height="40">
+						<td><input type="text" class="input_text" style="height: 30px; width: 90%;" id="detail" value="<%=ambulance.getBelong() %>"></td>
+						<td><input type="text" class="input_text" style="height: 30px; width: 70%;" id="detail" value="<%=ambulance.getCnt() %>"> 명</td>
+						<td>
+                            <button class="btn_red_100">행 삭제</button>
+						</td>
+					</tr>
+					<%	}
+					} %>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal-bg2" onClick="javascript:popClose('2');"></div>
+	<div class="modal_900_600-wrap2">
+		<div class="wrapper_popup_contents">
+			<div class="wrapper_popup_top">
+				<div class="wrapper_popup_top_center">
+					<span class="span_popup_title">봉사대 관리</span>
+				</div>
+				<div class="wrapper_popup_top_right">
+					<img alt="" src="images/img_close.png" width="39px" height="39px" onClick="javascript:popClose('2');">
+				</div>
+			</div>
+			<div style="text-align: right; width: 80%; margin-left: 10%;">
+				<button class="btn_basic_150" onclick="javascript: addRow()">행 추가</button>
+				<button class="btn_basic_150" onclick="javascript: goAdd()">일괄 등록</button>
+			</div>
+			<div class="wrapper_popup" style="margin-top: 30px;">
+				<table class="tb_css">
+					<colgroup>
+						<col width="50%">
+						<col width="25%">
+						<col winth="25%">
+					</colgroup>
+					<tr height="40">
+						<th>소속</th>
+						<th>인원</th>
+						<th></th>
+					</tr>
+					<%if(listVolunteer.size() == 0) {%>
+					<tr height="40">
+						<td><input type="text" class="input_text" style="height: 30px; width: 90%;" id="detail"></td>
+						<td><input type="text" class="input_text" style="height: 30px; width: 70%;" id="detail"> 명</td>
+						<td>
+                            <button class="btn_red_100">행 삭제</button>
+						</td>
+					</tr>
+					<%} else { 
+						for(int i=0; i<listVolunteer.size(); i++) {
+							VolunteerModel volunteer = listVolunteer.get(i);
+					%>
+					<tr height="40">
+						<td><input type="text" class="input_text" style="height: 30px; width: 90%;" id="detail" value="<%=volunteer.getBelong() %>"></td>
+						<td><input type="text" class="input_text" style="height: 30px; width: 70%;" id="detail" value="<%=volunteer.getCnt() %>"> 명</td>
+						<td>
+                            <button class="btn_red_100">행 삭제</button>
+						</td>
+					</tr>
+					<%	}
+					} %>
+				</table>
+			</div>
+		</div>
+	</div>
+
 </body>
 </html>

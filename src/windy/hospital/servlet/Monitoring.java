@@ -15,13 +15,21 @@ import javax.servlet.http.HttpSession;
 import org.json.simple.JSONObject;
 
 import windy.hospital.dao.DBDAO;
+import windy.hospital.dao.EquipmentDAO;
+import windy.hospital.dao.MedicineDAO;
 import windy.hospital.dao.MonitoringDAO;
 import windy.hospital.dao.RegionDAO;
 import windy.hospital.dao.SiteDAO;
+import windy.hospital.dao.SuppliesDAO;
 import windy.hospital.model.AmbulanceModel;
 import windy.hospital.model.DBModel;
+import windy.hospital.model.EmployeeModel;
+import windy.hospital.model.EquipmentModel;
+import windy.hospital.model.MedicineModel;
+import windy.hospital.model.PatientModel;
 import windy.hospital.model.RegionModel;
 import windy.hospital.model.SiteModel;
+import windy.hospital.model.SuppliesModel;
 import windy.hospital.model.VolunteerModel;
 
 /**
@@ -49,6 +57,9 @@ public class Monitoring extends HttpServlet {
 		RegionDAO rDao = new RegionDAO();
 		SiteDAO sDao = new SiteDAO();
 		MonitoringDAO mDao = new MonitoringDAO();
+		EquipmentDAO eDao = new EquipmentDAO();
+		SuppliesDAO suDao = new SuppliesDAO();
+		MedicineDAO meDao = new MedicineDAO();
 		
 		if(menu == null) menu = "list";
 		
@@ -73,7 +84,13 @@ public class Monitoring extends HttpServlet {
 		}
 		else if("monitor2".equals(menu)) {
 
+			ArrayList<PatientModel> listPatientS = (ArrayList<PatientModel>) mDao.selectListPatient("음압");
+			ArrayList<PatientModel> listPatientA = (ArrayList<PatientModel>) mDao.selectListPatient2("관찰");
+			ArrayList<PatientModel> listPatientB = (ArrayList<PatientModel>) mDao.selectListPatient2("일반");
 			
+			request.setAttribute("listPatientS", listPatientS);
+			request.setAttribute("listPatientA", listPatientA);
+			request.setAttribute("listPatientB", listPatientB);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsps/monitoring/monitoring2.jsp");
 			dispatcher.forward(request, response);
 		}
@@ -91,6 +108,24 @@ public class Monitoring extends HttpServlet {
 		}
 		else if("monitor5".equals(menu)) {
 
+			
+			ArrayList<EmployeeModel> listDoctor = (ArrayList<EmployeeModel>) mDao.selectListEmployee("의사");
+			ArrayList<EmployeeModel> listNurseOn = (ArrayList<EmployeeModel>) mDao.selectListEmployeeForNurse("간호사", "근무");
+			ArrayList<EmployeeModel> listNurseOff = (ArrayList<EmployeeModel>) mDao.selectListEmployeeForNurse("간호사", "휴무");
+			ArrayList<EmployeeModel> listOffice = (ArrayList<EmployeeModel>) mDao.selectListEmployee("행정처");
+
+			ArrayList<EquipmentModel> listEquipment = (ArrayList<EquipmentModel>) eDao.selectListEquipment("");
+			ArrayList<SuppliesModel> listSupplies = (ArrayList<SuppliesModel>) suDao.selectListSupplies("");
+			ArrayList<MedicineModel> listMedicine = (ArrayList<MedicineModel>) meDao.selectListMedicine("");
+						
+
+			request.setAttribute("listDoctor", listDoctor);
+			request.setAttribute("listNurseOn", listNurseOn);
+			request.setAttribute("listNurseOff", listNurseOff);
+			request.setAttribute("listOffice", listOffice);
+			request.setAttribute("listEquipment", listEquipment);
+			request.setAttribute("listSupplies", listSupplies); 
+			request.setAttribute("listMedicine", listMedicine);
 			
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsps/monitoring/monitoring5.jsp");
 			dispatcher.forward(request, response);
