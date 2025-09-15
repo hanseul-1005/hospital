@@ -207,6 +207,8 @@ function ajaxFailed(xmlRequest)	{
 										<label for="on">귀가</label>
 										<input type="radio" name="state" value="4">
 										<label for="on">퇴원</label>
+										<input type="radio" name="state" value="5">
+										<label for="on">사망</label>
 									</div>
 								</td>
 							</tr>

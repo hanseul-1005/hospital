@@ -109,7 +109,7 @@ public class PatientDAO {
 							+ "room_no, patient_guardian_name, patient_guardian_tel, patient_guardian_relation, "
 							+ "patient_state, hospital_no, patient_evacuation_reason, patient_admission_date, patient_diagnosis_date, "
 							+ "patient_evacuation_date, patient_return_date, patient_discharge_date, patient_death_date, pcr_group_no)  "
-					+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ");
+					+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, date(now()), ?, ?, ?, ?, ?) ");
 
 			pstmt.setString(1, code);
 			pstmt.setString(2, modelParam.getName());
@@ -128,12 +128,11 @@ public class PatientDAO {
 			pstmt.setLong(15, modelParam.getHospitalNo());
 			pstmt.setString(16, modelParam.getEvacuationReason());
 			pstmt.setString(17, modelParam.getAdmissionDate());
-			pstmt.setString(18, modelParam.getDiagnosisDate());
-			pstmt.setString(19, modelParam.getEvacuationDate());
-			pstmt.setString(20, modelParam.getReturnDate());
-			pstmt.setString(21, modelParam.getDischargeDate());
-			pstmt.setString(22, modelParam.getDeathDate());
-			pstmt.setLong(23, modelParam.getPcrGroupNo());
+			pstmt.setString(18, modelParam.getEvacuationDate());
+			pstmt.setString(19, modelParam.getReturnDate());
+			pstmt.setString(20, modelParam.getDischargeDate());
+			pstmt.setString(21, modelParam.getDeathDate());
+			pstmt.setLong(22, modelParam.getPcrGroupNo());
 			
 			result = pstmt.executeUpdate();
 			
@@ -165,7 +164,7 @@ public class PatientDAO {
 							+ "patient_name=?, patient_birth=?, patient_age=?, patient_gender=?, " 
 							+ "patient_blood=?, patient_tel=?, patient_addr=?, patient_addr_detail=?, "							
 							+ "room_no=?, patient_guardian_name=?, patient_guardian_tel=?, patient_guardian_relation=?, "
-							+ "patient_state=?, hospital_no=?, patient_evacuation_reason=?, patient_admission_date=?, patient_diagnosis_date=?, "
+							+ "patient_state=?, hospital_no=?, patient_evacuation_reason=?, patient_admission_date=?, "
 							+ "patient_evacuation_date=?, patient_return_date=?, patient_discharge_date=?, patient_death_date=?, pcr_group_no=?  "
 					+ "WHERE patient_no=? ");
 
@@ -185,13 +184,12 @@ public class PatientDAO {
 			pstmt.setLong(14, modelParam.getHospitalNo());
 			pstmt.setString(15, modelParam.getEvacuationReason());
 			pstmt.setString(16, modelParam.getAdmissionDate());
-			pstmt.setString(17, modelParam.getDiagnosisDate());
-			pstmt.setString(18, modelParam.getEvacuationDate());
-			pstmt.setString(19, modelParam.getReturnDate());
-			pstmt.setString(20, modelParam.getDischargeDate());
-			pstmt.setString(21, modelParam.getDeathDate());
-			pstmt.setLong(22, modelParam.getPcrGroupNo());
-			pstmt.setLong(23, modelParam.getNo());
+			pstmt.setString(17, modelParam.getEvacuationDate());
+			pstmt.setString(18, modelParam.getReturnDate());
+			pstmt.setString(19, modelParam.getDischargeDate());
+			pstmt.setString(20, modelParam.getDeathDate());
+			pstmt.setLong(21, modelParam.getPcrGroupNo());
+			pstmt.setLong(22, modelParam.getNo());
 			
 			result = pstmt.executeUpdate();
 			

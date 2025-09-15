@@ -87,8 +87,18 @@ function goModify() {
 	
 	var age = reg_Formatter();
 	
+	var exState = document.getElementById('patient_state').value;
+	var admissionDate = document.getElementById('admission_date').value;
+	var diagnosisDate = document.getElementById('diagnosis_date').value;
+	var evacuationDate = document.getElementById('evacuation_date').value;
+	var returnDate = document.getElementById('return_date').value;
+	var dischargeDate = document.getElementById('discharge_date').value;
+	var deathDate = document.getElementById('death_date').value;
+	
 	var param = "&no="+no+"&code="+code+"&name="+name+"&birth="+birth+"&gender="+gender+"&blood="+blood+"&tel="+tel+"&addr="+addr+"&addr_detail="+addrDetail+"&room_no="+roomNo+"&age="+age
-		+"&guardian_name="+guardianName+"&guardian_tel="+guardianTel+"&guardian_relation="+guardianRelation+"&state="+state+"&hospital_no="+hospitalNo+"&evacuation_reason="+evacuationReason;
+		+"&guardian_name="+guardianName+"&guardian_tel="+guardianTel+"&guardian_relation="+guardianRelation+"&state="+state+"&hospital_no="+hospitalNo+"&evacuation_reason="+evacuationReason+"&ex_state="+exState
+		+"&admission_date="+admissionDate+"&diagnosis_date="+diagnosisDate+"&evacuation_date="+evacuationDate
+		+"&return_date="+returnDate+"&discharge_date="+dischargeDa0te+"&death_date="+deathDate;
 	
 	$.ajax({
 		type: "post", 
@@ -134,6 +144,12 @@ function ajaxFailed(xmlRequest)	{
 					<div style="margin-top: 10px;">
 						<input type="hidden" id="num" value="1"/>
 						<input type="hidden" id="patient_state" value="<%=patient.getState() %>"/>
+						<input type="hidden" id="admission_date" value="<%=patient.getAdmissionDate() %>"/>
+						<input type="hidden" id="diagnosis_date" value="<%=patient.getDiagnosisDate() %>"/>
+						<input type="hidden" id="evacuation_date" value="<%=patient.getEvacuationDate() %>"/>
+						<input type="hidden" id="return_date" value="<%=patient.getReturnDate() %>"/>
+						<input type="hidden" id="discharge_date" value="<%=patient.getDischargeDate() %>"/>
+						<input type="hidden" id="death_date" value="<%=patient.getDeathDate() %>"/>
 						<table class="popup_tb_border">
 							<colgroup>
 								<col width="25%">

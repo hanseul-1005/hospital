@@ -2,10 +2,10 @@ package windy.hospital.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import javax.servlet.RequestDispatcher;
@@ -16,15 +16,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.json.simple.JSONObject;
-
 import windy.hospital.dao.HospitalDAO;
 import windy.hospital.dao.PatientDAO;
-import windy.hospital.dao.RegionDAO;
 import windy.hospital.dao.RoomDAO;
 import windy.hospital.model.HospitalModel;
 import windy.hospital.model.PatientModel;
-import windy.hospital.model.RegionModel;
 import windy.hospital.model.RoomModel;
 
 /**
@@ -237,12 +233,29 @@ public class Patient extends HttpServlet {
 			patient.setState(state);
 			patient.setHospitalNo(hosipitalNo);
 			patient.setEvacuationReason(evacuationReason);
-			
+
 			Calendar calendar = Calendar.getInstance();
 			Date day = (Date) calendar.getTime();
 
-			SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/YYYY a HH:mm", Locale.KOREAN);
-
+			SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd", Locale.KOREAN);
+			String date = sdf.format(day);
+			
+			if(state == 1) {
+				patient.setAdmissionDate(date);
+			}
+			else if(state == 2) {
+				patient.setEvacuationDate(date);
+			}
+			else if(state == 3) {
+				patient.setReturnDate(date);
+			}
+			else if(state == 4) {
+				patient.setDischargeDate(date);
+			}
+			else if(state == 5) {
+				patient.setDeathDate(date);
+			}
+			
 			pDao.insertPatient(patient);
 		}
 		else if("update".equals(mode)) {
@@ -263,6 +276,14 @@ public class Patient extends HttpServlet {
 			int state = Integer.parseInt(request.getParameter("state"));
 			long hosipitalNo = Long.parseLong(request.getParameter("hospital_no"));
 			String evacuationReason = request.getParameter("evacuation_reason");
+			int exState = Integer.parseInt(request.getParameter("ex_state"));
+			
+			String admissionDate = request.getParameter("admission_date");
+			String diagnosisDate = request.getParameter("diagnosis_date");
+			String evacuationDate = request.getParameter("evacuation_date");
+			String returnDate = request.getParameter("return_date");
+			String dischargeDate = request.getParameter("discharge_date");
+			String deathDate = request.getParameter("death_date");
 			
 			PatientModel patient = new PatientModel();
 			patient.setNo(no);
@@ -281,7 +302,31 @@ public class Patient extends HttpServlet {
 			patient.setState(state);
 			patient.setHospitalNo(hosipitalNo);
 			patient.setEvacuationReason(evacuationReason);
-			System.out.println("no : "+no);
+			
+			Calendar calendar = Calendar.getInstance();
+			Date day = (Date) calendar.getTime();
+
+			SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd", Locale.KOREAN);
+			String date = sdf.format(day);
+			
+			if(exState != state) {
+				if(state == 1) {
+					patient.setAdmissionDate(date);
+				}
+				else if(state == 2) {
+					patient.setEvacuationDate(date);
+				}
+				else if(state == 3) {
+					patient.setReturnDate(date);
+				}
+				else if(state == 4) {
+					patient.setDischargeDate(date);
+				}
+				else if(state == 5) {
+					patient.setDeathDate(date);
+				}
+			}
+			
 			pDao.updatePatient(patient);
 		}
 		else if("delete".equals(mode)) {
