@@ -216,7 +216,7 @@ function popClose(num) {
 	            </div>
 	
 	            <div style="height: 7%; width: 100%; display: flex; align-items: center;">
-	                <span style="margin-left: 20px; font-size: 30px; font-weight: bold; color: #496E73;">전라남도 완도군 신지면 신리 999-9</span>
+	                <span style="margin-left: 20px; font-size: 30px; font-weight: bold; color: #496E73;"></span>
 	            </div>
 	
 	            <div style="height: 43%; width: 100%; display: flex;">
@@ -232,30 +232,20 @@ function popClose(num) {
 	                            </tr>
 	                        </thead>
 	                        <tbody>
+	                        	<%for(int i=0; i<listRegion.size(); i++) {
+	                        		RegionModel region = listRegion.get(i);
+	                        	%>
 	                            <tr>
-	                                <td>지휘본부</td>
-	                                <td>061-000-0000</td>
+	                                <td><%=region.getName() %></td>
+	                                <td><%=region.getTel() %></td>
 	                            </tr>
+	                            <%} %>
+	                            <%for(int i=0; i<8-listRegion.size(); i++) {%>
 	                            <tr>
-	                                <td>재난본부</td>
-	                                <td>061-000-0000</td>
+	                            	<td></td>
+	                            	<td></td>
 	                            </tr>
-	                            <tr>
-	                                <td>지역보건소</td>
-	                                <td>061-000-0000</td>
-	                            </tr>
-	                            <tr>
-	                                <td>지역경찰서</td>
-	                                <td>112</td>
-	                            </tr>
-	                            <tr>
-	                                <td>지역소방서</td>
-	                                <td>119</td>
-	                            </tr>
-	                            <tr>
-	                                <td>지역방송국</td>
-	                                <td>061-000-0000</td>
-	                            </tr>
+	                            <%} %>
 	                        </tbody>
 	                    </table>
 	                </div>
@@ -264,11 +254,10 @@ function popClose(num) {
 	                    <table class="tb_css tb2_center">
 	                        <colgroup>
 	                            <col width="10%">
-	                            <col width="15%">
-	                            <col width="15%">
-	                            <col width="30%">
-	                            <col width="15%">
-	                            <col width="15%">
+	                            <col width="20%">
+	                            <col width="20%">
+	                            <col width="25%">
+	                            <col width="25%">
 	                        </colgroup>
 	                        <thead>
 	                            <tr>
@@ -277,56 +266,27 @@ function popClose(num) {
 	                                <th>이름</th>
 	                                <th>연락처</th>
 	                                <th>소속</th>
-	                                <th>비고</th>
 	                            </tr>
+	                            <%for(int i=0; i<listSite.size(); i++) {
+	                            	SiteModel site = listSite.get(i);
+	                            %>
 	                            <tr>
-	                                <td>01</td>
-	                                <td>지휘본부장</td>
-	                                <td>ㅇㅇㅇ</td>
-	                                <td>010-0000-0000</td>
-	                                <td></td>
-	                                <td></td>
+	                                <td><%=i+1 %></td>
+	                                <td><%=site.getName() %></td>
+	                                <td><%=site.getPersonName() %></td>
+	                                <td><%=site.getTel() %></td>
+	                                <td><%=site.getBelong() %></td>
 	                            </tr>
+	                            <%} %>
+	                            <%for(int i=0; i<8-listSite.size(); i++) {%>
 	                            <tr>
-	                                <td>02</td>
-	                                <td>공보관</td>
-	                                <td>ㅇㅇㅇ</td>
-	                                <td>010-0000-0000</td>
-	                                <td></td>
-	                                <td></td>
+	                            	<td></td>
+	                            	<td></td>
+	                            	<td></td>
+	                            	<td></td>
+	                            	<td></td>
 	                            </tr>
-	                            <tr>
-	                                <td>03</td>
-	                                <td>시설관리</td>
-	                                <td>ㅇㅇㅇ</td>
-	                                <td>010-0000-0000</td>
-	                                <td></td>
-	                                <td></td>
-	                            </tr>
-	                            <tr>
-	                                <td>04</td>
-	                                <td>의료행정</td>
-	                                <td>ㅇㅇㅇ</td>
-	                                <td>010-0000-0000</td>
-	                                <td></td>
-	                                <td></td>
-	                            </tr>
-	                            <tr>
-	                                <td>05</td>
-	                                <td>의료</td>
-	                                <td>ㅇㅇㅇ</td>
-	                                <td>010-0000-0000</td>
-	                                <td></td>
-	                                <td></td>
-	                            </tr>
-	                            <tr>
-	                                <td>06</td>
-	                                <td>응급후송</td>
-	                                <td>ㅇㅇㅇ</td>
-	                                <td>010-0000-0000</td>
-	                                <td></td>
-	                                <td></td>
-	                            </tr>
+	                            <%} %>
 	                        </thead>
 	                    </table>
 	                </div>

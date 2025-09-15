@@ -18,7 +18,7 @@ if(listPatient.size()>0) {
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="js/jquery-3.7.1.min.js"></script>
 <link rel="stylesheet" type="text/css" href="css/main.css">
 <script type="text/javascript">
 function popOpen(num, classPrefix, idx) {

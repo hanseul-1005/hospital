@@ -2,7 +2,11 @@ package windy.hospital.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -234,6 +238,10 @@ public class Patient extends HttpServlet {
 			patient.setHospitalNo(hosipitalNo);
 			patient.setEvacuationReason(evacuationReason);
 			
+			Calendar calendar = Calendar.getInstance();
+			Date day = (Date) calendar.getTime();
+
+			SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/YYYY a HH:mm", Locale.KOREAN);
 
 			pDao.insertPatient(patient);
 		}

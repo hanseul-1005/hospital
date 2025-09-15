@@ -12,7 +12,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="js/jquery-3.7.1.min.js"></script>
 <link rel="stylesheet" type="text/css" href="css/main.css">
 <script type="text/javascript">
 function reg_Formatter() {
@@ -133,6 +133,7 @@ function ajaxFailed(xmlRequest)	{
 					</div>
 					<div style="margin-top: 10px;">
 						<input type="hidden" id="num" value="1"/>
+						<input type="hidden" id="patient_state" value="<%=patient.getState() %>"/>
 						<table class="popup_tb_border">
 							<colgroup>
 								<col width="25%">

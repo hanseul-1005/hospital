@@ -79,6 +79,7 @@ public class Monitoring extends HttpServlet {
 			request.setAttribute("listSite", listSite);
 			request.setAttribute("listAmbulance", listAmbulance);
 			request.setAttribute("listVolunteer", listVolunteer);
+			
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsps/monitoring/monitoring1.jsp");
 			dispatcher.forward(request, response);
 		}
@@ -91,6 +92,7 @@ public class Monitoring extends HttpServlet {
 			request.setAttribute("listPatientS", listPatientS);
 			request.setAttribute("listPatientA", listPatientA);
 			request.setAttribute("listPatientB", listPatientB);
+			
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsps/monitoring/monitoring2.jsp");
 			dispatcher.forward(request, response);
 		}
