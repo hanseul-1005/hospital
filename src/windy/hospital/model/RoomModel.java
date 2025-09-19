@@ -8,6 +8,7 @@ public class RoomModel {
 	private String name = "";
 	private int cnt = 0;
 	private String del = "N";
+	private int patientCnt = 0;
 	
 	public int getNo() {
 		return no;
@@ -44,6 +45,12 @@ public class RoomModel {
 	}
 	public void setDel(String del) {
 		this.del = del;
+	}
+	public int getPatientCnt() {
+		return patientCnt;
+	}
+	public void setPatientCnt(int patientCnt) {
+		this.patientCnt = patientCnt;
 	}
 	
 	

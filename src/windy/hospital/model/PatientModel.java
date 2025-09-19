@@ -29,6 +29,9 @@ public class PatientModel {
 	private String dischargeDate = "";
 	private String deathDate = "";
 	private long pcrGroupNo = -1;
+	private String hospitalName = "";
+	private int Cnt = 0;
+	private int hospitalCnt = 0;
 	
 	private List<PatientModel> listPatientS = new ArrayList<PatientModel>();
 	private List<PatientModel> listPatientA = new ArrayList<PatientModel>();
@@ -237,6 +240,24 @@ public class PatientModel {
 	}
 	public void setName4(String name4) {
 		this.name4 = name4;
+	}
+	public String getHospitalName() {
+		return hospitalName;
+	}
+	public void setHospitalName(String hospitalName) {
+		this.hospitalName = hospitalName;
+	}
+	public int getCnt() {
+		return Cnt;
+	}
+	public void setCnt(int cnt) {
+		Cnt = cnt;
+	}
+	public int getHospitalCnt() {
+		return hospitalCnt;
+	}
+	public void setHospitalCnt(int hospitalCnt) {
+		this.hospitalCnt = hospitalCnt;
 	}
 	
 	

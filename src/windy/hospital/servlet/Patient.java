@@ -216,6 +216,10 @@ public class Patient extends HttpServlet {
 			long hosipitalNo = Long.parseLong(request.getParameter("hospital_no"));
 			String evacuationReason = request.getParameter("evacuation_reason");
 			
+			if(state != 2) {
+				hosipitalNo = -1;
+			}
+			
 			PatientModel patient = new PatientModel();
 			patient.setCode(code);
 			patient.setName(name);
@@ -302,6 +306,12 @@ public class Patient extends HttpServlet {
 			patient.setState(state);
 			patient.setHospitalNo(hosipitalNo);
 			patient.setEvacuationReason(evacuationReason);
+			patient.setAdmissionDate(admissionDate);
+			patient.setDiagnosisDate(diagnosisDate);
+			patient.setEvacuationDate(evacuationDate);
+			patient.setReturnDate(returnDate);
+			patient.setDischargeDate(dischargeDate);
+			patient.setDeathDate(deathDate);
 			
 			Calendar calendar = Calendar.getInstance();
 			Date day = (Date) calendar.getTime();

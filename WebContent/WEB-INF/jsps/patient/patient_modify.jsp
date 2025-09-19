@@ -98,7 +98,7 @@ function goModify() {
 	var param = "&no="+no+"&code="+code+"&name="+name+"&birth="+birth+"&gender="+gender+"&blood="+blood+"&tel="+tel+"&addr="+addr+"&addr_detail="+addrDetail+"&room_no="+roomNo+"&age="+age
 		+"&guardian_name="+guardianName+"&guardian_tel="+guardianTel+"&guardian_relation="+guardianRelation+"&state="+state+"&hospital_no="+hospitalNo+"&evacuation_reason="+evacuationReason+"&ex_state="+exState
 		+"&admission_date="+admissionDate+"&diagnosis_date="+diagnosisDate+"&evacuation_date="+evacuationDate
-		+"&return_date="+returnDate+"&discharge_date="+dischargeDa0te+"&death_date="+deathDate;
+		+"&return_date="+returnDate+"&discharge_date="+dischargeDate+"&death_date="+deathDate;
 	
 	$.ajax({
 		type: "post", 
@@ -223,7 +223,10 @@ function ajaxFailed(xmlRequest)	{
 											<%} %>
 										</select>
 										<select class="popup_select_2020" id="evacuation_reason">
-											<option>비응급</option>
+											<option value="비응급">비응급</option>
+											<option value="응급">응급</option>
+											<option value="긴급">긴급</option>
+											<option value="사망">사망</option>
 										</select>
 										<input type="radio" name="state" id="state3" value="3" <%if(patient.getState() == 3) {%> checked="checked" <%} %>>
 										<label for="on">귀가</label>

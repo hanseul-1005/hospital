@@ -3,6 +3,7 @@ package windy.hospital.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -25,9 +26,11 @@ import windy.hospital.model.AmbulanceModel;
 import windy.hospital.model.DBModel;
 import windy.hospital.model.EmployeeModel;
 import windy.hospital.model.EquipmentModel;
+import windy.hospital.model.HospitalModel;
 import windy.hospital.model.MedicineModel;
 import windy.hospital.model.PatientModel;
 import windy.hospital.model.RegionModel;
+import windy.hospital.model.RoomModel;
 import windy.hospital.model.SiteModel;
 import windy.hospital.model.SuppliesModel;
 import windy.hospital.model.VolunteerModel;
@@ -69,35 +72,89 @@ public class Monitoring extends HttpServlet {
 		request.setAttribute("main_menu", menu);
 		
 		if("monitor1".equals(menu)) {
+			// 누적 진료
+			int totalDiagnosis = mDao.selectTotalDiagnosis();
+			// 누적 사망
+			int totalDeath = mDao.selectTotalDeath();
+			
+			// 오늘 진료
+			int todayDiagnosis = mDao.selectTodayDiagnosis();
+			// 오늘 입원
+			int todayAdmission = mDao.selectTodayAdmission();
+			// 오늘 후송 
+			int todayEvacuation = mDao.selectTodayEvacuation();
+			// 오늘 사망
+			int todayDeath = mDao.selectTodayDeath();
 	
 			ArrayList<RegionModel> listRegion = (ArrayList<RegionModel>) rDao.selectListRegion("");
 			ArrayList<SiteModel> listSite = (ArrayList<SiteModel>) sDao.selectListSite("");
 			ArrayList<AmbulanceModel> listAmbulance = (ArrayList<AmbulanceModel>) mDao.selectListAmbulance();
 			ArrayList<VolunteerModel> listVolunteer = (ArrayList<VolunteerModel>) mDao.selectListVolunteer();
+
+			ArrayList<RoomModel> listRoom = (ArrayList<RoomModel>) mDao.selectListRoomCnt();
+			
+			ArrayList<PatientModel> listHospital = (ArrayList<PatientModel>) mDao.selectListHospital();
+			
+			request.setAttribute("totalDiagnosis", totalDiagnosis);
+			request.setAttribute("totalDeath", totalDeath);
+			
+			request.setAttribute("todayDiagnosis", todayDiagnosis);
+			request.setAttribute("todayAdmission", todayAdmission);
+			request.setAttribute("todayEvacuation", todayEvacuation);
+			request.setAttribute("todayDeath", todayDeath);
 			
 			request.setAttribute("listRegion", listRegion);
 			request.setAttribute("listSite", listSite);
 			request.setAttribute("listAmbulance", listAmbulance);
 			request.setAttribute("listVolunteer", listVolunteer);
 			
+			request.setAttribute("listRoom", listRoom);
+			
+			request.setAttribute("listHospital", listHospital);
+			
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsps/monitoring/monitoring1.jsp");
 			dispatcher.forward(request, response);
 		}
 		else if("monitor2".equals(menu)) {
 
+			// 누적 진료
+			int totalDiagnosis = mDao.selectTotalDiagnosis();
+			// 누적 입원
+			int totalAdmission = mDao.selectTotalAdmission();
+			
+			// 오늘 입원
+			int todayAdmission = mDao.selectTodayAdmission();
+			// 오늘 진료
+			int todayDiagnosis = mDao.selectTodayDiagnosis();
+			// 오늘 후송 
+			int todayEvacuation = mDao.selectTodayEvacuation();
+			
 			ArrayList<PatientModel> listPatientS = (ArrayList<PatientModel>) mDao.selectListPatient("음압");
 			ArrayList<PatientModel> listPatientA = (ArrayList<PatientModel>) mDao.selectListPatient2("관찰");
 			ArrayList<PatientModel> listPatientB = (ArrayList<PatientModel>) mDao.selectListPatient2("일반");
 			
+			ArrayList<HospitalModel> listHospital = (ArrayList<HospitalModel>) mDao.selectListHospitalReason();
+			
+			request.setAttribute("totalDiagnosis", totalDiagnosis);
+			request.setAttribute("totalAdmission", totalAdmission);
+			request.setAttribute("todayAdmission", todayAdmission);
+			request.setAttribute("todayDiagnosis", todayDiagnosis);
+			request.setAttribute("todayEvacuation", todayEvacuation);
+			
 			request.setAttribute("listPatientS", listPatientS);
 			request.setAttribute("listPatientA", listPatientA);
 			request.setAttribute("listPatientB", listPatientB);
+			
+			request.setAttribute("listHospital", listHospital);
 			
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsps/monitoring/monitoring2.jsp");
 			dispatcher.forward(request, response);
 		}
 		else if("monitor3".equals(menu)) {
 
+			ArrayList<RoomModel> listRoom = (ArrayList<RoomModel>) mDao.selectListRoomCnt();
+			
+			request.setAttribute("listRoom", listRoom);
 			
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsps/monitoring/monitoring3.jsp");
 			dispatcher.forward(request, response);

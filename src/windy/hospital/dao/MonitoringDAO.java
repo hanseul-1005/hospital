@@ -11,6 +11,7 @@ import java.util.List;
 import windy.hospital.model.AmbulanceModel;
 import windy.hospital.model.DatabaseModel;
 import windy.hospital.model.EmployeeModel;
+import windy.hospital.model.HospitalModel;
 import windy.hospital.model.PatientModel;
 import windy.hospital.model.RoomModel;
 import windy.hospital.model.SiteModel;
@@ -460,6 +461,370 @@ public class MonitoringDAO {
 			close(rs, pstmt, connection);
 		}
 		return listPatient;				
+	}
+			
+	// //////////////////////////////////////////////////
+
+	// //////////////////////////////////////////////////
+	// - 용품 목록 조회
+	// //////////////////////////////////////////////////
+	public List<RoomModel> selectListRoomCnt() {
+		
+		List<RoomModel> listRoom = new ArrayList<RoomModel>();
+		
+		try {
+			// 데이터베이스 객체 생성
+			Class.forName(dbDriver);
+			connection = DriverManager.getConnection(jdbcUrl, user, password);
+
+			pstmt = connection.prepareStatement(
+					"SELECT CONCAT(room_name, '(', ri.room_code, ')') as name, room_cnt, "
+					+ "(select COUNT(patient_no) as cnt from patient_info pi where patient_state = 1 and date(patient_admission_date) <= date(now()) and pi.room_no=ri.room_no) as patient_cnt "
+					+ "FROM room_info ri "
+					+ "WHERE room_del = 'N' ");
+			
+			rs = pstmt.executeQuery();
+			
+			int i = 0;
+			while(rs.next()) {
+				RoomModel room = new RoomModel();
+				room.setCnt(rs.getInt("room_cnt"));
+				room.setPatientCnt(rs.getInt("patient_cnt"));
+				room.setName(rs.getString("name"));
+				
+				listRoom.add(room);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// 사용한 객체 종료
+			close(rs, pstmt, connection);
+		}
+		return listRoom;				
+	}
+			
+	// //////////////////////////////////////////////////
+
+	// //////////////////////////////////////////////////
+	// - 용품 목록 조회
+	// //////////////////////////////////////////////////
+	public int selectTotalDiagnosis() {
+		
+		int totalDiagnosis = 0;
+		
+		try {
+			// 데이터베이스 객체 생성
+			Class.forName(dbDriver);
+			connection = DriverManager.getConnection(jdbcUrl, user, password);
+
+			pstmt = connection.prepareStatement(
+					"SELECT count(patient_no) as cnt "
+					+ "FROM patient_info "
+					+ "WHERE patient_diagnosis_date is not null and patient_diagnosis_date != '' ");
+			
+			rs = pstmt.executeQuery();
+			
+			int i = 0;
+			if(rs.next()) {
+				totalDiagnosis = rs.getInt("cnt");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// 사용한 객체 종료
+			close(rs, pstmt, connection);
+		}
+		return totalDiagnosis;				
+	}
+			
+	// //////////////////////////////////////////////////
+
+	// //////////////////////////////////////////////////
+	// - 용품 목록 조회
+	// //////////////////////////////////////////////////
+	public int selectTotalAdmission() {
+		
+		int totalAdmission = 0;
+		
+		try {
+			// 데이터베이스 객체 생성
+			Class.forName(dbDriver);
+			connection = DriverManager.getConnection(jdbcUrl, user, password);
+
+			pstmt = connection.prepareStatement(
+					"SELECT count(patient_no) as cnt "
+					+ "FROM patient_info "
+					+ "WHERE patient_admission_date is not null and patient_admission_date != '' ");
+			
+			rs = pstmt.executeQuery();
+			
+			int i = 0;
+			if(rs.next()) {
+				totalAdmission = rs.getInt("cnt");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// 사용한 객체 종료
+			close(rs, pstmt, connection);
+		}
+		return totalAdmission;				
+	}
+			
+	// //////////////////////////////////////////////////
+
+	// //////////////////////////////////////////////////
+	// - 용품 목록 조회
+	// //////////////////////////////////////////////////
+	public int selectTotalDeath() {
+		
+		int totalDeath = 0;
+		
+		try {
+			// 데이터베이스 객체 생성
+			Class.forName(dbDriver);
+			connection = DriverManager.getConnection(jdbcUrl, user, password);
+
+			pstmt = connection.prepareStatement(
+					"SELECT count(patient_no) as cnt "
+					+ "FROM patient_info "
+					+ "WHERE patient_death_date is not null and patient_death_date != '' ");
+			
+			rs = pstmt.executeQuery();
+			
+			int i = 0;
+			if(rs.next()) {
+				totalDeath = rs.getInt("cnt");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// 사용한 객체 종료
+			close(rs, pstmt, connection);
+		}
+		return totalDeath;				
+	}
+			
+	// //////////////////////////////////////////////////
+
+	// //////////////////////////////////////////////////
+	// - 용품 목록 조회
+	// //////////////////////////////////////////////////
+	public int selectTodayAdmission() {
+		
+		int todayAdmission = 0;
+		
+		try {
+			// 데이터베이스 객체 생성
+			Class.forName(dbDriver);
+			connection = DriverManager.getConnection(jdbcUrl, user, password);
+
+			pstmt = connection.prepareStatement(
+					"SELECT count(patient_no) as cnt "
+					+ "FROM patient_info "
+					+ "WHERE date(patient_admission_date) = date(now()) and patient_state=1 ");
+			
+			rs = pstmt.executeQuery();
+			
+			int i = 0;
+			if(rs.next()) {
+				todayAdmission = rs.getInt("cnt");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// 사용한 객체 종료
+			close(rs, pstmt, connection);
+		}
+		return todayAdmission;				
+	}
+			
+	// //////////////////////////////////////////////////
+
+	// //////////////////////////////////////////////////
+	// - 용품 목록 조회
+	// //////////////////////////////////////////////////
+	public int selectTodayDiagnosis() {
+		
+		int todayDiagnosis = 0;
+		
+		try {
+			// 데이터베이스 객체 생성
+			Class.forName(dbDriver);
+			connection = DriverManager.getConnection(jdbcUrl, user, password);
+
+			pstmt = connection.prepareStatement(
+					"SELECT count(patient_no) as cnt "
+					+ "FROM patient_info "
+					+ "WHERE date(patient_diagnosis_date) = date(now()) ");
+			
+			rs = pstmt.executeQuery();
+			
+			int i = 0;
+			if(rs.next()) {
+				todayDiagnosis = rs.getInt("cnt");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// 사용한 객체 종료
+			close(rs, pstmt, connection);
+		}
+		return todayDiagnosis;				
+	}
+			
+	// //////////////////////////////////////////////////
+
+	// //////////////////////////////////////////////////
+	// - 용품 목록 조회
+	// //////////////////////////////////////////////////
+	public int selectTodayEvacuation() {
+		
+		int todayEvacuation = 0;
+		
+		try {
+			// 데이터베이스 객체 생성
+			Class.forName(dbDriver);
+			connection = DriverManager.getConnection(jdbcUrl, user, password);
+
+			pstmt = connection.prepareStatement(
+					"SELECT count(patient_no) as cnt "
+					+ "FROM patient_info "
+					+ "WHERE date(patient_evacuation_date) = date(now()) and patient_state=2 ");
+			
+			rs = pstmt.executeQuery();
+			
+			int i = 0;
+			if(rs.next()) {
+				todayEvacuation = rs.getInt("cnt");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// 사용한 객체 종료
+			close(rs, pstmt, connection);
+		}
+		return todayEvacuation;				
+	}
+			
+	// //////////////////////////////////////////////////
+
+	// //////////////////////////////////////////////////
+	// - 용품 목록 조회
+	// //////////////////////////////////////////////////
+	public int selectTodayDeath() {
+		
+		int todayDeath = 0;
+		
+		try {
+			// 데이터베이스 객체 생성
+			Class.forName(dbDriver);
+			connection = DriverManager.getConnection(jdbcUrl, user, password);
+
+			pstmt = connection.prepareStatement(
+					"SELECT count(patient_no) as cnt "
+					+ "FROM patient_info "
+					+ "WHERE date(patient_death_date) = date(now()) and patient_state=5 ");
+			
+			rs = pstmt.executeQuery();
+			
+			int i = 0;
+			if(rs.next()) {
+				todayDeath = rs.getInt("cnt");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// 사용한 객체 종료
+			close(rs, pstmt, connection);
+		}
+		return todayDeath;				
+	}
+			
+	// //////////////////////////////////////////////////
+
+	// //////////////////////////////////////////////////
+	// - 용품 목록 조회
+	// //////////////////////////////////////////////////
+	public List<PatientModel> selectListHospital() {
+		
+		List<PatientModel> listHospital = new ArrayList<PatientModel>();
+		
+		try {
+			// 데이터베이스 객체 생성
+			Class.forName(dbDriver);
+			connection = DriverManager.getConnection(jdbcUrl, user, password);
+
+			pstmt = connection.prepareStatement(
+					"SELECT hospital_name, hospital_room_cnt, "
+					+ "(select count(patient_no) from patient_info pi where pi.hospital_no = hi.hospital_no) as cnt "
+					+ "FROM hospital_info hi "
+					+ "WHERE hospital_del = 'N' ");
+			
+			rs = pstmt.executeQuery();
+			
+			int i = 0;
+			while(rs.next()) {
+				PatientModel patient = new PatientModel();
+				patient.setHospitalName(rs.getString("hospital_name"));
+				patient.setHospitalCnt(rs.getInt("hospital_room_cnt"));
+				patient.setCnt(rs.getInt("cnt"));
+				
+				listHospital.add(patient);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// 사용한 객체 종료
+			close(rs, pstmt, connection);
+		}
+		return listHospital;				
+	}
+			
+	// //////////////////////////////////////////////////
+
+	// //////////////////////////////////////////////////
+	// - 용품 목록 조회
+	// //////////////////////////////////////////////////
+	public List<HospitalModel> selectListHospitalReason() {
+		
+		List<HospitalModel> listHospital = new ArrayList<HospitalModel>();
+		
+		try {
+			// 데이터베이스 객체 생성
+			Class.forName(dbDriver);
+			connection = DriverManager.getConnection(jdbcUrl, user, password);
+
+			pstmt = connection.prepareStatement(
+					"SELECT hospital_name, hospital_room_cnt, "
+					+ "(select count(patient_no) from patient_info pi where pi.hospital_no = hi.hospital_no and pi.patient_evacuation_reason='긴급') as cnt1, "
+					+ "(select count(patient_no) from patient_info pi where pi.hospital_no = hi.hospital_no and pi.patient_evacuation_reason='응급') as cnt2, "
+					+ "(select count(patient_no) from patient_info pi where pi.hospital_no = hi.hospital_no and pi.patient_evacuation_reason='비응급') as cnt3, "
+					+ "(select count(patient_no) from patient_info pi where pi.hospital_no = hi.hospital_no and pi.patient_evacuation_reason='사망') as cnt4 "
+					+ "FROM hospital_info hi "
+					+ "WHERE hospital_del = 'N' ");
+			
+			rs = pstmt.executeQuery();
+			
+			int i = 0;
+			while(rs.next()) {
+				HospitalModel hospital = new HospitalModel();
+				hospital.setName(rs.getString("hospital_name"));
+				hospital.setRoomCnt(rs.getInt("hospital_room_cnt"));
+				hospital.setPatientCnt1(rs.getInt("cnt1"));
+				hospital.setPatientCnt2(rs.getInt("cnt2"));
+				hospital.setPatientCnt3(rs.getInt("cnt3"));
+				hospital.setPatientCnt4(rs.getInt("cnt4"));
+				
+				listHospital.add(hospital);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// 사용한 객체 종료
+			close(rs, pstmt, connection);
+		}
+		return listHospital;				
 	}
 			
 	// //////////////////////////////////////////////////

@@ -9,6 +9,11 @@ public class HospitalModel {
 	private String note = "";
 	private String del = "N";
 	
+	private int patientCnt1 = 0;
+	private int patientCnt2 = 0;
+	private int patientCnt3 = 0;
+	private int patientCnt4 = 0;
+	
 	public long getNo() {
 		return no;
 	}
@@ -44,6 +49,30 @@ public class HospitalModel {
 	}
 	public void setDel(String del) {
 		this.del = del;
+	}
+	public int getPatientCnt1() {
+		return patientCnt1;
+	}
+	public void setPatientCnt1(int patientCnt1) {
+		this.patientCnt1 = patientCnt1;
+	}
+	public int getPatientCnt2() {
+		return patientCnt2;
+	}
+	public void setPatientCnt2(int patientCnt2) {
+		this.patientCnt2 = patientCnt2;
+	}
+	public int getPatientCnt3() {
+		return patientCnt3;
+	}
+	public void setPatientCnt3(int patientCnt3) {
+		this.patientCnt3 = patientCnt3;
+	}
+	public int getPatientCnt4() {
+		return patientCnt4;
+	}
+	public void setPatientCnt4(int patientCnt4) {
+		this.patientCnt4 = patientCnt4;
 	}
 	
 	

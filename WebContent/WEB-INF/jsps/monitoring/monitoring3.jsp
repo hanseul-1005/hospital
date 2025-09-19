@@ -1,4 +1,11 @@
+<%@page import="windy.hospital.model.RoomModel"%>
+<%@page import="windy.hospital.model.PatientModel"%>
+<%@page import="windy.hospital.model.HospitalModel"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+ArrayList<RoomModel> listRoom = (ArrayList<RoomModel>) request.getAttribute("listRoom");
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -35,18 +42,28 @@
 								</colgroup>
 								<thead>
 									<tr>
-										<th>음압(S)</th>
-										<th>관찰(A)</th>
-										<th>일반(B)</th>
+										<%for(int i=0; i<listRoom.size(); i++) {
+											RoomModel room = listRoom.get(i);
+										%>
+										<th><%=room.getName() %></th>
+										<%} %>
 										<th>합계</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr>
-										<td>01/01</td>
-										<td>04/06</td>
-										<td>08/08</td>
-										<td>13/15</td>
+										<%
+										int totalCnt = 0, totalPatientCnt = 0;
+										for(int i=0; i<listRoom.size(); i++) {
+											RoomModel room = listRoom.get(i);
+											
+											totalCnt = totalCnt+room.getCnt();
+											totalPatientCnt = totalPatientCnt+room.getPatientCnt();
+											
+										%>
+										<td><%=room.getPatientCnt() %>/<%=room.getCnt() %></td>
+										<%} %>
+										<td><%=totalPatientCnt %>/<%=totalCnt %></td>
 									</tr>
 								</tbody>
 							</table>

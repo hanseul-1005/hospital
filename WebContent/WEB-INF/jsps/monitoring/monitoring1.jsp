@@ -1,3 +1,6 @@
+<%@page import="windy.hospital.model.HospitalModel"%>
+<%@page import="windy.hospital.model.PatientModel"%>
+<%@page import="windy.hospital.model.RoomModel"%>
 <%@page import="windy.hospital.model.VolunteerModel"%>
 <%@page import="windy.hospital.model.AmbulanceModel"%>
 <%@page import="windy.hospital.model.SiteModel"%>
@@ -6,10 +9,41 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%
+// 누적 진료
+int totalDiagnosis = (int) request.getAttribute("totalDiagnosis");
+// 누적 사망
+int totalDeath = (int) request.getAttribute("totalDeath");
+//오늘 진료
+int todayDiagnosis = (int) request.getAttribute("todayDiagnosis");
+// 오늘 입원
+int todayAdmission = (int) request.getAttribute("todayAdmission");
+// 오늘 후송 
+int todayEvacuation =(int) request.getAttribute("todayEvacuation");
+// 오늘 사망
+int todayDeath = (int) request.getAttribute("todayDeath");
+
+
 ArrayList<RegionModel> listRegion = (ArrayList<RegionModel>) request.getAttribute("listRegion");
 ArrayList<SiteModel> listSite = (ArrayList<SiteModel>) request.getAttribute("listSite");
 ArrayList<AmbulanceModel> listAmbulance = (ArrayList<AmbulanceModel>) request.getAttribute("listAmbulance");
 ArrayList<VolunteerModel> listVolunteer = (ArrayList<VolunteerModel>) request.getAttribute("listVolunteer");
+
+ArrayList<RoomModel> listRoom = (ArrayList<RoomModel>) request.getAttribute("listRoom");
+
+ArrayList<PatientModel> listHospital = (ArrayList<PatientModel>) request.getAttribute("listHospital");
+
+int totalRoomCnt = 0;
+int totalRoomPatientCnt = 0;
+for(int i=0; i<listRoom.size(); i++) {
+	totalRoomCnt = totalRoomCnt+listRoom.get(i).getCnt();
+	totalRoomPatientCnt = totalRoomPatientCnt+listRoom.get(i).getPatientCnt();
+}
+
+int totalHospital = 0;
+for(int i=0; i<listHospital.size(); i++) {
+	totalHospital = totalHospital+listHospital.get(i).getCnt();
+
+}
 %>
 <html>
 <head>
@@ -71,9 +105,9 @@ function popClose(num) {
 								</thead>
 								<tbody>
 									<tr>
-										<td>38/50</td>
-										<td>10,500</td>
-										<td>04</td>
+										<td><%=totalRoomPatientCnt %>/<%=totalRoomCnt %></td>
+										<td><%=totalDiagnosis %></td>
+										<td><%=totalDeath %></td>
 									</tr>
 								</tbody>
 	                        </table>
@@ -97,10 +131,10 @@ function popClose(num) {
 								</thead>
 								<tbody>
 									<tr>
-										<td>11</td>
-										<td>500</td>
-										<td>04</td>
-	                                    <td>04</td>
+										<td><%=todayAdmission %></td>
+										<td><%=todayDiagnosis %></td>
+										<td><%=todayEvacuation %></td>
+	                                    <td><%=todayDeath %></td>
 									</tr>
 								</tbody>
 	                        </table>
@@ -109,49 +143,45 @@ function popClose(num) {
 	                    <div style="height: 50%; width: 100%;">
 	                        <table class="tb_css center_tb_3">
 	                            <colgroup>
-	                                <col width="7%">
-	                                <col width="7%">
-	                                <col width="7%">
-	                                <col width="7%">
-	                                <col width="7%">
-	                                <col width="7%">
-	                                <col width="7%">
-	                                <col width="7%">
-	                                <col width="7%">
-	                                <col width="7%">
-	                                <col width="30%">
+	                                <col width="16%">
+	                                <col width="16%">
+	                                <col width="16%">
+	                                <col width="16%">
+	                                <col width="16%">
+	                                <col width="20%">
 	                            </colgroup>
 	                            <thead>
 									<tr>
-										<th colspan="10">오늘입원</th>
+										<th colspan="5">거점병원</th>
 										<th>누적후송</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr>
-										<td>1</td>
-	                                    <td>2</td>
-	                                    <td>3</td>
-	                                    <td>4</td>
-	                                    <td>5</td>
-	                                    <td>6</td>
-	                                    <td>7</td>
-	                                    <td>8</td>
-	                                    <td>9</td>
-	                                    <td>10</td>
-	                                    <td rowspan="2">21</td>
+	                                    <%
+	                                    if(listHospital.size()<6) {
+	                                    	for(int i=0; i<listHospital.size(); i++) {%>
+	                                    <td><%=listHospital.get(i).getHospitalName() %></td>
+	                                    <%	}
+	                                    } else { 
+											for(int i=0; i<5; i++) {%>
+	                                    <td><%=listHospital.get(i).getHospitalName() %></td>
+	                                    <%	}
+										}%>
+	                                    <%for(int i=0; i<5-listHospital.size(); i++) { %>
+	                                    <td></td>
+	                                    <%} %>
+	                                    <td rowspan="2"><%=totalHospital %></td>
 									</tr>
 	                                <tr>
-										<td style="height: 90px;"></td>
+										<%for(int i=0; i<listHospital.size(); i++) {
+											PatientModel patient = listHospital.get(i);
+										%>
+	                                    <td style="height: 70px;"><%=patient.getCnt() %></td>
+	                                    <%} %>
+	                                    <%for(int i=0; i<5-listHospital.size(); i++) {%>
 	                                    <td></td>
-	                                    <td></td>
-	                                    <td></td>
-	                                    <td></td>
-	                                    <td></td>
-	                                    <td></td>
-	                                    <td></td>
-	                                    <td></td>
-	                                    <td></td>
+	                                    <%} %>
 									</tr>
 								</tbody>
 	                        </table>
@@ -159,59 +189,54 @@ function popClose(num) {
 	                </div>
 	
 	                <div class="content1_right_contents">
+                    	<%
+                    	int roomCnt = 0;
+                    	for(int i=0; i<listRoom.size(); i++) {
+                    		RoomModel room = listRoom.get(i);
+                    		roomCnt = roomCnt+1;
+                    	%>
 	                    <div style="height: 33.3%; width: 100%;">
-	                        <table class="tb_css right_tb_1">
+	                        <table class="tb_css right_tb_<%=i+1%>">
 	                            <colgroup>
 	                                <col width="100%">
 	                            </colgroup>
 	                            <thead>
 									<tr>
-										<th>음압(S)</th>
+										<th><%=room.getName() %></th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr>
-										<td>03/08</td>
+										<td><%=room.getPatientCnt() %>/<%=room.getCnt() %></td>
 									</tr>
 								</tbody>
 	                        </table>
 	                    </div>
-	
+	                    <%} %>
+	                    
+	                    <%if(listRoom.size()<3) {
+	                    	for(int i=0; i<3-listRoom.size(); i++) {
+	                    		roomCnt = roomCnt+1;
+	                    %>
 	                    <div style="height: 33.3%; width: 100%;">
-	                        <table class="tb_css right_tb_2">
+	                        <table class="tb_css right_tb_<%=roomCnt %>">
 	                            <colgroup>
 	                                <col width="100%">
 	                            </colgroup>
 	                            <thead>
 									<tr>
-										<th>관찰(A)</th>
+										<th></th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr>
-										<td>12/18</td>
+										<td></td>
 									</tr>
 								</tbody>
 	                        </table>
 	                    </div>
-	
-	                    <div style="height: 33.3%; width: 100%;">
-	                        <table class="tb_css right_tb_3">
-	                            <colgroup>
-	                                <col width="100%">
-	                            </colgroup>
-	                            <thead>
-									<tr>
-										<th>일반(B)</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>21/24</td>
-									</tr>
-								</tbody>
-	                        </table>
-	                    </div>
+	                    <%	} 
+	                    }%>
 	                </div>
 	            </div>
 	
@@ -385,13 +410,11 @@ function popClose(num) {
 	                        </colgroup>
 	                        <tbody>
 	                            <tr>
-	                                <td>거점병원1:00/10</td>
-	                                <td>거점병원2:00/10</td>
-	                                <td>거점병원3:00/10</td>
-	                                <td>거점병원4:00/10</td>
-	                                <td>거점병원5:00/10</td>
-	                                <td>거점병원6:00/10</td>
-	                                <td>거점병원7:00/10</td>
+	                            	<%
+	                            	for(int i=0; i<listHospital.size(); i++) {
+	                            	%>
+	                                <td><%=listHospital.get(i).getHospitalName() %>:<%=listHospital.get(i).getCnt() %>/<%=listHospital.get(i).getHospitalCnt() %></td>
+	                                <%} %>
 	                            </tr>
 	                        </tbody>
 	                    </table>

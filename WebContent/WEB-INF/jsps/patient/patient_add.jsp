@@ -201,7 +201,10 @@ function ajaxFailed(xmlRequest)	{
 											<%} %>
 										</select>
 										<select class="popup_select_2020" id="evacuation_reason">
-											<option>비응급</option>
+											<option value="비응급">비응급</option>
+											<option value="응급">응급</option>
+											<option value="긴급">긴급</option>
+											<option value="사망">사망</option>
 										</select>
 										<input type="radio" name="state" value="3">
 										<label for="on">귀가</label>

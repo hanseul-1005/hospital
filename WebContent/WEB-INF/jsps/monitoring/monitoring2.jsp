@@ -1,11 +1,27 @@
+<%@page import="windy.hospital.model.HospitalModel"%>
 <%@page import="windy.hospital.model.PatientModel"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%
+
+// 누적 진료
+int totalDiagnosis = (int) request.getAttribute("totalDiagnosis");
+// 누적 입원
+int totalAdmission = (int) request.getAttribute("totalAdmission");
+
+// 오늘 입원
+int todayAdmission = (int) request.getAttribute("todayAdmission");
+// 오늘 진료
+int todayDiagnosis = (int) request.getAttribute("todayDiagnosis");
+// 오늘 후송 
+int todayEvacuation = (int) request.getAttribute("todayEvacuation");
+
 ArrayList<PatientModel> listPatientS = (ArrayList<PatientModel>) request.getAttribute("listPatientS");
 ArrayList<PatientModel> listPatientA = (ArrayList<PatientModel>) request.getAttribute("listPatientA");
 ArrayList<PatientModel> listPatientB = (ArrayList<PatientModel>) request.getAttribute("listPatientB");
+
+ArrayList<HospitalModel> listHospital = (ArrayList<HospitalModel>) request.getAttribute("listHospital");
 %>
 <html>
 <head>
@@ -34,16 +50,16 @@ ArrayList<PatientModel> listPatientB = (ArrayList<PatientModel>) request.getAttr
 							</colgroup>
 							<thead>
 								<tr>
-									<th>오늘인원</th>
+									<th>오늘입원</th>
 									<th>오늘진료</th>
 									<th>오늘후송</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
-									<td>11</td>
-									<td>500</td>
-									<td>04</td>
+									<td><%=todayAdmission %></td>
+									<td><%=todayDiagnosis %></td>
+									<td><%=todayEvacuation %></td>
 								</tr>
 							</tbody>
 						</table>
@@ -60,8 +76,8 @@ ArrayList<PatientModel> listPatientB = (ArrayList<PatientModel>) request.getAttr
 							</thead>
 							<tbody>
 								<tr>
-									<td>38/50</td>
-									<td>10,500</td>
+									<td><%=totalAdmission %></td>
+									<td><%=totalDiagnosis %></td>
 								</tr>
 							</tbody>
 						</table>
@@ -218,20 +234,21 @@ ArrayList<PatientModel> listPatientB = (ArrayList<PatientModel>) request.getAttr
 						</thead>
 						<tbody>
 							<%
-								for(int i=0; i<10; i++) {
+								for(int i=0; i<listHospital.size(); i++) {
+									HospitalModel hospital = listHospital.get(i);
 							%>
 							<tr>
 								<td><%=i+1 %></td>
-								<td>A병원</td>
-								<td>20</td>
-								<td>10</td>
-								<td>20</td>
-								<td>20</td>
-								<td>20</td>
+								<td><%=hospital.getName() %></td>
+								<td><%=hospital.getPatientCnt1()+hospital.getPatientCnt2()+hospital.getPatientCnt3() %></td>
+								<td><%=hospital.getPatientCnt1() %></td>
+								<td><%=hospital.getPatientCnt2() %></td>
+								<td><%=hospital.getPatientCnt3() %></td>
+								<td><%=hospital.getPatientCnt4() %></td>
 							</tr>
 							<%} %>
 							<%
-								for(int i=0; i<4; i++) {
+								for(int i=0; i<17-listHospital.size(); i++) {
 							%>
 							<tr>
 								<td></td>
