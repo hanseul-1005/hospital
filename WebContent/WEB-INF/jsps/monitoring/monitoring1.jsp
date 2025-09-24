@@ -22,7 +22,6 @@ int todayEvacuation =(int) request.getAttribute("todayEvacuation");
 // 오늘 사망
 int todayDeath = (int) request.getAttribute("todayDeath");
 
-
 ArrayList<RegionModel> listRegion = (ArrayList<RegionModel>) request.getAttribute("listRegion");
 ArrayList<SiteModel> listSite = (ArrayList<SiteModel>) request.getAttribute("listSite");
 ArrayList<AmbulanceModel> listAmbulance = (ArrayList<AmbulanceModel>) request.getAttribute("listAmbulance");

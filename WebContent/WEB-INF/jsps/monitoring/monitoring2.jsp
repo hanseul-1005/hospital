@@ -9,7 +9,6 @@
 int totalDiagnosis = (int) request.getAttribute("totalDiagnosis");
 // 누적 입원
 int totalAdmission = (int) request.getAttribute("totalAdmission");
-
 // 오늘 입원
 int todayAdmission = (int) request.getAttribute("todayAdmission");
 // 오늘 진료

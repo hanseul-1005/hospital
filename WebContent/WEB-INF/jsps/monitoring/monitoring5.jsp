@@ -13,7 +13,6 @@ ArrayList<EmployeeModel> listOffice = (ArrayList<EmployeeModel>) request.getAttr
 ArrayList<EquipmentModel> listEquipment = (ArrayList<EquipmentModel>) request.getAttribute("listEquipment");
 ArrayList<SuppliesModel> listSupplies = (ArrayList<SuppliesModel>) request.getAttribute("listSupplies");
 ArrayList<MedicineModel> listMedicine = (ArrayList<MedicineModel>) request.getAttribute("listMedicine");
-
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
