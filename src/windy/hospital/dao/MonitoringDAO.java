@@ -829,6 +829,108 @@ public class MonitoringDAO {
 			
 	// //////////////////////////////////////////////////
 
+	// //////////////////////////////////////////////////
+	// - 용품 목록 조회
+	// //////////////////////////////////////////////////
+	public int selectDoctorCnt() {
+		
+		int cntDoctor = 0;
+		
+		try {
+			// 데이터베이스 객체 생성
+			Class.forName(dbDriver);
+			connection = DriverManager.getConnection(jdbcUrl, user, password);
+
+			pstmt = connection.prepareStatement(
+					"SELECT count(employee_no) as cnt "
+					+ "FROM employee_info "
+					+ "WHERE employee_department = '의사' ");
+			
+			rs = pstmt.executeQuery();
+			
+			int i = 0;
+			if(rs.next()) {
+				cntDoctor = rs.getInt("cnt");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// 사용한 객체 종료
+			close(rs, pstmt, connection);
+		}
+		return cntDoctor;				
+	}
+			
+	// //////////////////////////////////////////////////
+
+	// //////////////////////////////////////////////////
+	// - 용품 목록 조회
+	// //////////////////////////////////////////////////
+	public int selectNurseCnt() {
+		
+		int cntNurse = 0;
+		
+		try {
+			// 데이터베이스 객체 생성
+			Class.forName(dbDriver);
+			connection = DriverManager.getConnection(jdbcUrl, user, password);
+
+			pstmt = connection.prepareStatement(
+					"SELECT count(employee_no) as cnt "
+					+ "FROM employee_info "
+					+ "WHERE employee_department = '간호사' ");
+			
+			rs = pstmt.executeQuery();
+			
+			int i = 0;
+			if(rs.next()) {
+				cntNurse = rs.getInt("cnt");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// 사용한 객체 종료
+			close(rs, pstmt, connection);
+		}
+		return cntNurse;				
+	}
+			
+	// //////////////////////////////////////////////////
+
+	// //////////////////////////////////////////////////
+	// - 용품 목록 조회
+	// //////////////////////////////////////////////////
+	public int selectAdminCnt() {
+		
+		int cntAdmin = 0;
+		
+		try {
+			// 데이터베이스 객체 생성
+			Class.forName(dbDriver);
+			connection = DriverManager.getConnection(jdbcUrl, user, password);
+
+			pstmt = connection.prepareStatement(
+					"SELECT count(employee_no) as cnt "
+					+ "FROM employee_info "
+					+ "WHERE employee_department = '행정처' ");
+			
+			rs = pstmt.executeQuery();
+			
+			int i = 0;
+			if(rs.next()) {
+				cntAdmin = rs.getInt("cnt");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// 사용한 객체 종료
+			close(rs, pstmt, connection);
+		}
+		return cntAdmin;				
+	}
+			
+	// //////////////////////////////////////////////////
+
 	
 	
 	////////////////////////////////////////////////////

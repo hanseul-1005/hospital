@@ -95,6 +95,10 @@ public class Monitoring extends HttpServlet {
 			
 			ArrayList<PatientModel> listHospital = (ArrayList<PatientModel>) mDao.selectListHospital();
 			
+			int cntDoctor = mDao.selectDoctorCnt();
+			int cntNurse = mDao.selectNurseCnt();
+			int cntAdmin = mDao.selectAdminCnt();
+			
 			request.setAttribute("totalDiagnosis", totalDiagnosis);
 			request.setAttribute("totalDeath", totalDeath);
 			
@@ -111,6 +115,10 @@ public class Monitoring extends HttpServlet {
 			request.setAttribute("listRoom", listRoom);
 			
 			request.setAttribute("listHospital", listHospital);
+			
+			request.setAttribute("cntDoctor", cntDoctor);
+			request.setAttribute("cntNurse", cntNurse);
+			request.setAttribute("cntAdmin", cntAdmin);
 			
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsps/monitoring/monitoring1.jsp");
 			dispatcher.forward(request, response);
@@ -202,49 +210,86 @@ public class Monitoring extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		
-		DBDAO dDao = new DBDAO();
+		MonitoringDAO mDao = new MonitoringDAO();
 				
 		String mode = request.getParameter("mode");
 		
-		if("add".equals(mode)) {
+		if("amb_add".equals(mode)) {
+			int size = Integer.parseInt(request.getParameter("size"));
+			System.out.println("size : "+size);
+			int total = 0;
 
-			String code = request.getParameter("code");
-			String title = request.getParameter("title");
-			String detail = request.getParameter("detail");
-			String startDate = request.getParameter("start_date");
-			String endDate = request.getParameter("end_date");
-			String name = request.getParameter("name");
+			mDao.deleteAmbulance();
 			
-			DBModel db = new DBModel();
-			db.setCode(code);
-			db.setTitle(title);
-			db.setDetail(detail);
-			db.setStartDate(startDate);
-			db.setEndDate(endDate);
-			db.setName(name);
+			for(int i=0; i<size; i++) {
+				String belong = request.getParameter("amb_belong_"+i);
+				int cnt = Integer.parseInt(request.getParameter("amb_cnt_"+i));
+				
+				AmbulanceModel amb = new AmbulanceModel();
+				amb.setBelong(belong);
+				amb.setCnt(cnt);
+				
+				int result = mDao.insertAmbulance(amb);
 
-			dDao.insertDB(db);
+				total = total+result;
+			}
+			String ret = "";
+			
+			if(total==size) {
+				ret = "true";
+			} else {
+				ret = "false";
+			}
+			
+			/*
+			 * JSONObject objResult = new JSONObject();
+			 * response.setContentType("text/json; charset=utf-8"); objResult.put("ret",
+			 * ret); System.out.println("ret : "+ret);
+			 * 
+			 * PrintWriter out = response.getWriter(); out.print(objResult);
+			 */
+			
+			PrintWriter out = response.getWriter();
+			out.print(ret);
 		}
-		else if("update".equals(mode)) {
-			
-			int no = Integer.parseInt(request.getParameter("no"));
-			String detail = request.getParameter("detail");
-			String startDate = request.getParameter("start_date");
-			String endDate = request.getParameter("end_date");
-			
-			DBModel db = new DBModel();
-			db.setNo(no);
-			db.setDetail(detail);
-			db.setStartDate(startDate);
-			db.setEndDate(endDate);
 
-			dDao.updateDB(db);
-		}
-		else if("delete".equals(mode)) {
+		if("vol_add".equals(mode)) {
+			int size = Integer.parseInt(request.getParameter("size"));
+
+			int total = 0;
+
+			mDao.deleteVolunteer();
 			
-			int no = Integer.parseInt(request.getParameter("no"));
+			for(int i=0; i<size; i++) {
+				String belong = request.getParameter("vol_belong_"+i);
+				int cnt = Integer.parseInt(request.getParameter("vol_cnt_"+i));
+				
+				VolunteerModel vol = new VolunteerModel();
+				vol.setBelong(belong);
+				vol.setCnt(cnt);
+				
+				int result = mDao.insertVolunteer(vol);
+
+				total = total+result;
+			}
+			String ret = "";
 			
-			int result = dDao.deleteDB(no);
+			if(total==size) {
+				ret = "true";
+			} else {
+				ret = "false";
+			}
+			
+			/*
+			 * JSONObject objResult = new JSONObject();
+			 * response.setContentType("text/json; charset=utf-8"); objResult.put("ret",
+			 * ret); System.out.println("ret : "+ret);
+			 * 
+			 * PrintWriter out = response.getWriter(); out.print(objResult);
+			 */
+			
+			PrintWriter out = response.getWriter();
+			out.print(ret);
 		}
 	}
 

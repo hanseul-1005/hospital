@@ -167,7 +167,7 @@ function ajaxFailed(xmlRequest)	{
                                             <option value="행정처" <%if("행정처".equals(employee.getDepartment())) { %> selected="selected" <%} %>>행정처</option>
                                             <option value="의사" <%if("의사".equals(employee.getDepartment())) { %> selected="selected" <%} %>>의사</option>
                                             <option value="간호" <%if("간호".equals(employee.getDepartment())) { %> selected="selected" <%} %>>간호</option>
-                                            <option value="임상 병리" <%if("행정처".equals(employee.getDepartment())) { %> selected="selected" <%} %>>임상 병리</option>
+                                            <option value="임상 병리" <%if("임상 병리".equals(employee.getDepartment())) { %> selected="selected" <%} %>>임상 병리</option>
                                         </select>
                                     </td>
 									<td>

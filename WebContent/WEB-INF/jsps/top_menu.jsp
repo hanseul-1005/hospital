@@ -24,6 +24,10 @@ String subMenu = (String) request.getAttribute("sub_menu");
 
 %>
 <link rel="stylesheet" type="text/css" href="css/menu.css">
+<script src="js/jquery-3.7.1.min.js"></script>
+<script>
+
+</script>
 <div class="wrapper_top_container" >
 	<div class="wrapper_logo">
 		<div>
@@ -33,10 +37,11 @@ String subMenu = (String) request.getAttribute("sub_menu");
 		<%-- <span class="span_top_menu" ><%=mainMenuName %>&nbsp;&nbsp;>&nbsp;&nbsp;<%=subMenuName %></span> --%>
 	</div>
 	<div style="background-color: #fff; height: 100%; width: 55%;">
-	
 	</div>
 	<div class="wrapper_date">
 		<span class="span_top_date"><%=sdf.format(day) %></span>
+		<button class="btn_logout" id="toggleButton" onclick="javascript: side()">메뉴 열기/닫기</button>
+		<input type="hidden" id="side_type" value="on">
 		<button class="btn_logout" type="button" onclick="location.href='login.windy'">로그아웃</button>
 	</div>
 </div>

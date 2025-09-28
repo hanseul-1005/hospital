@@ -114,6 +114,42 @@ public class Employee extends HttpServlet {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsps/employee/employee_modify.jsp");
 			dispatcher.forward(request, response);
 		}
+		else if("manage".equals(menu)) {
+			
+			String onDepartment = request.getParameter("on_department");
+			String onName = request.getParameter("on_name");
+			String offDepartment = request.getParameter("off_department");
+			String offName = request.getParameter("off_name");
+			
+			if(onDepartment == null) onDepartment = "";
+			if(onName == null) onName = "";
+			if(offDepartment == null) offDepartment = "";
+			if(offName == null) offName = "";
+			
+			EmployeeModel emp = new EmployeeModel();
+			emp.setDepartment(onDepartment);
+			emp.setName(onName);
+			emp.setOnOff("근무");
+			System.out.println("onDepartment : "+onDepartment);
+			System.out.println("onName : "+onName);
+			ArrayList<EmployeeModel> listEmpOn = (ArrayList<EmployeeModel>) eDao.selectListEmployeeForManage(emp);
+			
+			emp.setDepartment(offDepartment);
+			emp.setName(offName);
+			emp.setOnOff("휴무");
+			
+			ArrayList<EmployeeModel> listEmpOff = (ArrayList<EmployeeModel>) eDao.selectListEmployeeForManage(emp);
+			
+			request.setAttribute("listEmpOn", listEmpOn);
+			request.setAttribute("listEmpOff", listEmpOff);
+			request.setAttribute("onDepartment", onDepartment);
+			request.setAttribute("onName", onName);
+			request.setAttribute("offDepartment", offDepartment);
+			request.setAttribute("offName", offName);
+			
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsps/employee/employee_manage.jsp");
+			dispatcher.forward(request, response);
+		}
 	}
 
 	/**
@@ -265,6 +301,82 @@ public class Employee extends HttpServlet {
 			
 			
 			int result = eDao.updateEmployeeRoom(employee);
+		}
+		else if("manage_off".equals(mode)) {
+			
+			int size = Integer.parseInt(request.getParameter("size"));
+
+			System.out.println("size="+size);
+			
+			int total = 0;
+			
+			for(int i=0; i<size; i++) {
+
+				long no = Long.parseLong(request.getParameter("no_"+i));
+				
+				int result = eDao.updateEmployeeOnOff(no, "휴무");
+				
+			}
+			
+			
+			System.out.println("total : "+total);
+			
+			String ret = "";
+			
+			if(total==size) {
+				ret = "true";
+			} else {
+				ret = "false";
+			}
+			
+			/*
+			 * JSONObject objResult = new JSONObject();
+			 * response.setContentType("text/json; charset=utf-8"); objResult.put("ret",
+			 * ret); System.out.println("ret : "+ret);
+			 * 
+			 * PrintWriter out = response.getWriter(); out.print(objResult);
+			 */
+			
+			PrintWriter out = response.getWriter();
+			out.print(ret);
+		}
+		else if("manage_on".equals(mode)) {
+			
+			int size = Integer.parseInt(request.getParameter("size"));
+
+			System.out.println("size="+size);
+			
+			int total = 0;
+			
+			for(int i=0; i<size; i++) {
+
+				long no = Long.parseLong(request.getParameter("no_"+i));
+				
+				int result = eDao.updateEmployeeOnOff(no, "근무");
+				
+			}
+			
+			
+			System.out.println("total : "+total);
+			
+			String ret = "";
+			
+			if(total==size) {
+				ret = "true";
+			} else {
+				ret = "false";
+			}
+			
+			/*
+			 * JSONObject objResult = new JSONObject();
+			 * response.setContentType("text/json; charset=utf-8"); objResult.put("ret",
+			 * ret); System.out.println("ret : "+ret);
+			 * 
+			 * PrintWriter out = response.getWriter(); out.print(objResult);
+			 */
+			
+			PrintWriter out = response.getWriter();
+			out.print(ret);
 		}
 	}
 

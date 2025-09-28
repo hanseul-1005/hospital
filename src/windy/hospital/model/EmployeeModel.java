@@ -13,7 +13,7 @@ public class EmployeeModel {
 	private String pw = "";
 	private int roomNo = -1;
 	private String roomName = "";
-	private String onOff = "0";
+	private String onOff = "근무";
 	private String del = "N";
 	
 	private int managerNo = -1;

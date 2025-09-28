@@ -45,6 +45,7 @@ public class Login extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@SuppressWarnings("unused")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
@@ -64,100 +65,57 @@ public class Login extends HttpServlet {
 			
 			EmployeeDAO eDao = new EmployeeDAO();
 			
-			EmployeeModel employee = eDao.login(id, passwd);
+			EmployeeModel emp = new EmployeeModel(); 
+			emp.setId(id);
+			emp.setPw(passwd);
+			int result = eDao.login(emp);
 			
-			if("main".equals(id)) {
-				
-				session.setAttribute("id", id);
-				session.setAttribute("pw", passwd);		
-				session.setAttribute("role", "관리자");
-				session.setAttribute("no", employee.getNo());
-				session.setAttribute("name", employee.getName());
-				session.setAttribute("department", employee.getDepartment());
-				session.setMaxInactiveInterval(60 * 60 * 10);
+			if(result==1) {
 
-				JSONObject objResult = new JSONObject();
-				response.setContentType("text/json; charset=utf-8");
-				objResult.put("result", "true");	
-				
-				
-				PrintWriter out = response.getWriter();					
-				out.print(objResult);
-			}
-			else if("admin".equals(id)){
-				session.setAttribute("id", id);
-				session.setAttribute("pw", passwd);	
-				session.setAttribute("role", "행정처");		
-				session.setAttribute("no", employee.getNo());
-				session.setAttribute("name", employee.getName());
-				session.setAttribute("department", employee.getDepartment());
-				session.setMaxInactiveInterval(60 * 60 * 10);
-				
+				System.out.println("login department : "+emp.getDepartment());
+				if("admin".equals(id)) {
+					
+					session.setAttribute("id", id);
+					session.setAttribute("pw", passwd);		
+					session.setAttribute("role", "관리자");
+					session.setAttribute("no", emp.getNo());
+					session.setAttribute("name", emp.getName());
+					session.setAttribute("department", emp.getDepartment());
+					session.setMaxInactiveInterval(60 * 60 * 10);
 
-				JSONObject objResult = new JSONObject();
-				response.setContentType("text/json; charset=utf-8");
-				objResult.put("result", "true");	
-				
-				
-				PrintWriter out = response.getWriter();					
-				out.print(objResult);
-			}
-			else if("doctor".equals(id)) {
-				session.setAttribute("id", id);
-				session.setAttribute("pw", passwd);		
-				session.setAttribute("role", "의사");
-				session.setAttribute("no", employee.getNo());
-				session.setAttribute("name", employee.getName());
-				session.setAttribute("department", employee.getDepartment());
-				session.setMaxInactiveInterval(60 * 60 * 10);
-				
+					JSONObject objResult = new JSONObject();
+					response.setContentType("text/json; charset=utf-8");
+					objResult.put("result", "true");	
+					
+					
+					PrintWriter out = response.getWriter();					
+					out.print(objResult);
+				} else {
+					session.setAttribute("id", id);
+					session.setAttribute("pw", passwd);	
+					session.setAttribute("role", emp.getDepartment());		
+					session.setAttribute("no", emp.getNo());
+					session.setAttribute("name", emp.getName());
+					session.setAttribute("department", emp.getDepartment());
+					session.setMaxInactiveInterval(60 * 60 * 10);
+					
 
-				JSONObject objResult = new JSONObject();
-				response.setContentType("text/json; charset=utf-8");
-				objResult.put("result", "true");	
-				
-				
-				PrintWriter out = response.getWriter();					
-				out.print(objResult);
-			}
-			else if("nurse".equals(id)){
-				session.setAttribute("id", id);
-				session.setAttribute("pw", passwd);	
-				session.setAttribute("role", "간호사");		
-				session.setMaxInactiveInterval(60 * 60 * 10);
-				
-
-				JSONObject objResult = new JSONObject();
-				response.setContentType("text/json; charset=utf-8");
-				objResult.put("result", "true");	
-				
-				
-				PrintWriter out = response.getWriter();					
-				out.print(objResult);
-			}
-			else if("clinical".equals(id)) {
-				session.setAttribute("id", id);
-				session.setAttribute("pw", passwd);		
-				session.setAttribute("role", "임상병리사");
-				session.setMaxInactiveInterval(60 * 60 * 10);
-				
-
-				JSONObject objResult = new JSONObject();
-				response.setContentType("text/json; charset=utf-8");
-				objResult.put("result", "true");	
-				
-				
-				PrintWriter out = response.getWriter();					
-				out.print(objResult);
-			}
-			else {
-
+					JSONObject objResult = new JSONObject();
+					response.setContentType("text/json; charset=utf-8");
+					objResult.put("result", "true");	
+					
+					
+					PrintWriter out = response.getWriter();					
+					out.print(objResult);
+				}
+			} else {
 				JSONObject objResult = new JSONObject();
 				response.setContentType("text/json; charset=utf-8");
 				objResult.put("result", "false");
 				
 				PrintWriter out = response.getWriter();					
 				out.print(objResult);
+				
 			}
 	
 		}

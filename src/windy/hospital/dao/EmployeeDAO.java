@@ -454,9 +454,9 @@ public class EmployeeDAO {
 	// //////////////////////////////////////////////////
 	// - 용품 조회
 	// //////////////////////////////////////////////////
-	public EmployeeModel login(String id, String pw) {
+	public int login(EmployeeModel emp) {
 
-		EmployeeModel emp = new EmployeeModel();
+		int result = -1;
 		
 		try {
 			// 데이터베이스 객체 생성
@@ -470,12 +470,13 @@ public class EmployeeDAO {
 					+ "FROM employee_info "
 					+ "WHERE employee_id = ? AND employee_pw = ? ");
 			
-			pstmt.setString(1, id);
-			pstmt.setString(2, pw);
+			pstmt.setString(1, emp.getId());
+			pstmt.setString(2, emp.getPw());
 
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
+				result = 1;
 				emp.setNo(rs.getLong("employee_no"));
 				emp.setName(rs.getString("employee_name"));
 				emp.setBelong(rs.getString("employee_belong"));
@@ -496,7 +497,105 @@ public class EmployeeDAO {
 			// 사용한 객체 종료
 			close(rs, pstmt, connection);
 		}
-		return emp;				
+		return result;				
+	}
+			
+	// //////////////////////////////////////////////////
+
+	// //////////////////////////////////////////////////
+	// - 용품 목록 조회
+	// //////////////////////////////////////////////////
+	public List<EmployeeModel> selectListEmployeeForManage(EmployeeModel modelParam) {
+		
+		List<EmployeeModel> listEmp = new ArrayList<EmployeeModel>();
+		
+		
+		String whereSQL = "";
+		if("".equals(modelParam.getDepartment())) {
+			whereSQL += " AND ( employee_department = '의사' OR employee_department='간호사' ) ";
+		} else {
+			whereSQL += " AND employee_department = '"+modelParam.getDepartment()+"' ";
+		}
+		if(!"".equals(modelParam.getName())) {
+			whereSQL += " AND employee_name like concat('%', ?, '%') ";
+		}
+		
+		try {
+			// 데이터베이스 객체 생성
+			Class.forName(dbDriver);
+			connection = DriverManager.getConnection(jdbcUrl, user, password);
+
+			pstmt = connection.prepareStatement(
+					"SELECT e.employee_no, employee_name, employee_belong, employee_tel, employee_department, "
+							+ "employee_major, employee_id, employee_pw, employee_room_no, employee_room_name, "
+							+ "employee_on_off, employee_del "
+					+ "FROM employee_info e "
+					+ "WHERE employee_del = 'N' AND employee_on_off=? "
+						+ whereSQL
+					+ "ORDER BY employee_no DESC ");
+			System.out.println("pstmt : "+pstmt);
+			
+			pstmt.setString(1, modelParam.getOnOff());
+			pstmt.setString(2, modelParam.getName());
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				EmployeeModel emp = new EmployeeModel();
+				emp.setNo(rs.getLong("employee_no"));
+				emp.setName(rs.getString("employee_name"));
+				emp.setBelong(rs.getString("employee_belong"));
+				emp.setTel(rs.getString("employee_tel"));
+				emp.setDepartment(rs.getString("employee_department"));
+				emp.setMajor(rs.getString("employee_major"));
+				emp.setId(rs.getString("employee_id"));
+				emp.setPw(rs.getString("employee_pw"));
+				emp.setRoomNo(rs.getInt("employee_room_no"));
+				emp.setRoomName(rs.getString("employee_room_name"));
+				emp.setOnOff(rs.getString("employee_on_off"));
+				emp.setDel(rs.getString("employee_del"));
+				
+				listEmp.add(emp);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// 사용한 객체 종료
+			close(rs, pstmt, connection);
+		}
+		return listEmp;				
+	}
+			
+	// //////////////////////////////////////////////////
+
+	// //////////////////////////////////////////////////
+	// - 용품 등록
+	// //////////////////////////////////////////////////
+	public int updateEmployeeOnOff(long no, String onOff) {
+		
+		int result = -1;
+		
+		try {
+			// 데이터베이스 객체 생성
+			Class.forName(dbDriver);
+			connection = DriverManager.getConnection(jdbcUrl, user, password);
+
+			pstmt = connection.prepareStatement(
+					"UPDATE employee_info SET employee_on_off=? WHERE employee_no=? ");
+
+			pstmt.setString(1, onOff);
+			pstmt.setLong(2, no);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// 사용한 객체 종료
+			close(rs, pstmt, connection);
+		}
+		return result;				
 	}
 			
 	// //////////////////////////////////////////////////

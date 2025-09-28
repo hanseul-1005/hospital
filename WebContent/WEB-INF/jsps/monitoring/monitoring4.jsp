@@ -5,6 +5,21 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" type="text/css" href="css/main.css">
 <script src="js/jquery-3.7.1.min.js"></script>
+<script>
+
+function side() {
+	var sideType = document.getElementById('side_type').value;
+	
+	if(sideType=='on') {
+		document.getElementById('side_type').value = 'off';
+		document.getElementById('side_menu').style.display = 'none';
+	} else {
+		document.getElementById('side_type').value = 'on';
+		document.getElementById('side_menu').style.display = '';
+	}
+}
+
+</script>
 <title>Insert title here</title>
 </head>
 <body>
@@ -13,10 +28,10 @@
 			<jsp:include page="../top_menu.jsp"></jsp:include>
 		</div>
 		<div style="display: flex;">
-			<div>
+			<div style="width: 15%; height: 94vh; z-index: 1000;" id="side_menu">
 				<jsp:include page="../side_menu.jsp"></jsp:include>
 			</div>
-			<div class="wrapper_contents" >
+			<div class="wrapper_contents" style="width: 94%; height: 93%; padding-left: 3%; position: absolute;">
 				<div class="wrapper_left_contents_3">
 					<div style="width: 100%; height: 40%;">
 						<table class="tb_basic tb_car" style="width: 100%;">

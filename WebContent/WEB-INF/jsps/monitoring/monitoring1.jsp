@@ -31,6 +31,10 @@ ArrayList<RoomModel> listRoom = (ArrayList<RoomModel>) request.getAttribute("lis
 
 ArrayList<PatientModel> listHospital = (ArrayList<PatientModel>) request.getAttribute("listHospital");
 
+int cntDoctor = (int) request.getAttribute("cntDoctor");
+int cntNurse = (int) request.getAttribute("cntNurse");
+int cntAdmin = (int) request.getAttribute("cntAdmin");
+
 int totalRoomCnt = 0;
 int totalRoomPatientCnt = 0;
 for(int i=0; i<listRoom.size(); i++) {
@@ -42,6 +46,15 @@ int totalHospital = 0;
 for(int i=0; i<listHospital.size(); i++) {
 	totalHospital = totalHospital+listHospital.get(i).getCnt();
 
+}
+
+int cntAmb = 0;
+for(int i=0; i<listAmbulance.size(); i++) {
+	cntAmb = cntAmb+listAmbulance.get(i).getCnt();
+}
+int cntVol = 0;
+for(int i=0; i<listVolunteer.size(); i++) {
+	cntVol = cntVol+listVolunteer.get(i).getCnt();
 }
 %>
 <html>
@@ -68,6 +81,144 @@ function popClose(num) {
     modalPop.hide();
 }
 
+function addRow(type) {
+	var num = 0;
+	
+	if(type=='amb') {
+		num = document.getElementById('ambulance_num').value;
+	} else {
+		num = document.getElementById('volunteer_num').value;
+	}
+	
+	var html = "";
+	if(type=='amb') {
+		html += "<tr id='tr_ambulance_"+num+"'>";
+		html += "<td><input type='text' class='input_text' id='amb_belong_"+num+"' style='height: 30px; width: 90%;'></td>";
+		html += "<td><input type='text' class='input_text' id='amb_cnt_"+num+"' style='height: 30px; width: 70%;'> 명</td>";
+		html += "<td>";
+		html += "<button type='button' class='btn_red_100' onclick='javascript: deleteRow(\"amb\", "+num+")'>행 삭제</button>";
+		html += "</td>";
+		html += "</tr>";
+
+		$("#tb_ambulance").append(html);
+		document.getElementById('ambulance_num').value = parseInt(num)+1;
+	} else {
+		html += "<tr id='tr_volunteer_"+num+"'>";
+		html += "<td><input type='text' class='input_text' id='vol_belong_"+num+"' style='height: 30px; width: 90%;'></td>";
+		html += "<td><input type='text' class='input_text' id='vol_cnt_"+num+"' style='height: 30px; width: 70%;'> 명</td>";
+		html += "<td>";
+		html += "<button type='button' class='btn_red_100' onclick='javascript: deleteRow(\"vol\", "+num+")'>행 삭제</button>";
+		html += "</td>";
+		html += "</tr>";
+
+		$("#tb_volunteer").append(html);
+		document.getElementById('volunteer_num').value = parseInt(num)+1;
+	}
+
+}
+
+function deleteRow(type, num) {
+	if(type=='amb') {
+		$("#tr_ambulance_"+num).remove();
+	} else {
+		$("#tr_volunteer_"+num).remove();
+	}
+}
+
+function goAdd(type) {
+
+	if(type=='amb') {
+		var num = document.getElementById('ambulance_num').value;
+		var size = 0;
+		
+		var param = "";
+		
+		for(var i=0; i<num; i++) {
+
+			if(document.getElementById('amb_belong_'+i).value != "" && document.getElementById('amb_cnt_'+i).value != "") {
+
+				var belong = document.getElementById('amb_belong_'+i).value;
+				var cnt = document.getElementById('amb_cnt_'+i).value;
+				
+				param += "&amb_belong_"+size+"="+belong+"&amb_cnt_"+size+"="+cnt;
+				
+				size = size+1;
+				
+			}
+		}
+
+		param += "&size="+size;
+		
+		$.ajax({
+			type: "post", 
+			url: "monitoring.windy?mode=amb_add", 
+			data: param,
+			async: false, 
+			dataType: 'text', 
+			error: ajaxFailed,
+			success: function(data, textStatus) {
+				
+				alert("등록되었습니다.");
+				location.reload(); 
+			}
+		});  
+	} else {
+
+		var num = document.getElementById('volunteer_num').value;
+		var size = 0;
+		
+		var param = "";
+		
+		for(var i=0; i<num; i++) {
+
+			if(document.getElementById('vol_belong_'+i).value != "" && document.getElementById('vol_cnt_'+i).value != "") {
+
+				var belong = document.getElementById('vol_belong_'+i).value;
+				var cnt = document.getElementById('vol_cnt_'+i).value;
+				
+				param += "&vol_belong_"+size+"="+belong+"&vol_cnt_"+size+"="+cnt;
+				
+				size = size+1;
+				
+			}
+		}
+
+		param += "&size="+size;
+		
+		$.ajax({
+			type: "post", 
+			url: "monitoring.windy?mode=vol_add", 
+			data: param,
+			async: false, 
+			dataType: 'text', 
+			error: ajaxFailed,
+			success: function(data, textStatus) {
+				
+				alert("등록되었습니다.");
+				location.href = "employee.windy?menu=list"; 
+			}
+		});  
+	}
+	
+}
+
+function ajaxFailed(xmlRequest)	{
+	alert(xmlRequest.status+"\n\r"+xmlRequest.statusText+"\n\r"+xmlRequest.responseText);
+}
+
+
+function side() {
+	var sideType = document.getElementById('side_type').value;
+	
+	if(sideType=='on') {
+		document.getElementById('side_type').value = 'off';
+		document.getElementById('side_menu').style.display = 'none';
+	} else {
+		document.getElementById('side_type').value = 'on';
+		document.getElementById('side_menu').style.display = '';
+	}
+}
+
 </script>
 <title>Insert title here</title>
 </head>
@@ -78,10 +229,10 @@ function popClose(num) {
 		</div>
 		
         <div class="div_contents" style="display: flex;">
-            <div style="width: 20%; height: 100%">
+            <div style="width: 15%; height: 100%; z-index: 1000;" id="side_menu">
 			<jsp:include page="../side_menu.jsp"></jsp:include>
             </div>
-            <div style="width: 75%; height: 100%">
+            <div style="width: 94%; height: 93%; padding-left: 3%; position: absolute;" >
 	            <div style="height: 43%; width: 100%; display: flex;">
 	                <div class="content1_left_contents">
 	
@@ -256,20 +407,33 @@ function popClose(num) {
 	                            </tr>
 	                        </thead>
 	                        <tbody>
-	                        	<%for(int i=0; i<listRegion.size(); i++) {
-	                        		RegionModel region = listRegion.get(i);
+	                        	<%if(listRegion.size() > 8) {
+	                        		for(int i=0; i<8; i++) {
+		                        		RegionModel region = listRegion.get(i);
 	                        	%>
-	                            <tr>
+	                        	<tr>
 	                                <td><%=region.getName() %></td>
 	                                <td><%=region.getTel() %></td>
 	                            </tr>
-	                            <%} %>
-	                            <%for(int i=0; i<8-listRegion.size(); i++) {%>
+	                        	<%
+	                        		}
+                        		} else { 
+                        			for(int i=0; i<listRegion.size(); i++) {
+		                        		RegionModel region = listRegion.get(i);
+                        		%>
+                        		<tr>
+	                                <td><%=region.getName() %></td>
+	                                <td><%=region.getTel() %></td>
+	                            </tr>
+	                        	<%	} %>
+	                        	  <%for(int i=0; i<8-listRegion.size(); i++) {%>
 	                            <tr>
 	                            	<td></td>
 	                            	<td></td>
 	                            </tr>
 	                            <%} %>
+	                            <%} %>
+	                           
 	                        </tbody>
 	                    </table>
 	                </div>
@@ -291,8 +455,24 @@ function popClose(num) {
 	                                <th>연락처</th>
 	                                <th>소속</th>
 	                            </tr>
-	                            <%for(int i=0; i<listSite.size(); i++) {
+	                            <%
+	                            if(listSite.size()>8) {
+	                            
+	                            %>
+	                            <%for(int i=0; i<8; i++) {
 	                            	SiteModel site = listSite.get(i);
+	                            %>
+	                            <tr>
+	                                <td><%=i+1 %></td>
+	                                <td><%=site.getName() %></td>
+	                                <td><%=site.getPersonName() %></td>
+	                                <td><%=site.getTel() %></td>
+	                                <td><%=site.getBelong() %></td>
+	                            </tr>
+	                            <%	} 
+	                            } else {
+	                            	for(int i=0; i<listSite.size(); i++) {
+		                            	SiteModel site = listSite.get(i);
 	                            %>
 	                            <tr>
 	                                <td><%=i+1 %></td>
@@ -310,7 +490,8 @@ function popClose(num) {
 	                            	<td></td>
 	                            	<td></td>
 	                            </tr>
-	                            <%} %>
+	                            <%} 
+	                            }%>
 	                        </thead>
 	                    </table>
 	                </div>
@@ -382,12 +563,12 @@ function popClose(num) {
 	                            </colgroup>
 	                            <tbody>
 	                                <tr>
-	                                    <td>의사:6</td>
-	                                    <td>간호사:12</td>
-	                                    <td>행정:6</td>
-	                                    <td onclick="javascript:popOpen('1')">구급대:9</td>
-	                                    <td onclick="javascript:popOpen('2')">봉사:14</td>
-	                                    <td>합계:47</td>
+	                                    <td>의사:<%=cntDoctor %></td>
+	                                    <td>간호사:<%=cntNurse %></td>
+	                                    <td>행정:<%=cntAdmin %></td>
+	                                    <td onclick="javascript:popOpen('1')">구급대:<%=cntAmb %></td>
+	                                    <td onclick="javascript:popOpen('2')">봉사:<%=cntVol %></td>
+	                                    <td>합계:<%=cntDoctor+cntNurse+cntAdmin+cntAmb+cntVol %></td>
 	                                </tr>
 	                            </tbody>
 	                        </table>
@@ -423,6 +604,8 @@ function popClose(num) {
         </div>
     </div>
     
+	<input type="hidden" id="ambulance_num" value="<%=listAmbulance.size()+1%>"/>
+	<input type="hidden" id="volunteer_num" value="<%=listVolunteer.size()+1%>"/>
 	<div class="modal-bg1" onClick="javascript:popClose('1');"></div>
 	<div class="modal_900_600-wrap1">
 		<div class="wrapper_popup_contents">
@@ -435,42 +618,48 @@ function popClose(num) {
 				</div>
 			</div>
 			<div style="text-align: right; width: 80%; margin-left: 10%;">
-				<button class="btn_basic_150" onclick="javascript: addRow()">행 추가</button>
-				<button class="btn_basic_150" onclick="javascript: goAdd()">일괄 등록</button>
+				<button class="btn_basic_150" onclick="javascript: addRow('amb')">행 추가</button>
+				<button class="btn_basic_150" onclick="javascript: goAdd('amb')">일괄 등록</button>
 			</div>
 			<div class="wrapper_popup" style="margin-top: 30px;">
-				<table class="tb_css">
+				<table class="tb_css" id="tb_ambulance">
 					<colgroup>
 						<col width="50%">
 						<col width="25%">
 						<col winth="25%">
 					</colgroup>
-					<tr height="40">
-						<th>소속</th>
-						<th>인원</th>
-						<th></th>
-					</tr>
+					<thead>
+						<tr height="40">
+							<th>소속</th>
+							<th>인원</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
 					<%if(listAmbulance.size() == 0) {%>
-					<tr height="40">
-						<td><input type="text" class="input_text" style="height: 30px; width: 90%;" id="detail"></td>
-						<td><input type="text" class="input_text" style="height: 30px; width: 70%;" id="detail"> 명</td>
+					<tr height="40" id="tr_ambulance_0">
+						<td><input type="text" class="input_text" id="amb_belong_0" style="height: 30px; width: 90%;" ></td>
+						<td><input type="text" class="input_text" id="amb_cnt_0" style="height: 30px; width: 70%;"> 명</td>
 						<td>
-                            <button class="btn_red_100">행 삭제</button>
+                            
 						</td>
 					</tr>
 					<%} else { 
 						for(int i=0; i<listAmbulance.size(); i++) {
 							AmbulanceModel ambulance = listAmbulance.get(i);
 					%>
-					<tr height="40">
-						<td><input type="text" class="input_text" style="height: 30px; width: 90%;" id="detail" value="<%=ambulance.getBelong() %>"></td>
-						<td><input type="text" class="input_text" style="height: 30px; width: 70%;" id="detail" value="<%=ambulance.getCnt() %>"> 명</td>
+					<tr height="40" id="tr_ambulance_<%=i %>">
+						<td><input type="text" class="input_text" style="height: 30px; width: 90%;" id="amb_belong_<%=i %>" value="<%=ambulance.getBelong() %>"></td>
+						<td><input type="text" class="input_text" style="height: 30px; width: 70%;" id="amb_cnt_<%=i %>" value="<%=ambulance.getCnt() %>"> 명</td>
 						<td>
-                            <button class="btn_red_100">행 삭제</button>
+						<%if(i>0) { %>
+                            <button class="btn_red_100" onclick="javascript: deleteRow('amb', <%=i %>)">행 삭제</button>
+                        <%} %>
 						</td>
 					</tr>
 					<%	}
 					} %>
+					</tbody>
 				</table>
 			</div>
 		</div>
@@ -488,11 +677,11 @@ function popClose(num) {
 				</div>
 			</div>
 			<div style="text-align: right; width: 80%; margin-left: 10%;">
-				<button class="btn_basic_150" onclick="javascript: addRow()">행 추가</button>
-				<button class="btn_basic_150" onclick="javascript: goAdd()">일괄 등록</button>
+				<button class="btn_basic_150" onclick="javascript: addRow('vol')">행 추가</button>
+				<button class="btn_basic_150" onclick="javascript: goAdd('vol')">일괄 등록</button>
 			</div>
 			<div class="wrapper_popup" style="margin-top: 30px;">
-				<table class="tb_css">
+				<table class="tb_css" id="tb_volunteer">
 					<colgroup>
 						<col width="50%">
 						<col width="25%">
@@ -505,10 +694,10 @@ function popClose(num) {
 					</tr>
 					<%if(listVolunteer.size() == 0) {%>
 					<tr height="40">
-						<td><input type="text" class="input_text" style="height: 30px; width: 90%;" id="detail"></td>
-						<td><input type="text" class="input_text" style="height: 30px; width: 70%;" id="detail"> 명</td>
+						<td><input type="text" class="input_text" style="height: 30px; width: 90%;" id="vol_belong_0"></td>
+						<td><input type="text" class="input_text" style="height: 30px; width: 70%;" id="vol_cnt_0"> 명</td>
 						<td>
-                            <button class="btn_red_100">행 삭제</button>
+                            
 						</td>
 					</tr>
 					<%} else { 
@@ -516,13 +705,15 @@ function popClose(num) {
 							VolunteerModel volunteer = listVolunteer.get(i);
 					%>
 					<tr height="40">
-						<td><input type="text" class="input_text" style="height: 30px; width: 90%;" id="detail" value="<%=volunteer.getBelong() %>"></td>
-						<td><input type="text" class="input_text" style="height: 30px; width: 70%;" id="detail" value="<%=volunteer.getCnt() %>"> 명</td>
+						<td><input type="text" class="input_text" style="height: 30px; width: 90%;" id="vol_belong_<%=i %>" value="<%=volunteer.getBelong() %>"></td>
+						<td><input type="text" class="input_text" style="height: 30px; width: 70%;" id="vol_cnt_<%=i %>" value="<%=volunteer.getCnt() %>"> 명</td>
 						<td>
+						<%if(i>0) { %>
                             <button class="btn_red_100">행 삭제</button>
+                      	<%} %>
 						</td>
 					</tr>
-					<%	}
+					<%}
 					} %>
 				</table>
 			</div>
