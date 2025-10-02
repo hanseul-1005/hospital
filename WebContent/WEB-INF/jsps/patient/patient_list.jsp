@@ -109,7 +109,7 @@ function ajaxFailed(xmlRequest)	{
 							</div>
 						</div>
 						<div style="width: 50%">
-                            <button class="btn_basic_150" onClick="javascript:popOpen('.modal-bg3', '.modal_1400_900-wrap1');">PCR 그룹 관리</button>
+                            <!-- <button class="btn_basic_150" onClick="javascript:popOpen('.modal-bg3', '.modal_1400_900-wrap1');">PCR 그룹 관리</button> -->
                             <button class="btn_basic_150" onClick="javascript: goAdd()">환자 등록</button>
 							<button class="btn_basic_150" onclick="javascript: goAddAll()">환자 일괄 등록</button>
 						</div>

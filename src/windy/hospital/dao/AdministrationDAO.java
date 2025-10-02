@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import windy.hospital.model.DatabaseModel;
 import windy.hospital.model.SuppliesModel;
 import windy.hospital.model.VolunteerModel;
 
@@ -15,14 +16,15 @@ public class AdministrationDAO {
 	private Connection connection = null;
 	private PreparedStatement pstmt = null;
 	private ResultSet rs = null;
-	
+
+	private DatabaseModel dbModel = new DatabaseModel();
 	// DB Driver
   
     String dbDriver = "org.mariadb.jdbc.Driver";
-	private String jdbcUrl = "jdbc:mariadb://bicycledb:3306/emapdb";
+	private String jdbcUrl = dbModel.getJdbcUrl();
     //private String jdbcUrl = "jdbc:mariadb://192.168.0.60:33308/bicycledb";
-	private String user = "kovico";         
-	private String password = "kovico@0136";
+	private String user = dbModel.getUser();         
+	private String password = dbModel.getPassword();
 	
 
 

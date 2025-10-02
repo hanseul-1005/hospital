@@ -115,12 +115,6 @@ function side() {
 										<td>1,080 L</td>
 										<td>1,080 L</td>
 									</tr>
-									<tr>
-										<th>전력</th>
-										<td>6,00 kw</td>
-										<td>6,00 kw</td>
-										<td>6,00 kw</td>
-									</tr>
 								</tbody>
 							</table>
 						</div>

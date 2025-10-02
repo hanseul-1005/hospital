@@ -92,6 +92,7 @@ public class Login extends HttpServlet {
 					JSONObject objResult = new JSONObject();
 					response.setContentType("text/json; charset=utf-8");
 					objResult.put("result", "true");	
+					objResult.put("roll", "관리자");
 					
 					
 					PrintWriter out = response.getWriter();					
@@ -110,6 +111,7 @@ public class Login extends HttpServlet {
 					JSONObject objResult = new JSONObject();
 					response.setContentType("text/json; charset=utf-8");
 					objResult.put("result", "true");	
+					objResult.put("roll", emp.getDepartment());
 					
 					
 					PrintWriter out = response.getWriter();					

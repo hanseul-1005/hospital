@@ -33,6 +33,7 @@ import windy.hospital.model.RegionModel;
 import windy.hospital.model.RoomModel;
 import windy.hospital.model.SiteModel;
 import windy.hospital.model.SuppliesModel;
+import windy.hospital.model.VehicleModel;
 import windy.hospital.model.VolunteerModel;
 
 /**
@@ -169,6 +170,9 @@ public class Monitoring extends HttpServlet {
 		}
 		else if("monitor4".equals(menu)) {
 
+			VehicleModel vehicle = mDao.selectVehicle();
+			
+			request.setAttribute("vehicle", vehicle);
 			
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsps/monitoring/monitoring4.jsp");
 			dispatcher.forward(request, response);

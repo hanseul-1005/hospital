@@ -361,7 +361,7 @@ function ajaxFailed(xmlRequest)	{
 								<col width="20%">
 								<col width="20%">
 								<col width="20%">
-								<col width="10%">
+								<!-- <col width="10%"> -->
 							</colgroup>
 							<thead>
 								<tr>
@@ -370,7 +370,7 @@ function ajaxFailed(xmlRequest)	{
 									<th>약품/용품명</th>
 									<th>입고/출고일</th>
 									<th>입출고량</th>
-									<th>삭제</th>
+									<!-- <th>삭제</th> -->
 								</tr>
 							</thead>
 							<tbody>
@@ -407,9 +407,9 @@ function ajaxFailed(xmlRequest)	{
 									<td onClick="javascript: popOpen('.modal-bg<%=num %>', '.modal_700_700-wrap<%=num %>', <%=i %>);"><%=name %></td>
 									<td onClick="javascript: popOpen('.modal-bg<%=num %>', '.modal_700_700-wrap<%=num %>', <%=i %>);"><%=model.getDate() %></td>
 									<td onClick="javascript: popOpen('.modal-bg<%=num %>', '.modal_700_700-wrap<%=num %>', <%=i %>);"><%=model.getAmount() %></td>
-									<td>
+									<%-- <td>
                                         <button type="button" class="btn_cancel_100" onclick="javascript: goDelete(<%=model.getNo() %>)">비활성화</button>
-                                    </td>
+                                    </td> --%>
 								</tr>
 								<%} %>
 							</tbody>

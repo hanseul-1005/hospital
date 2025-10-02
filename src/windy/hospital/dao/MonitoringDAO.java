@@ -15,6 +15,7 @@ import windy.hospital.model.HospitalModel;
 import windy.hospital.model.PatientModel;
 import windy.hospital.model.RoomModel;
 import windy.hospital.model.SiteModel;
+import windy.hospital.model.VehicleModel;
 import windy.hospital.model.VolunteerModel;
 
 public class MonitoringDAO {
@@ -927,6 +928,74 @@ public class MonitoringDAO {
 			close(rs, pstmt, connection);
 		}
 		return cntAdmin;				
+	}
+			
+	// //////////////////////////////////////////////////
+
+	// //////////////////////////////////////////////////
+	// - 용품 목록 조회
+	// //////////////////////////////////////////////////
+	public VehicleModel selectVehicle() {
+		
+		VehicleModel vehicle = new VehicleModel();
+		
+		try {
+			// 데이터베이스 객체 생성
+			Class.forName(dbDriver);
+			connection = DriverManager.getConnection(jdbcUrl, user, password);
+
+			pstmt = connection.prepareStatement(
+					"SELECT vehicle_no, voltage, `current`, active_power, reactive_power, "
+					+ "power_factor, frequency, mpd_inputp, mpd_currentp, mpd_status, "
+					+ "ups_voltage, ups_current, ups_frequency, ups_status, ups_low_battery, "
+					+ "fuel, clean_water, waste_water, door_status, ventilator_status, "
+					+ "lamp1, lamp2, lamp3, lamp4, "
+					+ "aircon2, aircon3, aircon41, aircon42, "
+					+ "tmp1, tmp2, tmp3, tmp4, "
+					+ "hue1, hue2, hue3, hue4, "
+					+ "spare1, spare2, spare3, create_at "
+					+ "FROM vehicle_info "
+					+ "ORDER BY vehicle_no DESC LIMIT 1");
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				vehicle.setNo(rs.getLong("vehicle_no"));
+				vehicle.setVoltage(rs.getFloat("voltage"));
+				vehicle.setCurrent(rs.getFloat("current"));
+				vehicle.setActivePower(rs.getInt("active_power"));
+				vehicle.setReactivePower(rs.getInt("reactive_power"));
+				vehicle.setPowerFactor(rs.getFloat("power_factor"));
+				vehicle.setFrequency(rs.getFloat("frequency"));
+				vehicle.setMpdInputp(rs.getInt("mpd_inputp"));
+				vehicle.setMpdCurrrenttp(rs.getInt("mpd_currentp"));
+				vehicle.setMpdStatus(rs.getInt("mpd_status"));
+				vehicle.setUpsVoltage(rs.getFloat("ups_voltage"));
+				vehicle.setUpsCurrent(rs.getFloat("ups_current"));
+				vehicle.setUpsFrequency(rs.getFloat("ups_frequency"));
+				vehicle.setUpsStatus(rs.getInt("ups_status"));
+				vehicle.setUpsLowBattery(rs.getInt("ups_low_battery"));
+				vehicle.setFuel(rs.getFloat("fuel"));
+				vehicle.setCleanWater(rs.getFloat("clean_water"));
+				vehicle.setWasteWater(rs.getFloat("waste_water"));
+				vehicle.setDoorStatus(rs.getInt("door_status"));
+				vehicle.setVentilatorStatus(rs.getInt("ventilator_status"));
+				vehicle.setLamp1(rs.getInt("lamp1"));
+				vehicle.setLamp2(rs.getInt("lamp2"));
+				vehicle.setLamp3(rs.getInt("lamp3"));
+				vehicle.setLamp4(rs.getInt("lamp4"));
+				vehicle.setHue1(rs.getFloat("hue1"));
+				vehicle.setHue2(rs.getFloat("hue2"));
+				vehicle.setHue3(rs.getFloat("hue3"));
+				vehicle.setHue4(rs.getFloat("hue4"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// 사용한 객체 종료
+			close(rs, pstmt, connection);
+		}
+		return vehicle;				
 	}
 			
 	// //////////////////////////////////////////////////

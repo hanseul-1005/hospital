@@ -156,9 +156,9 @@ String role = (String) session.getAttribute("department");
 		<div class="wrapper_side_menu <%=mManager %>" onclick="location.href='manager.windy?menu=list'">
 			<span class="span_side_menu"><%=dotManager %> 부서장 관리</span>
 		</div>
-		<div class="wrapper_side_menu <%=mMonitor %>" onclick="location.href='admin.windy?menu=monitor'">
+		<%-- <div class="wrapper_side_menu <%=mMonitor %>" onclick="location.href='admin.windy?menu=monitor'">
 			<span class="span_side_menu"><%=dotMonitor %> 비밀번호 변경</span>
-		</div>
+		</div> --%>
 	<%} 
 	else if("행정처".equals(role)) {%>
 		<div class="wrapper_side_menu <%=mEmployee %>" onclick="location.href='employee.windy?menu=list'">
@@ -217,8 +217,8 @@ String role = (String) session.getAttribute("department");
 		<div class="wrapper_side_menu <%=mMedicine %>" onclick="location.href='medicine.windy?menu=list'">
 			<span class="span_side_menu"><%=dotMedicine %> 약품 관리</span>
 		</div>
-		<div class="wrapper_side_menu <%=mSupplies %>" onclick="location.href='in_out.windy?menu=list'">
-			<span class="span_side_menu"><%=dotSupplies %> 약품/비품 입출고 관리</span>
+		<div class="wrapper_side_menu <%=mInOut %>" onclick="location.href='in_out.windy?menu=list'">
+			<span class="span_side_menu"><%=dotInOut %> 약품/비품 입출고 관리</span>
 		</div>
 		<%-- <div class="wrapper_side_menu <%=mRoom %>" onclick="location.href='admin.windy?menu=room'">
 			<span class="span_side_menu"><%=dotRoom %> 비밀번호 변경</span>

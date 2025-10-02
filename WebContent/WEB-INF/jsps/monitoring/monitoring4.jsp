@@ -1,5 +1,9 @@
+<%@page import="windy.hospital.model.VehicleModel"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%
+	VehicleModel vehicle = (VehicleModel) request.getAttribute("vehicle");
+%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -47,27 +51,27 @@ function side() {
 							<tbody>
 								<tr>
 									<td>Voltage</td>
-									<td class="">0.0 V</td>
+									<td class=""><%=vehicle.getVoltage() %> V</td>
 								</tr>
 								<tr>
 									<td>Current</td>
-									<td>0.00 A</td>
+									<td><%=vehicle.getCurrent() %> A</td>
 								</tr>
 								<tr>
 									<td>Frequency</td>
-									<td>0.00 Hz</td>
+									<td><%=vehicle.getFrequency() %> Hz</td>
 								</tr>
 								<tr>
 									<td>Active Power</td>
-									<td>0.0 W</td>
+									<td><%=vehicle.getActivePower() %> W</td>
 								</tr>
 								<tr>
 									<td>Reactive Power</td>
-									<td>0.0 VAr</td>
+									<td><%=vehicle.getReactivePower() %> VAr</td>
 								</tr>
 								<tr>
 									<td>Power factor</td>
-									<td>0.00</td>
+									<td><%=vehicle.getPowerFactor() %></td>
 								</tr>
 							</tbody>
 						</table>
@@ -87,15 +91,15 @@ function side() {
 							<tbody>
 								<tr>
 									<td>Input Pressure</td>
-									<td>Pa</td>
+									<td><%=vehicle.getMpdInputp() %></td>
 								</tr>
 								<tr>
 									<td>Current Pressure</td>
-									<td>Pa</td>
+									<td><%=vehicle.getMpdCurrrenttp() %></td>
 								</tr>
 								<tr>
 									<td>Operation State</td>
-									<td></td>
+									<td><%=vehicle.getMpdStatus() %></td>
 								</tr>
 							</tbody>
 						</table>
@@ -115,23 +119,23 @@ function side() {
 							<tbody>
 								<tr>
 									<td>Battery voltage</td>
-									<td>0 V</td>
+									<td><%=vehicle.getUpsVoltage() %> V</td>
 								</tr>
 								<tr>
 									<td>Battery current</td>
-									<td>0.0 A</td>
+									<td><%=vehicle.getUpsCurrent() %> A</td>
 								</tr>
 								<tr>
 									<td>Output Frequency</td>
-									<td>0.0 Hz</td>
+									<td><%=vehicle.getUpsFrequency() %> Hz</td>
 								</tr>
 								<tr>
 									<td>Operation</td>
-									<td style="text-align: center;">OFF</td>
+									<td style="text-align: center;"><%=vehicle.getUpsStatus() %></td>
 								</tr>
 								<tr>
 									<td>Low Battery</td>
-									<td style="text-align: center;">OFF</td>
+									<td style="text-align: center;"><%=vehicle.getUpsLowBattery() %></td>
 								</tr>
 							</tbody>
 						</table>
@@ -158,15 +162,15 @@ function side() {
 								<tbody>
 									<tr>
 										<td>Fuel</td>
-										<td>-24.6%</td>
+										<td><%=vehicle.getFuel() %> %</td>
 									</tr>
 									<tr>
 										<td>Clean Water</td>
-										<td>-24.6%</td>
+										<td><%=vehicle.getCleanWater() %> %</td>
 									</tr>
 									<tr>
 										<td>Waste Water</td>
-										<td>-24.6%</td>
+										<td><%=vehicle.getWasteWater() %> %</td>
 									</tr>
 								</tbody>
 							</table>
@@ -193,23 +197,23 @@ function side() {
 								<tbody>
 									<tr>
 										<th>Temperature</th>
-										<td>0.0 ℃</td>
-										<td>℃</td>
-										<td>℃</td>
-										<td>℃</td>
+										<td><%=vehicle.getTmp1() %> ℃</td>
+										<td><%=vehicle.getTmp2() %> ℃</td>
+										<td><%=vehicle.getTmp3() %> ℃</td>
+										<td><%=vehicle.getTmp4() %> ℃</td>
 									</tr>
 									<tr>
 										<th>Humidity</th>
-										<td>%</td>
-										<td>%</td>
-										<td>%</td>
-										<td>%</td>
+										<td><%=vehicle.getHue1() %> %</td>
+										<td><%=vehicle.getHue2() %> %</td>
+										<td><%=vehicle.getHue3() %> %</td>
+										<td><%=vehicle.getHue4() %> %</td>
 									</tr>
 								</tbody>
 							</table>
 						</div>
 						
-						<div style="width: 10%; height: 100%; display: block;">
+						<div style="width: 10%; height: 100%; display: none;">
 							<div style="width: 100%; height: 33.3%; text-align: center; display: flex; vertical-align: middel; justify-content: center; align-items: center;">
 								<button class="btn_car">GEN</button>
 							</div>

@@ -49,11 +49,12 @@ public class InOut extends HttpServlet {
 		MedicineDAO mDao = new MedicineDAO();
 		SuppliesDAO sDao = new SuppliesDAO();
 		
-		if(menu == null) menu = "supplies_list";
+		if(menu == null) menu = "list";
 		
 		System.out.println("in_out menu : "+menu);
 		
 		request.setAttribute("menu", menu);
+		request.setAttribute("main_menu", "in_out");
 		
 		if("list".equals(menu)) {
 

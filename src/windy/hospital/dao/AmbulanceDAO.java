@@ -17,7 +17,6 @@ public class AmbulanceDAO {
 	private Connection connection = null;
 	private PreparedStatement pstmt = null;
 	private ResultSet rs = null;
-	
 	private DatabaseModel dbModel = new DatabaseModel();
 	// DB Driver
   

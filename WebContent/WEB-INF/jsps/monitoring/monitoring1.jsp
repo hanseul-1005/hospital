@@ -522,30 +522,30 @@ function side() {
 	                            <tbody>
 	                                <tr>
 	                                    <th>청수</th>
-	                                    <td>3,500L</td>
-	                                    <td>1,080L</td>
-	                                    <td>2,420L</td>
-	                                    <td>700L</td>
-	                                    <td>200L</td>
-	                                    <td>205L</td>
+	                                    <td>0L</td>
+	                                    <td>0L</td>
+	                                    <td>0L</td>
+	                                    <td>0L</td>
+	                                    <td>0L</td>
+	                                    <td>0L</td>
 	                                </tr>
 	                                <tr>
 	                                    <th>폐수</th>
-	                                    <td>3,000L</td>
-	                                    <td>680L</td>
-	                                    <td>2,400L</td>
-	                                    <td>80L</td>
-	                                    <td>89L</td>
-	                                    <td>82L</td>
+	                                    <td>0L</td>
+	                                    <td>0L</td>
+	                                    <td>0L</td>
+	                                    <td>0L</td>
+	                                    <td>0L</td>
+	                                    <td>0L</td>
 	                                </tr>
 	                                <tr>
 	                                    <th>전력</th>
-	                                    <td>600kw</td>
-	                                    <td>230kw</td>
-	                                    <td>370kw</td>
-	                                    <td>115kw</td>
-	                                    <td>35kw</td>
-	                                    <td>30kw</td>
+	                                    <td>0kw</td>
+	                                    <td>0kw</td>
+	                                    <td>0kw</td>
+	                                    <td>0kw</td>
+	                                    <td>0kw</td>
+	                                    <td>0kw</td>
 	                                </tr>
 	                            </tbody>
 	                        </table>
