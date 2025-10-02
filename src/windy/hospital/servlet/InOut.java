@@ -83,24 +83,6 @@ public class InOut extends HttpServlet {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsps/in_out/in_out_list.jsp");
 			dispatcher.forward(request, response);
 		}
-		else if("medicine_list".equals(menu)) {
-
-			String name = request.getParameter("name");
-			
-			if(name==null) name = "";
-			
-			InOutModel inout = new InOutModel();
-			inout.setType("s");
-			inout.setSuppliesName(name);
-			
-			ArrayList<InOutModel> listInOut = (ArrayList<InOutModel>) iDao.selectListInOut(inout);
-			
-			request.setAttribute("name", name);
-			request.setAttribute("listInOut", listInOut);
-			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsps/supplies/medicine_in_out_list.jsp");
-			dispatcher.forward(request, response);
-		}
 		else if("add".equals(menu)) {
 
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsps/in_out/in_out_add.jsp");
@@ -132,53 +114,139 @@ public class InOut extends HttpServlet {
 		HttpSession session = request.getSession();
 		
 		InOutDAO iDao = new InOutDAO();
+		OrderDAO oDao = new OrderDAO();
 				
 		String mode = request.getParameter("mode");
-		
-		if("add".equals(mode)) {
-			
+
+		if("add_out".equals(mode)) {
 			long suppliesNo = Long.parseLong(request.getParameter("supplies_no"));
 			long medicineNo = Long.parseLong(request.getParameter("medicine_no"));
 			String date = request.getParameter("date");
-			String classify = request.getParameter("classify");
-			int amount = Integer.parseInt(request.getParameter("amount"));
-			long orderNo = Long.parseLong(request.getParameter("order_no"));
-
-			InOutModel inOut = new InOutModel();
-			inOut.setSuppliesNo(suppliesNo);
-			inOut.setMedicineNo(medicineNo);
-			inOut.setDate(date);
-			inOut.setClassify(classify);
-			inOut.setAmount(amount);
-			inOut.setOrderNo(orderNo);
 			
-			iDao.insertInOut(inOut);
+			int amount = Integer.parseInt(request.getParameter("amount"));
+			String note = request.getParameter("note");
+			
+			InOutModel inout = new InOutModel();
+			inout.setSuppliesNo(suppliesNo);
+			inout.setMedicineNo(medicineNo);
+			inout.setDate(date);
+			inout.setAmount(amount);
+			inout.setNote(note);
+			inout.setClassify("출고");
+			
+			iDao.insertInOut(inout);
+			
+			if(0<medicineNo) {
+				oDao.updateMedicineAmount(inout);
+			} 
+			else if(0<suppliesNo) {
+				oDao.updateSuppliesAmount(inout);
+			}
 		}
-		else if("update".equals(mode)) {
-
+		else if("add_in".equals(mode)) {
+				long suppliesNo = Long.parseLong(request.getParameter("supplies_no"));
+				long medicineNo = Long.parseLong(request.getParameter("medicine_no"));
+				String date = request.getParameter("date");
+				
+				int amount = Integer.parseInt(request.getParameter("amount"));
+				String note = request.getParameter("note");
+				
+				InOutModel inout = new InOutModel();
+				inout.setSuppliesNo(suppliesNo);
+				inout.setMedicineNo(medicineNo);
+				inout.setDate(date);
+				inout.setAmount(amount);
+				inout.setNote(note);
+				inout.setClassify("입고");
+				
+				iDao.insertInOut(inout);
+				
+				if(0<medicineNo) {
+					oDao.updateMedicineAmount2(inout);
+				} 
+				else if(0<suppliesNo) {
+					oDao.updateSuppliesAmount2(inout);
+				}
+			}
+		else if("update_out".equals(mode)) {
 			long no = Long.parseLong(request.getParameter("no"));
-			long suppliesNo = Long.parseLong(request.getParameter("supplies_no"));
 			long medicineNo = Long.parseLong(request.getParameter("medicine_no"));
+			long suppliesNo = Long.parseLong(request.getParameter("supplies_no"));
 			String date = request.getParameter("date");
-			String classify = request.getParameter("classify");
+			int exAmount = Integer.parseInt(request.getParameter("ex_amount"));
 			int amount = Integer.parseInt(request.getParameter("amount"));
-			long orderNo = Long.parseLong(request.getParameter("order_no"));
+			String note = request.getParameter("note");
+			String classify = request.getParameter("classify");
+			
+			InOutModel inout = new InOutModel();
+			inout.setNo(no);
+			inout.setDate(date);
+			inout.setAmount(amount);
+			inout.setNote(note);
+			inout.setClassify(classify);
+			inout.setMedicineNo(medicineNo);
+			inout.setSuppliesNo(suppliesNo);
+			
+			iDao.updateInOut(inout);
 
-			InOutModel inOut = new InOutModel();
-			inOut.setSuppliesNo(suppliesNo);
-			inOut.setMedicineNo(medicineNo);
-			inOut.setDate(date);
-			inOut.setClassify(classify);
-			inOut.setAmount(amount);
-			inOut.setOrderNo(orderNo);
+			System.out.println("no : "+no);
+			System.out.println("amount : "+amount);
+			System.out.println("total : "+(amount+exAmount));
 			
-			iDao.updateInOut(inOut);
+			if("입고".equals(classify)) {
+				inout.setAmount(exAmount-amount);
+			} else {
+				inout.setAmount(amount+exAmount);
+			}
+			
+			if(0<medicineNo) {
+				
+				oDao.updateMedicineAmount(inout);
+			} 
+			else if(0<suppliesNo) {
+				
+				oDao.updateSuppliesAmount(inout);
+			}
 		}
-		else if("delete".equals(mode)) {
+		if("update_in".equals(mode)) {
+			long no = Long.parseLong(request.getParameter("no"));
+			long medicineNo = Long.parseLong(request.getParameter("medicine_no"));
+			long suppliesNo = Long.parseLong(request.getParameter("supplies_no"));
+			String date = request.getParameter("date");
+			int exAmount = Integer.parseInt(request.getParameter("ex_amount"));
+			int amount = Integer.parseInt(request.getParameter("amount"));
+			String note = request.getParameter("note");
+			String classify = request.getParameter("classify");
 			
-			int no = Integer.parseInt(request.getParameter("no"));
+			InOutModel inout = new InOutModel();
+			inout.setNo(no);
+			inout.setDate(date);
+			inout.setAmount(amount);
+			inout.setNote(note);
+			inout.setClassify(classify);
+			inout.setMedicineNo(medicineNo);
+			inout.setSuppliesNo(suppliesNo);
 			
-			int result = iDao.deleteInOut(no);
+			iDao.updateInOut(inout);
+
+			System.out.println("no : "+no);
+			System.out.println("amount : "+amount);
+			System.out.println("total : "+(amount+exAmount));
+			
+			if("입고".equals(classify)) {
+				inout.setAmount(exAmount-amount);
+			} else {
+				inout.setAmount(amount+exAmount);
+			}
+			
+			if(0<medicineNo) {
+				
+				oDao.updateMedicineAmount(inout);
+			} 
+			else if(0<suppliesNo) {
+				
+				oDao.updateSuppliesAmount(inout);
+			}
 		}
 	}
 

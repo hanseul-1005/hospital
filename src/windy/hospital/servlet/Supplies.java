@@ -119,7 +119,6 @@ public class Supplies extends HttpServlet {
 				supplies.setDate(date);
 				supplies.setAmount(amount);
 				supplies.setNote(note);
-
 				
 				long suppliesNo = sDao.insertSupplies(supplies);
 
@@ -128,6 +127,7 @@ public class Supplies extends HttpServlet {
 				inout.setClassify("입고");
 				inout.setAmount(amount);
 				inout.setNote("최초 등록");
+				inout.setDate(date);
 				
 				iDao.insertInOut(inout);
 				

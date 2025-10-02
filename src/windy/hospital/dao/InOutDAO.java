@@ -77,17 +77,13 @@ public class InOutDAO {
 
 			pstmt = connection.prepareStatement(
 					"UPDATE in_out_info "
-					+ "SET supplies_no=?, medicine_no=?, in_out_date=?, in_out_classify=?, in_out_amount=?, order_no=?, in_out_note=? "
+					+ "SET in_out_date=?, in_out_amount=?, in_out_note=? "
 					+ "WHERE in_out_no=? ");
 
-			pstmt.setLong(1, modelParam.getSuppliesNo());
-			pstmt.setLong(2, modelParam.getMedicineNo());
-			pstmt.setString(3, modelParam.getDate());
-			pstmt.setString(4, modelParam.getClassify());
-			pstmt.setInt(5, modelParam.getAmount());
-			pstmt.setLong(6, modelParam.getOrderNo());
-			pstmt.setString(7, modelParam.getNote());
-			pstmt.setLong(8, modelParam.getNo());
+			pstmt.setString(1, modelParam.getDate());
+			pstmt.setInt(2, modelParam.getAmount());
+			pstmt.setString(3, modelParam.getNote());
+			pstmt.setLong(4, modelParam.getNo());
 			
 			result = pstmt.executeUpdate();
 			

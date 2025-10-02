@@ -156,9 +156,18 @@ function goDelete(no) {
 
 function addInOut() {
 
+	var option = $("input[name='add_type']:checked").val();
+	
 	var no = document.getElementById('in_out_order_no').value;
 	var suppliesNo = document.getElementById('supplies_no').value;
 	var medicineNo = document.getElementById('medicine_no').value;
+	
+	if(option=='medicine') {
+		suppliesNo = -1;
+	} else {
+		medicineNo = -1;
+	}
+	
 	var date = document.getElementById('in_out_date').value;
 	var amount = document.getElementById('in_out_amount').value;
 	var note = document.getElementById('in_out_note').value;

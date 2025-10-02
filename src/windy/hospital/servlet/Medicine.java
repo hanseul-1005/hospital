@@ -131,6 +131,7 @@ public class Medicine extends HttpServlet {
 				inout.setClassify("입고");
 				inout.setAmount(amount);
 				inout.setNote("최초 등록");
+				inout.setDate(date);
 				
 				iDao.insertInOut(inout);
 				

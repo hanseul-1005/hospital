@@ -256,7 +256,11 @@ public class OrderDAO {
 			pstmt = connection.prepareStatement(
 					"UPDATE medicine_info SET medicine_amount=? WHERE medicine_no=? ");
 
-			pstmt.setLong(1, amount+modelParam.getAmount());
+			if("입고".equals(modelParam.getClassify())) {
+				pstmt.setLong(1, amount-modelParam.getAmount());	
+			} else {
+				pstmt.setLong(1, amount+modelParam.getAmount());
+			}
 			pstmt.setLong(2, modelParam.getMedicineNo());
 			
 			pstmt.executeUpdate();
@@ -275,6 +279,92 @@ public class OrderDAO {
 	// - 용품 등록
 	// //////////////////////////////////////////////////
 	public void updateSuppliesAmount(InOutModel modelParam) {
+		
+		int amount = 0;
+		
+		try {
+			// 데이터베이스 객체 생성
+			Class.forName(dbDriver);
+			connection = DriverManager.getConnection(jdbcUrl, user, password);
+
+			pstmt = connection.prepareStatement(
+					"SELECT supplies_amount FROM supplies_info WHERE supplies_no=? ");
+			
+			pstmt.setLong(1, modelParam.getSuppliesNo());
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				amount = rs.getInt("supplies_amount");
+			}
+			
+			pstmt = connection.prepareStatement(
+					"UPDATE supplies_info SET supplies_amount=? WHERE supplies_no=? ");
+
+			if("입고".equals(modelParam.getClassify())) {
+				pstmt.setLong(1, amount-modelParam.getAmount());	
+			} else {
+				pstmt.setLong(1, amount+modelParam.getAmount());
+			}
+			pstmt.setLong(2, modelParam.getSuppliesNo());
+			
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// 사용한 객체 종료
+			close(rs, pstmt, connection);
+		}		
+	}
+			
+	// //////////////////////////////////////////////////
+
+	// //////////////////////////////////////////////////
+	// - 용품 등록
+	// //////////////////////////////////////////////////
+	public void updateMedicineAmount2(InOutModel modelParam) {
+		
+		int amount = 0;
+		
+		try {
+			// 데이터베이스 객체 생성
+			Class.forName(dbDriver);
+			connection = DriverManager.getConnection(jdbcUrl, user, password);
+
+			pstmt = connection.prepareStatement(
+					"SELECT medicine_amount FROM medicine_info WHERE medicine_no=? ");
+
+			pstmt.setLong(1, modelParam.getMedicineNo());
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				amount = rs.getInt("medicine_amount");
+			}
+			
+			pstmt = connection.prepareStatement(
+					"UPDATE medicine_info SET medicine_amount=? WHERE medicine_no=? ");
+
+			pstmt.setLong(1, amount+modelParam.getAmount());	
+			pstmt.setLong(2, modelParam.getMedicineNo());
+			
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// 사용한 객체 종료
+			close(rs, pstmt, connection);
+		}		
+	}
+			
+	// //////////////////////////////////////////////////
+
+	// //////////////////////////////////////////////////
+	// - 용품 등록
+	// //////////////////////////////////////////////////
+	public void updateSuppliesAmount2(InOutModel modelParam) {
 		
 		int amount = 0;
 		

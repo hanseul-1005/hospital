@@ -5,7 +5,7 @@ public class InOutModel {
 	private long suppliesNo = -1;
 	private long medicineNo = -1;
 	private String date = "";
-	private String classify = "";
+	private String classify = "입고";
 	private int amount = 0;
 	private long orderNo = -1;
 	private String note = "";
@@ -15,6 +15,8 @@ public class InOutModel {
 	private int medicineAmount = 0;
 	private int suppliesAmount = 0;
 	private String type = "m";
+	
+	private int exAmount = 0;
 	
 	public long getNo() {
 		return no;
@@ -93,6 +95,12 @@ public class InOutModel {
 	}
 	public void setSuppliesAmount(int suppliesAmount) {
 		this.suppliesAmount = suppliesAmount;
+	}
+	public int getExAmount() {
+		return exAmount;
+	}
+	public void setExAmount(int exAmount) {
+		this.exAmount = exAmount;
 	}
 	
 	
