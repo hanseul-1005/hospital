@@ -29,9 +29,9 @@ public class SuppliesDAO {
 	// //////////////////////////////////////////////////
 	// - 용품 등록
 	// //////////////////////////////////////////////////
-	public int insertSupplies(SuppliesModel modelParam) {
+	public long insertSupplies(SuppliesModel modelParam) {
 		
-		int result = -1;
+		long suppliesNo = -1;
 		
 		try {
 			// 데이터베이스 객체 생성
@@ -48,7 +48,16 @@ public class SuppliesDAO {
 			pstmt.setInt(4, modelParam.getAmount());
 			pstmt.setString(5, modelParam.getNote());
 			
-			result = pstmt.executeUpdate();
+			pstmt.executeUpdate();
+			
+			pstmt = connection.prepareStatement(
+					"SELECT supplies_no FROM supplies_info ORDER BY supplies_no DESC limit 1");
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				suppliesNo = rs.getLong("supplies_no");
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -56,7 +65,7 @@ public class SuppliesDAO {
 			// 사용한 객체 종료
 			close(rs, pstmt, connection);
 		}
-		return result;				
+		return suppliesNo;				
 	}
 			
 	// //////////////////////////////////////////////////

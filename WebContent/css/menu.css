@@ -15,7 +15,7 @@ body {
 
 .wrapper_logo {
 	height: 100%;
-	width: 30%; 
+	width: 25%; 
 	display: flex; 
 	vertical-align: middle;
 	margin-left: 10px;
@@ -60,7 +60,7 @@ body {
 /* 사이드메뉴 */
 .wrapper_side_profile {
 	width : 300px;
-	height : 300px;
+	height : 200px;
 	position: relative;
 	display: block;
 	justify-content: center;
@@ -68,20 +68,21 @@ body {
 }
 
 .wrapper_img_side_profile {
-	padding: 75px 75px 0px 75px;
+	padding: 50px 75px 0px 75px;
 	font-weight: 900;
+	text-align: center;
 }
 
 .img_side_profile {
-	width: 150px;
-	height: 150px;
+	width: 100px;
+	height: 100px;
 }
 
 .span_side_grade {
 	text-align: center;
 	color: #496E72; 
 	font-weight: bold;
-	font-size: 30px;
+	font-size: 25px;
 	margin: 0 auto;
 }
 

@@ -139,6 +139,8 @@ public class Employee extends HttpServlet {
 			emp.setOnOff("휴무");
 			
 			ArrayList<EmployeeModel> listEmpOff = (ArrayList<EmployeeModel>) eDao.selectListEmployeeForManage(emp);
+
+			request.setAttribute("main_menu", "manage");
 			
 			request.setAttribute("listEmpOn", listEmpOn);
 			request.setAttribute("listEmpOff", listEmpOff);

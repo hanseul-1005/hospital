@@ -42,6 +42,10 @@ public class PatientModel {
 	private String name2 = "";
 	private String name3 = "";
 	private String name4 = "";
+	private long no1 = -1;
+	private long no2 = -1;
+	private long no3 = -1;
+	private long no4 = -1;
 	
 	public long getNo() {
 		return no;
@@ -258,6 +262,30 @@ public class PatientModel {
 	}
 	public void setHospitalCnt(int hospitalCnt) {
 		this.hospitalCnt = hospitalCnt;
+	}
+	public long getNo1() {
+		return no1;
+	}
+	public void setNo1(long no1) {
+		this.no1 = no1;
+	}
+	public long getNo2() {
+		return no2;
+	}
+	public void setNo2(long no2) {
+		this.no2 = no2;
+	}
+	public long getNo3() {
+		return no3;
+	}
+	public void setNo3(long no3) {
+		this.no3 = no3;
+	}
+	public long getNo4() {
+		return no4;
+	}
+	public void setNo4(long no4) {
+		this.no4 = no4;
 	}
 	
 	

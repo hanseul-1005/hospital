@@ -8,6 +8,13 @@ public class InOutModel {
 	private String classify = "";
 	private int amount = 0;
 	private long orderNo = -1;
+	private String note = "";
+	
+	private String medicineName = "";
+	private String suppliesName = "";
+	private int medicineAmount = 0;
+	private int suppliesAmount = 0;
+	private String type = "m";
 	
 	public long getNo() {
 		return no;
@@ -50,6 +57,42 @@ public class InOutModel {
 	}
 	public void setOrderNo(long orderNo) {
 		this.orderNo = orderNo;
+	}
+	public String getNote() {
+		return note;
+	}
+	public void setNote(String note) {
+		this.note = note;
+	}
+	public String getMedicineName() {
+		return medicineName;
+	}
+	public void setMedicineName(String medicineName) {
+		this.medicineName = medicineName;
+	}
+	public String getSuppliesName() {
+		return suppliesName;
+	}
+	public void setSuppliesName(String suppliesName) {
+		this.suppliesName = suppliesName;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public int getMedicineAmount() {
+		return medicineAmount;
+	}
+	public void setMedicineAmount(int medicineAmount) {
+		this.medicineAmount = medicineAmount;
+	}
+	public int getSuppliesAmount() {
+		return suppliesAmount;
+	}
+	public void setSuppliesAmount(int suppliesAmount) {
+		this.suppliesAmount = suppliesAmount;
 	}
 	
 	

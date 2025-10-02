@@ -21,59 +21,9 @@ if(listPatient.size()>0) {
 <script src="js/jquery-3.7.1.min.js"></script>
 <link rel="stylesheet" type="text/css" href="css/main.css">
 <script type="text/javascript">
-function popOpen(num, classPrefix, idx) {
 
-	var modalBg = $(num);
-	var modalPop = $(classPrefix);
-
-	modalBg.show();
-	modalPop.show();
-}
-
-function popClose(num, classPrefix) {
-	var modalBg = $(num);
-	var modalPop = $(classPrefix);
-
-	modalBg.hide();
-	modalPop.hide();
-}
-
-function goAdd() {
-	location.href="patient.windy?menu=add";
-}
-
-function goAddAll() {
-	location.href="patient.windy?menu=multi_add";
-}
-
-function goSearch() {
-	var name = document.getElementById('search_name').value;
-	
-	location.href="region.windy?menu=list&name="+name;
-}
-
-function goDelete(no) {
-		
-	var param = "&no="+no;
-	
-	$.ajax({
-		type: "POST",
-		url: "region.windy?mode=delete", 
-		data: param,
-		error: ajaxFailed,
-		success: function(ret) {
-
-			alert("비활성화되었습니다.");
-			location.reload(); 
-		}
-	});
-	
-}
-
-function goModify(no) {
-
-	location.href = "patient.windy?menu=modify&no="+no;
-	
+function goChart(no) {
+	location.href = "chart.windy?menu=chart&no="+no;
 }
 
 function ajaxFailed(xmlRequest)	{
@@ -110,11 +60,11 @@ function ajaxFailed(xmlRequest)	{
 								<%for(int i=0; i<listPatient.size(); i+=4) {
 									PatientModel patient = listPatient.get(i);
 								%>
-								<tr>
-									<td><%=patient.getName1() %></td>
-									<td><%=patient.getName2() %></td>
-									<td><%=patient.getName3() %></td>
-									<td><%=patient.getName4() %></td>
+								<tr >
+									<td <%if(0<patient.getNo1()) { %> onclick="javascript: goChart(<%=patient.getNo1() %>)" <%} %>><%=patient.getName1() %></td>
+									<td <%if(0<patient.getNo2()) { %> onclick="javascript: goChart(<%=patient.getNo2() %>)" <%} %>><%=patient.getName2() %></td>
+									<td <%if(0<patient.getNo3()) { %> onclick="javascript: goChart(<%=patient.getNo3() %>)" <%} %>><%=patient.getName3() %></td>
+									<td <%if(0<patient.getNo4()) { %> onclick="javascript: goChart(<%=patient.getNo4() %>)" <%} %>><%=patient.getName4() %></td>
 								</tr>
 								<%}  %>
 							</tbody>

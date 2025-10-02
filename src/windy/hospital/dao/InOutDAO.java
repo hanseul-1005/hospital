@@ -39,8 +39,8 @@ public class InOutDAO {
 			connection = DriverManager.getConnection(jdbcUrl, user, password);
 
 			pstmt = connection.prepareStatement(
-					"INSERT INTO in_out_info(supplies_no, medicine_no, in_out_date, in_out_classify, in_out_amount, order_no) "
-					+ "VALUES(?, ?, ?, ?, ?, ?) ");
+					"INSERT INTO in_out_info(supplies_no, medicine_no, in_out_date, in_out_classify, in_out_amount, order_no, in_out_note) "
+					+ "VALUES(?, ?, ?, ?, ?, ?, ?) ");
 
 			pstmt.setLong(1, modelParam.getSuppliesNo());
 			pstmt.setLong(2, modelParam.getMedicineNo());
@@ -48,6 +48,7 @@ public class InOutDAO {
 			pstmt.setString(4, modelParam.getClassify());
 			pstmt.setInt(5, modelParam.getAmount());
 			pstmt.setLong(6, modelParam.getOrderNo());
+			pstmt.setString(7, modelParam.getNote());
 			
 			result = pstmt.executeUpdate();
 			
@@ -76,7 +77,7 @@ public class InOutDAO {
 
 			pstmt = connection.prepareStatement(
 					"UPDATE in_out_info "
-					+ "SET supplies_no=?, medicine_no=?, in_out_date=?, in_out_classify=?, in_out_amount=?, order_no=? "
+					+ "SET supplies_no=?, medicine_no=?, in_out_date=?, in_out_classify=?, in_out_amount=?, order_no=?, in_out_note=? "
 					+ "WHERE in_out_no=? ");
 
 			pstmt.setLong(1, modelParam.getSuppliesNo());
@@ -85,7 +86,8 @@ public class InOutDAO {
 			pstmt.setString(4, modelParam.getClassify());
 			pstmt.setInt(5, modelParam.getAmount());
 			pstmt.setLong(6, modelParam.getOrderNo());
-			pstmt.setLong(7, modelParam.getNo());
+			pstmt.setString(7, modelParam.getNote());
+			pstmt.setLong(8, modelParam.getNo());
 			
 			result = pstmt.executeUpdate();
 			
@@ -175,9 +177,19 @@ public class InOutDAO {
 	// //////////////////////////////////////////////////
 	// - 용품 목록 조회
 	// //////////////////////////////////////////////////
-	public List<InOutModel> selectListInOut() {
+	public List<InOutModel> selectListInOut(InOutModel modelParam) {
 		
 		List<InOutModel> listInOut = new ArrayList<InOutModel>();
+		
+		String whereSQL = "";
+		
+		if("s".equals(modelParam.getType())) {
+			whereSQL = "WHERE 0< ii.supplies_no "
+					+ "AND (select supplies_name from supplies_info si where ii.supplies_no = si.supplies_no ) LIKE CONCAT('%', '"+modelParam.getSuppliesName()+"', '%') ";
+		} else {
+			whereSQL = "WHERE 0< ii.medicine_no "
+					+ "AND (select medicine_name from medicine_info mi where ii.medicine_no = mi.medicine_no ) LIKE CONCAT('%', '"+modelParam.getMedicineName()+"', '%') ";
+		}
 		
 		try {
 			// 데이터베이스 객체 생성
@@ -185,8 +197,13 @@ public class InOutDAO {
 			connection = DriverManager.getConnection(jdbcUrl, user, password);
 
 			pstmt = connection.prepareStatement(
-					"SELECT in_out_no, supplies_no, medicine_no, in_out_date, in_out_classify, in_out_amount, order_no "
-					+ "FROM in_out_info "
+					"SELECT in_out_no, supplies_no, medicine_no, in_out_date, in_out_classify, in_out_amount, order_no, in_out_note, "
+					+ "(select medicine_name from medicine_info mi where ii.medicine_no = mi.medicine_no ) as medicine_name, "
+					+ "(select supplies_name from supplies_info si where ii.supplies_no = si.supplies_no ) as supplies_name, "
+					+ "IFNULL((select medicine_amount from medicine_info mmi where mmi.medicine_no = ii.medicine_no), 0) as medicine_amount, "
+					+ "IFNULL((select supplies_amount from supplies_info ssi where ssi.supplies_no = ii.supplies_no), 0) as supplies_amount "
+					+ "FROM in_out_info ii "
+					+ whereSQL
 					+ "ORDER BY in_out_no DESC ");
 			
 			rs = pstmt.executeQuery();
@@ -201,6 +218,11 @@ public class InOutDAO {
 				inout.setClassify(rs.getString("in_out_classify"));
 				inout.setAmount(rs.getInt("in_out_amount"));
 				inout.setOrderNo(rs.getLong("order_no"));
+				inout.setNote(rs.getString("in_out_note"));
+				inout.setMedicineName(rs.getString("medicine_name"));
+				inout.setSuppliesName(rs.getString("supplies_name"));
+				inout.setMedicineAmount(rs.getInt("medicine_amount"));
+				inout.setSuppliesAmount(rs.getInt("supplies_amount"));
 				
 				listInOut.add(inout);
 			}

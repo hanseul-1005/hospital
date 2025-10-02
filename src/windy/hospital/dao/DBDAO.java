@@ -213,6 +213,47 @@ public class DBDAO {
 			
 	// //////////////////////////////////////////////////
 
+	// //////////////////////////////////////////////////
+	// - 용품 조회
+	// //////////////////////////////////////////////////
+	public DBModel selectDB() {
+		
+		DBModel db = new DBModel();
+		
+		try {
+			// 데이터베이스 객체 생성
+			Class.forName(dbDriver);
+			connection = DriverManager.getConnection(jdbcUrl, user, password);
+
+			pstmt = connection.prepareStatement(
+					"SELECT db_no, db_code, db_title, db_detail, start_date, end_date, db_name, use_yn "
+					+ "FROM db_info "
+					+ "ORDER BY db_no ASC limit 1 ");
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				db.setNo(rs.getInt("db_no"));
+				db.setCode(rs.getString("db_code"));
+				db.setTitle(rs.getString("db_title"));
+				db.setDetail(rs.getString("db_detail"));
+				db.setStartDate(rs.getString("start_date"));
+				db.setEndDate(rs.getString("end_date"));
+				db.setName(rs.getString("db_name"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// 사용한 객체 종료
+			close(rs, pstmt, connection);
+		}
+		return db;				
+	}
+			
+	// //////////////////////////////////////////////////
+
+	
 	////////////////////////////////////////////////////
 	//	- 데이터베이스 관련 객체 정리 -
 	public void close(ResultSet rs, PreparedStatement pstmt, Connection conn) {

@@ -46,23 +46,59 @@ public class InOut extends HttpServlet {
 		// TODO Auto-generated method stub
 		String menu = request.getParameter("menu");
 		InOutDAO iDao = new InOutDAO();
+		MedicineDAO mDao = new MedicineDAO();
+		SuppliesDAO sDao = new SuppliesDAO();
 		
-		if(menu == null) menu = "list";
+		if(menu == null) menu = "supplies_list";
+		
+		System.out.println("in_out menu : "+menu);
 		
 		request.setAttribute("menu", menu);
 		
 		if("list".equals(menu)) {
 
 			String name = request.getParameter("name");
+			String type = request.getParameter("type");
+			
+			if(name==null) name = "";
+			if(type==null) type = "m";
+			
+			InOutModel inout = new InOutModel();
+			inout.setSuppliesName(name);
+			inout.setMedicineName(name);
+			inout.setType(type);
+			
+			ArrayList<InOutModel> listInOut = (ArrayList<InOutModel>) iDao.selectListInOut(inout);
+
+			ArrayList<MedicineModel> listMedicine = (ArrayList<MedicineModel>) mDao.selectListMedicine("");
+			ArrayList<SuppliesModel> listSupplies = (ArrayList<SuppliesModel>) sDao.selectListSupplies("");
+			
+			request.setAttribute("name", name);
+			request.setAttribute("type", type);
+			request.setAttribute("listInOut", listInOut);
+			
+			request.setAttribute("listMedicine", listMedicine);
+			request.setAttribute("listSupplies", listSupplies);
+			
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsps/in_out/in_out_list.jsp");
+			dispatcher.forward(request, response);
+		}
+		else if("medicine_list".equals(menu)) {
+
+			String name = request.getParameter("name");
 			
 			if(name==null) name = "";
 			
-			ArrayList<InOutModel> listInOut = (ArrayList<InOutModel>) iDao.selectListInOut();
+			InOutModel inout = new InOutModel();
+			inout.setType("s");
+			inout.setSuppliesName(name);
+			
+			ArrayList<InOutModel> listInOut = (ArrayList<InOutModel>) iDao.selectListInOut(inout);
 			
 			request.setAttribute("name", name);
 			request.setAttribute("listInOut", listInOut);
 			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsps/order/in_out_list.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsps/supplies/medicine_in_out_list.jsp");
 			dispatcher.forward(request, response);
 		}
 		else if("add".equals(menu)) {

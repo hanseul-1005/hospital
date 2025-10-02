@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import windy.hospital.model.DatabaseModel;
+import windy.hospital.model.InOutModel;
 import windy.hospital.model.OrderModel;
 import windy.hospital.model.SiteModel;
 
@@ -75,15 +76,13 @@ public class OrderDAO {
 
 			pstmt = connection.prepareStatement(
 					"UPDATE order_info "
-					+ "SET supplies_no=?, medicine_no=?, order_date=?, order_amount=?, order_note=? "
+					+ "SET order_date=?, order_amount=?, order_note=? "
 					+ "WHERE order_no=? ");
 
-			pstmt.setLong(1, modelParam.getSuppliesNo());
-			pstmt.setLong(2, modelParam.getMedicineNo());
-			pstmt.setString(3, modelParam.getDate());
-			pstmt.setInt(4, modelParam.getAmount());
-			pstmt.setString(5, modelParam.getNote());
-			pstmt.setLong(6, modelParam.getNo());
+			pstmt.setString(1, modelParam.getDate());
+			pstmt.setInt(2, modelParam.getAmount());
+			pstmt.setString(3, modelParam.getNote());
+			pstmt.setLong(4, modelParam.getNo());
 			
 			result = pstmt.executeUpdate();
 			
@@ -141,8 +140,11 @@ public class OrderDAO {
 			connection = DriverManager.getConnection(jdbcUrl, user, password);
 
 			pstmt = connection.prepareStatement(
-					"SELECT order_no, supplies_no, medicine_no, order_date, order_maount, order_note "
-					+ "FROM order_info "
+					"SELECT order_no, supplies_no, medicine_no, order_date, order_amount, order_note, "
+					+ "(select medicine_name from medicine_info mi where oi.medicine_no = mi.medicine_no ) as medicine_name, "
+					+ "(select supplies_name from supplies_info mi where oi.supplies_no = mi.supplies_no ) as supplies_name, "
+					+ "IFNULL((select sum(ioi.in_out_amount) from in_out_info ioi where ioi.order_no = oi.order_no ), 0) as in_amount  "
+					+ "FROM order_info oi "
 					+ "WHERE order_no = ? ");
 			
 			pstmt.setLong(1, no);
@@ -156,6 +158,9 @@ public class OrderDAO {
 				order.setDate(rs.getString("order_date"));
 				order.setAmount(rs.getInt("order_amount"));
 				order.setNote(rs.getString("order_note"));
+				order.setMedicineName(rs.getString("medicine_name"));
+				order.setSuppliesName(rs.getString("supplies_name"));
+				order.setInAmount(rs.getInt("in_amount"));
 			}
 			
 		} catch (Exception e) {
@@ -176,18 +181,25 @@ public class OrderDAO {
 		
 		List<OrderModel> listOrder = new ArrayList<OrderModel>();
 		
+		String whereSQL = "";
+		if(!"".equals(name)) {
+			whereSQL = "WHERE (select medicine_name from medicine_info mi where oi.medicine_no = mi.medicine_no ) LIKE CONCAT('%', '"+name+"', '%') "
+					+ "OR (select supplies_name from supplies_info mi where oi.supplies_no = mi.supplies_no ) LIKE CONCAT('%', '"+name+"', '%') ";
+		}
+		
 		try {
 			// 데이터베이스 객체 생성
 			Class.forName(dbDriver);
 			connection = DriverManager.getConnection(jdbcUrl, user, password);
 
 			pstmt = connection.prepareStatement(
-					"SELECT order_no, supplies_no, medicine_no, order_date, order_maount, order_note "
-					+ "FROM order_info "
-					+ "WHERE order_name like concat ('%', ?, '%') "
+					"SELECT order_no, supplies_no, medicine_no, order_date, order_amount, order_note, "
+					+ "(select medicine_name from medicine_info mi where oi.medicine_no = mi.medicine_no ) as medicine_name, "
+					+ "(select supplies_name from supplies_info mi where oi.supplies_no = mi.supplies_no ) as supplies_name, "
+					+ "IFNULL((select sum(ioi.in_out_amount) from in_out_info ioi where ioi.order_no = oi.order_no ), 0) as in_amount  "
+					+ "FROM order_info oi "
+					+ whereSQL
 					+ "ORDER BY order_no DESC ");
-			
-			pstmt.setString(1, name);
 			
 			rs = pstmt.executeQuery();
 			
@@ -200,6 +212,9 @@ public class OrderDAO {
 				order.setDate(rs.getString("order_date"));
 				order.setAmount(rs.getInt("order_amount"));
 				order.setNote(rs.getString("order_note"));
+				order.setMedicineName(rs.getString("medicine_name"));
+				order.setSuppliesName(rs.getString("supplies_name"));
+				order.setInAmount(rs.getInt("in_amount"));
 				
 				listOrder.add(order);
 			}
@@ -211,6 +226,88 @@ public class OrderDAO {
 			close(rs, pstmt, connection);
 		}
 		return listOrder;				
+	}
+			
+	// //////////////////////////////////////////////////
+
+	// //////////////////////////////////////////////////
+	// - 용품 등록
+	// //////////////////////////////////////////////////
+	public void updateMedicineAmount(InOutModel modelParam) {
+		
+		int amount = 0;
+		
+		try {
+			// 데이터베이스 객체 생성
+			Class.forName(dbDriver);
+			connection = DriverManager.getConnection(jdbcUrl, user, password);
+
+			pstmt = connection.prepareStatement(
+					"SELECT medicine_amount FROM medicine_info WHERE medicine_no=? ");
+
+			pstmt.setLong(1, modelParam.getMedicineNo());
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				amount = rs.getInt("medicine_amount");
+			}
+			
+			pstmt = connection.prepareStatement(
+					"UPDATE medicine_info SET medicine_amount=? WHERE medicine_no=? ");
+
+			pstmt.setLong(1, amount+modelParam.getAmount());
+			pstmt.setLong(2, modelParam.getMedicineNo());
+			
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// 사용한 객체 종료
+			close(rs, pstmt, connection);
+		}		
+	}
+			
+	// //////////////////////////////////////////////////
+
+	// //////////////////////////////////////////////////
+	// - 용품 등록
+	// //////////////////////////////////////////////////
+	public void updateSuppliesAmount(InOutModel modelParam) {
+		
+		int amount = 0;
+		
+		try {
+			// 데이터베이스 객체 생성
+			Class.forName(dbDriver);
+			connection = DriverManager.getConnection(jdbcUrl, user, password);
+
+			pstmt = connection.prepareStatement(
+					"SELECT supplies_amount FROM supplies_info WHERE supplies_no=? ");
+			
+			pstmt.setLong(1, modelParam.getSuppliesNo());
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				amount = rs.getInt("supplies_amount");
+			}
+			
+			pstmt = connection.prepareStatement(
+					"UPDATE supplies_info SET supplies_amount=? WHERE supplies_no=? ");
+
+			pstmt.setLong(1, amount+modelParam.getAmount());
+			pstmt.setLong(2, modelParam.getSuppliesNo());
+			
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// 사용한 객체 종료
+			close(rs, pstmt, connection);
+		}		
 	}
 			
 	// //////////////////////////////////////////////////

@@ -13,10 +13,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import windy.hospital.dao.HospitalDAO;
+import windy.hospital.dao.InOutDAO;
 import windy.hospital.dao.MedicineDAO;
 import windy.hospital.dao.RoomDAO;
 import windy.hospital.dao.SuppliesDAO;
 import windy.hospital.model.HospitalModel;
+import windy.hospital.model.InOutModel;
 import windy.hospital.model.MedicineModel;
 import windy.hospital.model.RoomModel;
 import windy.hospital.model.SuppliesModel;
@@ -94,6 +96,7 @@ public class Medicine extends HttpServlet {
 		HttpSession session = request.getSession();
 		
 		MedicineDAO mDao = new MedicineDAO();
+		InOutDAO iDao = new InOutDAO();
 				
 		String mode = request.getParameter("mode");
 		
@@ -104,6 +107,8 @@ public class Medicine extends HttpServlet {
 			System.out.println("size="+size);
 			
 			int total = 0;
+			
+			long medicineNo = -1;
 			
 			for(int i=0; i<size; i++) {
 
@@ -119,11 +124,17 @@ public class Medicine extends HttpServlet {
 				medicine.setNote(note);
 
 				
-				int result = mDao.insertMedicine(medicine);
+				medicineNo = mDao.insertMedicine(medicine);
 				
+				InOutModel inout = new InOutModel();
+				inout.setMedicineNo(medicineNo);
+				inout.setClassify("입고");
+				inout.setAmount(amount);
+				inout.setNote("최초 등록");
 				
-				System.out.println("result : "+result);
-				total = total+result;
+				iDao.insertInOut(inout);
+				
+				total = total+1;
 			}
 			
 			

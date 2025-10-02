@@ -9,6 +9,12 @@ public class OrderModel {
 	private int amount = 0;
 	private String note = "";
 	
+	private String medicineName = "";
+	private String suppliesName = "";
+	
+	private int inAmount = 0;
+	
+	
 	public long getNo() {
 		return no;
 	}
@@ -44,6 +50,24 @@ public class OrderModel {
 	}
 	public void setNote(String note) {
 		this.note = note;
+	}
+	public String getMedicineName() {
+		return medicineName;
+	}
+	public void setMedicineName(String medicineName) {
+		this.medicineName = medicineName;
+	}
+	public String getSuppliesName() {
+		return suppliesName;
+	}
+	public void setSuppliesName(String suppliesName) {
+		this.suppliesName = suppliesName;
+	}
+	public int getInAmount() {
+		return inAmount;
+	}
+	public void setInAmount(int inAmount) {
+		this.inAmount = inAmount;
 	}
 	
 	

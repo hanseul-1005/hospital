@@ -13,13 +13,13 @@ String mDb = "", mManager = "", mMonitoring1 = "", mMonitoring2 = "", mMonitorin
 String dotDb = "○", dotManager = "○", dotMonitoring1 = "○", dotMonitoring2 = "○", dotMonitoring3 = "○", dotMonitoring4 = "○", dotMonitoring5 = "○";
 // 행정처
 String mEmployee = "", mPatient = "", mRegion = "", mSite = "", mMedical = "", mEquipment = "", mOrder = "",
-	mSupplies = "", mMedicine = "", mRoom="", mHospital=""; 
+	mSupplies = "", mMedicine = "", mRoom="", mHospital="", mInOut = ""; 
 String dotEmployee = "○", dotPatient = "○", dotRegion = "○", dotSite = "○", dotMedical = "○", dotEquipment = "○", dotOrder = "○", 
-	dotSupplies = "○", dotMedicine = "○", dotRoom="○", dotHospital="○";
+	dotSupplies = "○", dotMedicine = "○", dotRoom="○", dotHospital="○", dotInOut="○";
 
 // 의사
-String mPatientMonitoring = "", mChart = "";
-String dotPatientMonitoring = "○", dotChart = "○";
+String mPatientMonitoring = "", mChart = "", mManage = "";
+String dotPatientMonitoring = "○", dotChart = "○", dotManage = "○";
 
 // 비밀번호 변경
 String mPw = "";
@@ -109,6 +109,14 @@ else if("chart".equals(mainMenu)) {
 	mChart = "side_menu_on";
 	dotChart = "●";
 }
+else if("in_out".equals(mainMenu)) {
+	mInOut = "side_menu_on";
+	dotInOut = "●";
+}
+else if("manage".equals(mainMenu)) {
+	mManage = "side_menu_on";
+	dotManage = "●";
+}
 System.out.println("mainMenu : "+mainMenu);
 String role = (String) session.getAttribute("department");
 
@@ -165,27 +173,24 @@ String role = (String) session.getAttribute("department");
 		<div class="wrapper_side_menu <%=mSite %>" onclick="location.href='site.windy?menu=list'">
 			<span class="span_side_menu"><%=dotSite %> 현장 관리</span>
 		</div>
-		<div class="wrapper_side_menu <%=mMedical %>" onclick="location.href='employee.windy?menu=manage'">
-			<span class="span_side_menu"><%=dotMedical %> 의료진 관리</span>
+		<div class="wrapper_side_menu <%=mManage %>" onclick="location.href='employee.windy?menu=manage'">
+			<span class="span_side_menu"><%=dotManage %> 의료진 관리</span>
 		</div>
 		<div class="wrapper_side_menu <%=mEquipment %>" onclick="location.href='equipment.windy?menu=list'">
 			<span class="span_side_menu"><%=dotEquipment %> 장비 관리</span>
 		</div>
-		<%-- <div class="wrapper_side_menu <%=mOrder %>" onclick="location.href='admin.windy?menu=patient'">
+		<div class="wrapper_side_menu <%=mOrder %>" onclick="location.href='order.windy?menu=list'">
 			<span class="span_side_menu"><%=dotOrder %> 발주 관리</span>
-		</div> --%>
+		</div>
 		<div class="wrapper_side_menu <%=mSupplies %>" onclick="location.href='supplies.windy?menu=list'">
 			<span class="span_side_menu"><%=dotSupplies %> 용품 관리</span>
 		</div>
-		<%-- <div class="wrapper_side_menu <%=mSupplies %>" onclick="location.href='supplies.windy?menu=list'">
-			<span class="span_side_menu"><%=dotSupplies %> 용품 입출고 관리</span>
-		</div> --%>
 		<div class="wrapper_side_menu <%=mMedicine %>" onclick="location.href='medicine.windy?menu=list'">
 			<span class="span_side_menu"><%=dotMedicine %> 약품 관리</span>
 		</div>
-		<%-- <div class="wrapper_side_menu <%=mMedicine %>" onclick="location.href='medicine.windy?menu=list'">
-			<span class="span_side_menu"><%=dotMedicine %> 약품 입출고 관리</span>
-		</div> --%>
+		<div class="wrapper_side_menu <%=mInOut %>" onclick="location.href='in_out.windy?menu=list'">
+			<span class="span_side_menu"><%=dotInOut %> 약품/비품 입출고 관리</span>
+		</div>
 		<div class="wrapper_side_menu <%=mRoom %>" onclick="location.href='room.windy?menu=list'">
 			<span class="span_side_menu"><%=dotRoom %> 병동 관리</span>
 		</div>
@@ -202,22 +207,19 @@ String role = (String) session.getAttribute("department");
 		</div>
 		<div class="wrapper_side_menu <%=mPatient %>" onclick="location.href='patient.windy?menu=list'">
 			<span class="span_side_menu"><%=dotPatient %> 환자 관리</span>
-		</div><%-- 
-		<div class="wrapper_side_menu <%=mRoom %>" onclick="location.href='admin.windy?menu=room'">
-			<span class="span_side_menu"><%=dotRoom %> 의료진 관리</span>
-		</div> --%>
+		</div>
+		<div class="wrapper_side_menu <%=mManage %>" onclick="location.href='employee.windy?menu=manage'">
+			<span class="span_side_menu"><%=dotManage %> 의료진 관리</span>
+		</div>
 		<div class="wrapper_side_menu <%=mSupplies %>" onclick="location.href='supplies.windy?menu=list'">
 			<span class="span_side_menu"><%=dotSupplies %> 용품 관리</span>
 		</div>
-		<%-- <div class="wrapper_side_menu <%=mSupplies %>" onclick="location.href='supplies.windy?menu=list'">
-			<span class="span_side_menu"><%=dotSupplies %> 용품 입출고 관리</span>
-		</div> --%>
 		<div class="wrapper_side_menu <%=mMedicine %>" onclick="location.href='medicine.windy?menu=list'">
 			<span class="span_side_menu"><%=dotMedicine %> 약품 관리</span>
 		</div>
-		<%-- <div class="wrapper_side_menu <%=mMedicine %>" onclick="location.href='medicine.windy?menu=list'">
-			<span class="span_side_menu"><%=dotMedicine %> 약품 입출고 관리</span>
-		</div> --%>
+		<div class="wrapper_side_menu <%=mSupplies %>" onclick="location.href='in_out.windy?menu=list'">
+			<span class="span_side_menu"><%=dotSupplies %> 약품/비품 입출고 관리</span>
+		</div>
 		<%-- <div class="wrapper_side_menu <%=mRoom %>" onclick="location.href='admin.windy?menu=room'">
 			<span class="span_side_menu"><%=dotRoom %> 비밀번호 변경</span>
 		</div> --%>

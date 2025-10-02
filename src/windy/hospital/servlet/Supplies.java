@@ -13,10 +13,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import windy.hospital.dao.HospitalDAO;
+import windy.hospital.dao.InOutDAO;
 import windy.hospital.dao.RoomDAO;
 import windy.hospital.dao.SuppliesDAO;
 import windy.hospital.model.EquipmentModel;
 import windy.hospital.model.HospitalModel;
+import windy.hospital.model.InOutModel;
 import windy.hospital.model.RoomModel;
 import windy.hospital.model.SuppliesModel;
 
@@ -93,6 +95,7 @@ public class Supplies extends HttpServlet {
 		HttpSession session = request.getSession();
 		
 		SuppliesDAO sDao = new SuppliesDAO();
+		InOutDAO iDao = new InOutDAO();
 				
 		String mode = request.getParameter("mode");
 		
@@ -118,11 +121,17 @@ public class Supplies extends HttpServlet {
 				supplies.setNote(note);
 
 				
-				int result = sDao.insertSupplies(supplies);
+				long suppliesNo = sDao.insertSupplies(supplies);
+
+				InOutModel inout = new InOutModel();
+				inout.setSuppliesNo(suppliesNo);
+				inout.setClassify("입고");
+				inout.setAmount(amount);
+				inout.setNote("최초 등록");
 				
+				iDao.insertInOut(inout);
 				
-				System.out.println("result : "+result);
-				total = total+result;
+				total = total+1;
 			}
 			
 			

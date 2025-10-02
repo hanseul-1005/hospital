@@ -13,7 +13,9 @@ import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 
+import windy.hospital.dao.DBDAO;
 import windy.hospital.dao.EmployeeDAO;
+import windy.hospital.model.DBModel;
 import windy.hospital.model.EmployeeModel;
 
 /**
@@ -60,6 +62,8 @@ public class Login extends HttpServlet {
 		HttpSession session = request.getSession();
 
 		System.out.println("mode : "+mode);
+		
+		DBDAO dDao = new DBDAO();
 
 		if ("login".equals(mode)) {
 			
@@ -71,7 +75,8 @@ public class Login extends HttpServlet {
 			int result = eDao.login(emp);
 			
 			if(result==1) {
-
+				DBModel db = dDao.selectDB();
+				
 				System.out.println("login department : "+emp.getDepartment());
 				if("admin".equals(id)) {
 					
@@ -82,6 +87,7 @@ public class Login extends HttpServlet {
 					session.setAttribute("name", emp.getName());
 					session.setAttribute("department", emp.getDepartment());
 					session.setMaxInactiveInterval(60 * 60 * 10);
+					session.setAttribute("db_name", db.getName());
 
 					JSONObject objResult = new JSONObject();
 					response.setContentType("text/json; charset=utf-8");
@@ -98,6 +104,7 @@ public class Login extends HttpServlet {
 					session.setAttribute("name", emp.getName());
 					session.setAttribute("department", emp.getDepartment());
 					session.setMaxInactiveInterval(60 * 60 * 10);
+					session.setAttribute("db_name", db.getName());
 					
 
 					JSONObject objResult = new JSONObject();

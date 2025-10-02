@@ -10,35 +10,21 @@
 function addRow() {
 	
 	var num = document.getElementById('num').value;
-	
+
 	var html = "";
 	html += "<tr id='tr_"+num+"'>";
-		html += "<td><input type='text' class='td_add' id='name_"+num+"'></td>";
-		html += "<td>";
-		html += "<select class='select_bx' onclick='javascript: setCnt("+num+")' id='code_"+num+"'>";
-		html += "<option value='S'>S</option>";
-		html += "<option value='A'>A</option>";
-		html += "<option value='B'>B</option>";
-		html += "</select>"
-		html += "</td>";
-		html += "<td>";
-		html += "<select class='select_bx' id='code_no_"+num+"'>";
-		for(var i=1; i<9; i++) {
-			html += "<option value='"+i+"'>"+i+"</option>";
-		}
-		html += "<option value='A'>A</option>";
-		html += "<option value='B'>B</option>";
-		html += "</td>";
-		html += "<td><input type='text' class='td_add' id='cnt_"+num+"' value='1'></td>";
-		html += "<td>";
-			html += "<button type='button' class='btn_red_100' onclick='javascript: deleteRow("+num+")'>행 삭제</button>";
-		html += "</td>";
+	html += "<td><input type='text' class='td_add' id='name_"+num+"'></td>";
+	html += "<td><input type='text' class='td_add' id='date_"+num+"' onkeydown='javascript: inputDateFormat(this)'></td>";
+	html += "<td><input type='text' class='td_add' id='amount_"+num+"'></td>";
+	html += "<td><input type='text' class='td_add' id='note_"+num+"'></td>";
+	html += "<td>";
+	html += "<button type='button' class='btn_red_100' onclick='javascript: deleteRow("+num+")'>행 삭제</button>";
+	html += "</td>";
 	html += "</tr>";
 	
 	$("#tb_add").append(html);
 	
 	document.getElementById('num').value = parseInt(num)+1;
-	
 }
 
 function deleteRow(num) {
@@ -66,20 +52,6 @@ function inputDateFormat(obj) {
  obj.value = result;
 }
 
-function setCnt(num) {
-	var code = document.getElementById('code_'+num).value;
-	
-	if(code == "S") {
-		document.getElementById('cnt_'+num).value = 1;
-	}
-	else if(code == "A") {
-		document.getElementById('cnt_'+num).value = 6;
-	}
-	else if(code == "B") {
-		document.getElementById('cnt_'+num).value = 8;
-	}
-}
-
 function goAdd() {
 
 	var num = document.getElementById('num').value;
@@ -92,11 +64,11 @@ function goAdd() {
 		if(document.getElementById('name_'+i)) {
 
 			var name = document.getElementById('name_'+i).value;
-			var code = document.getElementById('code_'+i).value;
-			var codeNo = document.getElementById('code_no_'+i).value;
-			var cnt = document.getElementById('cnt_'+i).value;
+			var date = document.getElementById('date_'+i).value;
+			var amount = document.getElementById('amount_'+i).value;
+			var note = document.getElementById('note_'+i).value;
 			
-			param += "&name_"+size+"="+name+"&code_"+size+"="+code+"&code_no_"+size+"="+codeNo+"&cnt_"+size+"="+cnt;
+			param += "&name_"+size+"="+name+"&date_"+size+"="+date+"&amount_"+size+"="+amount+"&note_"+size+"="+note;
 			
 			size = size+1;
 		}
@@ -109,7 +81,7 @@ function goAdd() {
 	
 	$.ajax({
 		type: "post", 
-		url: "room.windy?mode=add", 
+		url: "medicine.windy?mode=add", 
 		data: param,
 		async: false, 
 		dataType: 'text', 
@@ -117,7 +89,7 @@ function goAdd() {
 		success: function(data, textStatus) {
 			
 			alert("등록되었습니다.");
-			location.href = "room.windy?menu=list"; 
+			location.href = "medicine.windy?menu=list"; 
 		}
 	});
 	
@@ -131,14 +103,13 @@ function ajaxFailed(xmlRequest)	{
 </head>
 <body>
     <div>
-        <jsp:include page="../top_menu.jsp"></jsp:include>
         <div class="wrapper_main_contents" >
 			<div style="height: 100%;">
 				<jsp:include page="../side_menu.jsp"/>
 			</div>
 			<div class="wrapper_board_contents">
 				<div class="wrapper_board">
-					<span class="span_board_title">병실 등록</span>
+					<span class="span_board_title">약품 등록</span>
 					<div class="wrapper_board_btn">
 						<div style="width: 50%; text-align: left; display: flex;">
 							
@@ -160,31 +131,19 @@ function ajaxFailed(xmlRequest)	{
 							</colgroup>
 							<thead>
 								<tr>
-									<th>병동명</th>
-									<th>코드</th>
-									<th>코드번호</th>
-									<th>수용인원</th>
+									<th>약품</th>
+									<th>입고일</th>
+									<th>잔여량</th>
+									<th>비고</th>
 									<th>행삭제</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr id="tr_0">
 									<td><input type="text" class="td_add" id="name_0"></td>
-									<td>
-                                        <select class="select_bx" onclick="javascript: setCnt(0)" id="code_0">
-											<option value="S">S</option>
-											<option value="A">A</option>
-											<option value="B">B</option>
-										</select>
-									</td>
-									<td>
-                                        <select class="select_bx" id="code_no_0">
-											<%for(int i=1; i<9; i++) {%>
-											<option value="<%=i %>"><%=i %></option>
-											<%} %>
-										</select>
-									</td>
-									<td><input type="text" class="td_add" id="cnt_0" value="1"></td>
+									<td><input type="text" class="td_add" id="date_0" onkeydown="javascript: inputDateFormat(this)"></td>
+									<td><input type="text" class="td_add" id="amount_0"></td>
+									<td><input type="text" class="td_add" id="note_0"></td>
 									<td>
                                         <button type="button" class="btn_red_100" onclick="javascript: deleteRow(0)">행 삭제</button>
                                     </td>

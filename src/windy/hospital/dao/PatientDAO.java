@@ -420,10 +420,22 @@ public class PatientDAO {
 				
 				name = rs.getString("patient_name")+"("+rs.getString("patient_gender")+", "+rs.getInt("patient_age")+"세, "+rs.getString("patient_code")+")";
 				
-				if(idx==0) { patient.setName1(name); }
-				else if(idx==1) { patient.setName2(name); }
-				else if(idx==2) { patient.setName3(name); }
-				else if(idx==3) { patient.setName4(name); }
+				if(idx==0) { 
+					patient.setName1(name);
+					patient.setNo1(rs.getLong("patient_no"));;
+				}
+				else if(idx==1) { 
+					patient.setName2(name);
+					patient.setNo2(rs.getLong("patient_no")); 
+				}
+				else if(idx==2) { 
+					patient.setName3(name);
+					patient.setNo3(rs.getLong("patient_no"));
+				}
+				else if(idx==3) { 
+					patient.setName4(name); 
+					patient.setNo4(rs.getLong("patient_no"));
+				}
 				
 				idx++;
 				System.out.println("idx : "+idx);

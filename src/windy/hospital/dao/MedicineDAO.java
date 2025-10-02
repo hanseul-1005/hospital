@@ -30,9 +30,9 @@ public class MedicineDAO {
 	// //////////////////////////////////////////////////
 	// - 용품 등록
 	// //////////////////////////////////////////////////
-	public int insertMedicine(MedicineModel modelParam) {
+	public long insertMedicine(MedicineModel modelParam) {
 		
-		int result = -1;
+		long medicineNo = -1;
 		
 		try {
 			// 데이터베이스 객체 생성
@@ -48,7 +48,16 @@ public class MedicineDAO {
 			pstmt.setInt(3, modelParam.getAmount());
 			pstmt.setString(4, modelParam.getNote());
 			
-			result = pstmt.executeUpdate();
+			pstmt.executeUpdate();
+			
+			pstmt = connection.prepareStatement(
+					"SELECT medicine_no FROM medicine_info ORDER BY medicine_no DESC limit 1");
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				medicineNo = rs.getLong("medicine_no");
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -56,7 +65,7 @@ public class MedicineDAO {
 			// 사용한 객체 종료
 			close(rs, pstmt, connection);
 		}
-		return result;				
+		return medicineNo;				
 	}
 			
 	// //////////////////////////////////////////////////

@@ -6,6 +6,8 @@
 <%
 
 ArrayList<DBModel> listDB = (ArrayList<DBModel>) request.getAttribute("listDB");
+
+String dbName = (String) session.getAttribute("db_name");
 %>
 <html>
 <head>
@@ -168,7 +170,9 @@ function ajaxFailed(xmlRequest)	{
 									<td onclick="javascript:popOpen('2', '<%=model.getNo() %>', '<%=model.getTitle() %>', '<%=model.getDetail() %>', '<%=model.getStartDate() %>', '<%=model.getEndDate() %>');"><%=model.getEndDate() %></td>
 									<td>
 										<button class="btn_basic_100">세팅</button>
+										<%if(!dbName.equals(model.getName())) { %>
 										<button class="btn_basic_100">복원</button>
+										<%} %>
 									</td>
 								</tr>
 								<%} %>
