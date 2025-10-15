@@ -3,9 +3,10 @@ package windy.hospital.model;
 public class DatabaseModel {
 	
 	private String dbDriver = "org.mariadb.jdbc.Driver";
-	private String jdbcUrl = "jdbc:mariadb://bicycledb:3306/emapdb2";
-    //private String jdbcUrl = "jdbc:mariadb://localhost:3306/emapdb";
-    //private String jdbcUrl = "jdbc:mariadb://192.168.0.60:33308/bicycledb";";
+	//private String jdbcUrl = "jdbc:mariadb://bicycledb:3306/emapdb2";
+    //private String jdbcUrl = "jdbc:mariadb://localhost:3306/emapdb2";
+    private String jdbcUrl = "jdbc:mariadb://192.168.100.150:3306/emapdb";
+    
 	private String user = "kovico";         
 	private String password = "kovico@0136";
 	

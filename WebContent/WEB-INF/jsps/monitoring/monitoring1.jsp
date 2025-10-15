@@ -235,7 +235,8 @@ function side() {
             <div style="width: 94%; height: 93%; padding-left: 3%; position: absolute;" >
 	            <div style="height: 43%; width: 100%; display: flex;">
 	                <div class="content1_left_contents">
-	
+						
+						<img alt="" src="images/map.png" style="width: 100%; height: 100%;">
 	                </div>
 	
 	                <div class="content1_center_contents">

@@ -144,7 +144,8 @@ function side() {
 				
 				<div class="wrapper_right_contents_7">
 					<div style="border: 1px solid #74ADBD; height: 80%">
-					
+						
+						<img alt="" src="images/car.png" style="width: 100%; height: 100%;">
 					</div>
 					
 					<div style="height: calc(20% - 10px); display: flex; padding-top: 10px;">
